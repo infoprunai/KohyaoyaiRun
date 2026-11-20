@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 | เกาะยาวใหญ่ จังหวัดพังงา</title>
+    <meta name="description"
+        content="กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 วันอาทิตย์ที่ 31 มกราคม 2570 ณ อ่าวโละจาก เกาะยาวใหญ่ จังหวัดพังงา ระยะ 5 กม. (350 บาท) และ 10 กม. (450 บาท) จัดโดย เทศบาลตำบลพรุใน">
+    <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Leaflet Interactive Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+
+    <style>
+        /* สไตล์สำหรับแผนที่วาดเส้นทางการวิ่งแยก 2 ระยะทาง */
+        .route-card-map-box {
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 1.35rem;
+            background: #F8FAFC;
+        }
+
+        .route-card-map-bar {
+            padding: 0.65rem 0.9rem;
+            background: var(--canvas-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .route-card-map-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--navy-marine);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .map-dot-5k {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--teal-andaman);
+            display: inline-block;
+        }
+
+        .map-dot-10k {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--gold-dark);
+            display: inline-block;
+        }
+
+        .map-bar-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-map-mode {
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: #FFFFFF;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-map-mode:hover {
+            border-color: var(--navy-marine);
+            color: var(--navy-marine);
+        }
+
+        .btn-map-mode.active {
+            background: var(--navy-marine);
+            border-color: var(--navy-marine);
+            color: #FFFFFF;
+        }
+
+        .route-leaflet-canvas {
+            width: 100%;
+            height: 350px;
+            z-index: 1;
+            background: #E2E8F0;
+        }
+
+        .route-map-legend {
+            padding: 0.55rem 0.9rem;
+            background: #F8FAFC;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+            font-size: 0.76rem;
+            color: var(--ink-secondary);
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .legend-line-5k {
+            width: 18px;
+            height: 4px;
+            border-radius: 99px;
+            background: #0E7490;
+            display: inline-block;
+        }
+
+        .legend-line-10k {
+            width: 18px;
+            height: 4px;
+            border-radius: 99px;
+            background: #D97706;
+            display: inline-block;
+        }
+
+        .legend-pin-start {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #10B981;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 1.5px #047857;
+            display: inline-block;
+        }
+
+        .legend-pin-water {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0284C7;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 1.5px #0369A1;
+            display: inline-block;
+        }
+
+        .legend-pin-stamp {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #E11D48;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 1.5px #BE123C;
+            display: inline-block;
+        }
+
+        .route-edit-helper {
+            display: none;
+            padding: 0.65rem 0.9rem;
+            background: #FEFCE8;
+            border-top: 1px solid #FDE047;
+            font-size: 0.78rem;
+            color: #854D0E;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .route-edit-helper.open {
+            display: flex;
+        }
+
+        .route-card-map-footer {
+            padding: 0.65rem 0.85rem;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn-open-gmap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            font-size: 0.84rem;
+            font-weight: 600;
+            padding: 0.55rem 0.9rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-open-gmap.theme-5k {
+            background: #ECFEFF;
+            color: #155E75;
+            border: 1px solid #A5F3FC;
+        }
+
+        .btn-open-gmap.theme-5k:hover {
+            background: #CFFAFE;
+        }
+
+        .btn-open-gmap.theme-10k {
+            background: #FFFBEB;
+            color: #92400E;
+            border: 1px solid #FDE68A;
+        }
+
+        .btn-open-gmap.theme-10k:hover {
+            background: #FEF3C7;
+        }
+
+        /* Custom Leaflet Pin Badges */
+        .race-pin-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 700;
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.35);
+            border: 2px solid #FFFFFF;
+            white-space: nowrap;
+        }
+
+        .pin-start {
+            background: #059669;
+            font-size: 10px;
+            padding: 0 7px;
+            height: 24px;
+        }
+
+        .pin-water {
+            background: #0284C7;
+            font-size: 10px;
+            width: auto;
+            padding: 0 7px;
+            height: 24px;
+        }
+
+        .pin-stamp {
+            background: #E11D48;
+            font-size: 10px;
+            padding: 0 7px;
+            height: 24px;
+        }
+
+        .pin-turn {
+            background: #334155;
+            font-size: 9px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .leaflet-popup-content-wrapper {
+            font-family: 'Prompt', sans-serif;
+            border-radius: 10px;
+        }
+
+        .leaflet-popup-content {
+            margin: 10px 14px;
+            font-size: 0.84rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SITE NAVIGATION ================= -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="brand-wrapper">
+                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-text">
+                    <h1>เปิดโลกทะเล 2570</h1>
+                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่ • พังงา</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">หน้าแรก</a></li>
+                <li><a href="#schedule" class="nav-link">กำหนดการ</a></li>
+                <li><a href="#about" class="nav-link">ประเภท & ค่าสมัคร</a></li>
+                <li><a href="#prizes" class="nav-link">เงินรางวัล & เหรียญ</a></li>
+                <li><a href="#routes" class="nav-link">เส้นทางวิ่ง</a></li>
+                <li><a href="#kit" class="nav-link">เสื้อแข่งขัน</a></li>
+                <li><a href="guide.html" class="nav-link">คู่มือเดินทาง</a></li>
+                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge">เจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register">สมัครแข่งขัน</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= HERO BANNER ================= -->
+    <header class="hero-banner"
+        style="background-image: linear-gradient(180deg, rgba(2, 14, 20, 0.28) 0%, rgba(2, 14, 20, 0.08) 45%, rgba(2, 14, 20, 0.25) 100%), url('Photo/โล๊ะจาก5.png'), url('Photo/lohjak5.png');">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="hero-pill-badge">
+                        เปิดรับสมัคร 1 ธันวาคม 2569 – 10 มกราคม 2570 (รับประเภทละ 200 คน)
+                    </div>
+                    <h2 class="hero-title">
+                        กิจกรรมวิ่งเปิดโลกทะเล<br>
+                        <span class="accent-gold">ประจำปี 2570 • เกาะยาวใหญ่</span>
+                    </h2>
+                    <p class="hero-lead">
+                        ร่วมสัมผัสเสน่ห์เส้นทางวิ่งเลียบทะเลอันดามันและวิถีชุมชนเกาะยาวใหญ่
+                        ณ จุดปล่อยตัวและเส้นชัย <strong>อ่าวโละจาก ตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</strong>
+                        วันอาทิตย์ที่ <strong>31 มกราคม 2570</strong>
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="register.html" class="btn btn-accent">
+                            สมัครแข่งขันออนไลน์ (รับจำนวนจำกัด) →
+                        </a>
+                        <a href="status.html" class="btn btn-outline">
+                            ตรวจสอบสถานะ / พิมพ์ E-Bib
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Modern Accreditation Countdown -->
+                <div class="countdown-box-card">
+                    <div class="countdown-header-tag">
+                        <span style="display:inline-flex; align-items:center; gap:6px;">
+                            <span style="width:7px; height:7px; border-radius:50%; background:#10B981; box-shadow:0 0 0 0 rgba(16,185,129,0.7); display:inline-block;"></span>
+                            COUNTDOWN TO RACE DAY
+                        </span>
+                        <span>31 มกราคม 2570</span>
+                    </div>
+
+                    <div class="countdown-grid">
+                        <div class="count-unit-cell">
+                            <span class="count-num-val" id="cdDays">75</span>
+                            <span class="count-unit-lbl">วัน</span>
+                        </div>
+                        <div class="count-unit-cell">
+                            <span class="count-num-val" id="cdHours">14</span>
+                            <span class="count-unit-lbl">ชั่วโมง</span>
+                        </div>
+                        <div class="count-unit-cell">
+                            <span class="count-num-val" id="cdMinutes">35</span>
+                            <span class="count-unit-lbl">นาที</span>
+                        </div>
+                        <div class="count-unit-cell">
+                            <span class="count-num-val" id="cdSeconds">10</span>
+                            <span class="count-unit-lbl">วินาที</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Quota Tracker -->
+                    <div class="quota-tracker-panel">
+                        <div class="quota-meta-row">
+                            <span style="color:#CFFAFE; font-weight:600;">ระยะ 5 กม. (350 บ. / ปล่อยตัว 05.30 น.)</span>
+                            <span id="heroQuota5k" style="color:#94A3B8;">กำลังโหลดโควตา...</span>
+                        </div>
+                        <div class="quota-progress-track">
+                            <div class="quota-bar-fill-5k" id="heroBar5k"></div>
+                        </div>
+
+                        <div class="quota-meta-row">
+                            <span style="color:#FEF08A; font-weight:600;">ระยะ 10 กม. (450 บ. / ปล่อยตัว 06.00 น.)</span>
+                            <span id="heroQuota10k" style="color:#94A3B8;">กำลังโหลดโควตา...</span>
+                        </div>
+                        <div class="quota-progress-track">
+                            <div class="quota-bar-fill-10k" id="heroBar10k"></div>
+                        </div>
+
+                        <div
+                            style="margin-top:0.75rem; padding-top:0.65rem; border-top:1px solid rgba(255,255,255,0.12); font-size:0.78rem; color:#CBD5E1; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px;">
+                            <span>เปิดรับสมัคร: 1 ธ.ค. 2569 – 10 ม.ค. 2570</span>
+                            <span style="color:#FCD34D; font-weight:600;">โควตาประเภทละ 200 คน</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= EVENT SCHEDULE & KEY FACTS BAR ================= -->
+    <section id="schedule" style="background:#FFFFFF; border-bottom:1px solid var(--border-subtle); padding:2.25rem 0;">
+        <div class="container">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1.25rem;">
+                <div
+                    style="padding:1.1rem 1.25rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border-left:4px solid var(--teal-andaman);">
+                    <div
+                        style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">
+                        ช่วงเวลาเปิดรับสมัคร</div>
+                    <div style="font-size:1.05rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">1 ธ.ค. 69
+                        – 10 ม.ค. 70</div>
+                    <div style="font-size:0.82rem; color:var(--ink-muted);">รับประเภทละ 200 คน (รวม 400 คน)</div>
+                </div>
+
+                <div
+                    style="padding:1.1rem 1.25rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border-left:4px solid var(--cyan-horizon);">
+                    <div
+                        style="font-size:0.78rem; font-weight:700; color:#0E7490; text-transform:uppercase;">
+                        นัดรับเสื้อ & บิบ (RACE PACK)</div>
+                    <div style="font-size:1.08rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">30 มกราคม
+                        2570</div>
+                    <div style="font-size:0.82rem; color:var(--ink-muted);">เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล</div>
+                </div>
+
+                <div
+                    style="padding:1.1rem 1.25rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border-left:4px solid var(--gold-sand);">
+                    <div
+                        style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">
+                        วันแข่งขัน & เช็คบิบ</div>
+                    <div style="font-size:1.08rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">31 มกราคม
+                        2570 (05.00 น.)</div>
+                    <div style="font-size:0.82rem; color:var(--ink-muted);">เช็คบิบก่อนปล่อยตัว 30 นาที ณ อ่าวโละจาก</div>
+                </div>
+
+                <div
+                    style="padding:1.1rem 1.25rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border-left:4px solid var(--navy-marine);">
+                    <div
+                        style="font-size:0.78rem; font-weight:700; color:var(--navy-marine); text-transform:uppercase;">
+                        เวลาปล่อยตัวนักกีฬา</div>
+                    <div style="font-size:1.05rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">5 กม. 05.30 น. | 10 กม. 06.00 น.</div>
+                    <div style="font-size:0.82rem; color:var(--ink-muted);">เหรียญรางวัล 100 คนแรกของแต่ละประเภท</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= RACE CATEGORIES ================= -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> ประเภทการวิ่งและอัตราค่าสมัคร</div>
+                <h3 class="section-title">เลือกประเภทระยะทางที่ท้าทายคุณ</h3>
+                <p class="section-desc">เปิดรับสมัครตั้งแต่วันที่ 1 ธันวาคม 2569 ถึง 10 มกราคม 2570 จำนวนจำกัดประเภทละ
+                    200 คน • เลือกสั่งเสื้อแขนยาวได้โดยเพิ่มค่าบริการ 50 บาท</p>
+            </div>
+
+            <div class="category-grid">
+                <!-- 5K Pass -->
+                <div class="race-pass-card">
+                    <div class="pass-header accent-5k">
+                        <div>
+                            <span
+                                style="font-size:0.8rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.05em; text-transform:uppercase;">DISTANCE
+                                CATEGORY • รับจำนวน 200 คน</span>
+                            <div class="pass-distance">5 กม.</div>
+                        </div>
+                        <span class="status-pill approved">ปล่อยตัว 05.30 น.</span>
+                    </div>
+
+                    <div class="pass-body">
+                        <div class="pass-price-bar">
+                            <div>
+                                <span style="font-size:0.9rem; color:var(--ink-muted); display:block;">อัตราค่าสมัคร (เสื้อแขนสั้น)</span>
+                                <small style="font-size:0.78rem; color:var(--teal-andaman);">* เลือกเสื้อแขนยาว +50 บ. (รวม ฿400)</small>
+                            </div>
+                            <span class="pass-price-val">฿350</span>
+                        </div>
+
+                        <ul class="pass-specs-list">
+                            <li><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</li>
+                            <li>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</li>
+                            <li><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</li>
+                            <li><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (2,000 / 1,500 / 800 บาท)</li>
+                            <li>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 5K-0001 ถึง 5K-0200)</li>
+                            <li>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>05.30 น.</strong> • จุดบริการน้ำ 2 จุด</li>
+                        </ul>
+
+                        <a href="register.html?category=5K" class="btn btn-primary" style="width:100%;">
+                            สมัครวิ่งระยะ 5 กม. (฿350 / แขนยาว ฿400) →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 10K Pass -->
+                <div class="race-pass-card">
+                    <div class="pass-header accent-10k">
+                        <div>
+                            <span
+                                style="font-size:0.8rem; font-weight:700; color:var(--gold-dark); letter-spacing:0.05em; text-transform:uppercase;">DISTANCE
+                                CATEGORY • รับจำนวน 200 คน</span>
+                            <div class="pass-distance">10 กม.</div>
+                        </div>
+                        <span class="status-pill pending">ปล่อยตัว 06.00 น.</span>
+                    </div>
+
+                    <div class="pass-body">
+                        <div class="pass-price-bar">
+                            <div>
+                                <span style="font-size:0.9rem; color:var(--ink-muted); display:block;">อัตราค่าสมัคร (เสื้อแขนสั้น)</span>
+                                <small style="font-size:0.78rem; color:var(--gold-dark);">* เลือกเสื้อแขนยาว +50 บ. (รวม ฿500)</small>
+                            </div>
+                            <span class="pass-price-val" style="color:var(--gold-dark);">฿450</span>
+                        </div>
+
+                        <ul class="pass-specs-list">
+                            <li><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</li>
+                            <li>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</li>
+                            <li><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</li>
+                            <li><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (3,000 / 2,000 / 1,000 บาท)</li>
+                            <li>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 10K-0001 ถึง 10K-0200)</li>
+                            <li>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 4 จุด</li>
+                        </ul>
+
+                        <a href="register.html?category=10K" class="btn btn-accent" style="width:100%;">
+                            สมัครวิ่งระยะ 10 กม. (฿450 / แขนยาว ฿500) →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PRIZE MONEY & MEDALS ================= -->
+    <section class="section" id="prizes"
+        style="background:#FFFFFF; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle);">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> รางวัลการแข่งขัน</div>
+                <h3 class="section-title">เงินรางวัลและเหรียญรางวัลผู้เข้าเส้นชัย</h3>
+                <p class="section-desc">มอบเงินรางวัลสำหรับผู้ชนะอันดับ 1–3 แยกประเภทชายและหญิง ทั้ง 2 ระยะทาง
+                    พร้อมเหรียญรางวัลที่ระลึกสำหรับนักวิ่ง 100 คนแรกของแต่ละประเภท</p>
+            </div>
+
+            <div
+                style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap:2rem; margin-bottom:2rem;">
+                <!-- 5K Prizes -->
+                <div class="form-envelope-card"
+                    style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <div>
+                            <span
+                                style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.05em; text-transform:uppercase;">PRIZE
+                                MONEY • 5 KM</span>
+                            <h4 style="font-size:1.35rem; color:var(--navy-marine); margin:2px 0 0 0;">เงินรางวัลประเภท
+                                5 กม.</h4>
+                        </div>
+                        <span class="status-pill approved">แยกชาย / หญิง</span>
+                    </div>
+                    <p style="font-size:0.86rem; color:var(--ink-muted); margin-bottom:1.25rem;">
+                        มอบรางวัลประเภทชาย 3 รางวัล และประเภทหญิง 3 รางวัล
+                    </p>
+
+                    <table class="size-matrix-table" style="text-align:left;">
+                        <thead>
+                            <tr>
+                                <th style="padding:0.75rem;">อันดับรางวัล</th>
+                                <th>ประเภทชาย</th>
+                                <th>ประเภทหญิง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ชนะเลิศ (อันดับ 1)</strong></td>
+                                <td><strong style="color:var(--teal-andaman); font-size:1.08rem;">2,000 บาท</strong>
+                                </td>
+                                <td><strong style="color:var(--teal-andaman); font-size:1.08rem;">2,000 บาท</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>รองชนะเลิศอันดับ 1</strong></td>
+                                <td><strong>1,500 บาท</strong></td>
+                                <td><strong>1,500 บาท</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>รองชนะเลิศอันดับ 2</strong></td>
+                                <td><strong>800 บาท</strong></td>
+                                <td><strong>800 บาท</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 10K Prizes -->
+                <div class="form-envelope-card"
+                    style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <div>
+                            <span
+                                style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); letter-spacing:0.05em; text-transform:uppercase;">PRIZE
+                                MONEY • 10 KM</span>
+                            <h4 style="font-size:1.35rem; color:var(--navy-marine); margin:2px 0 0 0;">เงินรางวัลประเภท
+                                10 กม.</h4>
+                        </div>
+                        <span class="status-pill pending">แยกชาย / หญิง</span>
+                    </div>
+                    <p style="font-size:0.86rem; color:var(--ink-muted); margin-bottom:1.25rem;">
+                        มอบรางวัลประเภทชาย 3 รางวัล และประเภทหญิง 3 รางวัล
+                    </p>
+
+                    <table class="size-matrix-table" style="text-align:left;">
+                        <thead>
+                            <tr>
+                                <th style="padding:0.75rem;">อันดับรางวัล</th>
+                                <th>ประเภทชาย</th>
+                                <th>ประเภทหญิง</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ชนะเลิศ (อันดับ 1)</strong></td>
+                                <td><strong style="color:var(--gold-dark); font-size:1.08rem;">3,000 บาท</strong></td>
+                                <td><strong style="color:var(--gold-dark); font-size:1.08rem;">3,000 บาท</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>รองชนะเลิศอันดับ 1</strong></td>
+                                <td><strong>2,000 บาท</strong></td>
+                                <td><strong>2,000 บาท</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>รองชนะเลิศอันดับ 2</strong></td>
+                                <td><strong>1,000 บาท</strong></td>
+                                <td><strong>1,000 บาท</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Finisher Medal Rule Banner -->
+            <div
+                style="background:linear-gradient(135deg, #072B38, #0E7490); color:#FFFFFF; border-radius:var(--radius-lg); padding:1.75rem 2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.25rem; box-shadow:var(--shadow-card);">
+                <div style="max-width:720px;">
+                    <span
+                        style="display:inline-block; background:rgba(245,158,11,0.22); color:#FDE68A; font-size:0.78rem; font-weight:700; padding:0.25rem 0.75rem; border-radius:999px; margin-bottom:0.5rem;">
+                        กติกาการรับเหรียญรางวัล (FINISHER MEDALS)
+                    </span>
+                    <h4 style="font-size:1.35rem; font-weight:800; margin:0 0 0.35rem 0; color:#FFFFFF;">
+                        เหรียญรางวัลประเภทละ 100 เหรียญ (รวม 200 เหรียญ)
+                    </h4>
+                    <p style="font-size:0.95rem; color:#E0F2FE; margin:0; line-height:1.7;">
+                        มอบเหรียญรางวัลให้แก่ผู้ที่วิ่งเข้าเส้นชัย <strong>100 คนแรกของแต่ละประเภท
+                            (ไม่แยกชาย-หญิง)</strong>
+                        โดยแบ่งเป็นระยะ 5 กม. จำนวน 100 เหรียญแรก และระยะ 10 กม. จำนวน 100 เหรียญแรก
+                    </p>
+                </div>
+                <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+                    <div
+                        style="background:rgba(255,255,255,0.12); padding:0.85rem 1.25rem; border-radius:var(--radius-md); text-align:center; min-width:125px;">
+                        <div style="font-size:1.6rem; font-weight:900; color:#67E8F9;">100</div>
+                        <div style="font-size:0.8rem; color:#E2E8F0;">เหรียญแรก (5 กม.)</div>
+                    </div>
+                    <div
+                        style="background:rgba(255,255,255,0.12); padding:0.85rem 1.25rem; border-radius:var(--radius-md); text-align:center; min-width:125px;">
+                        <div style="font-size:1.6rem; font-weight:900; color:#FCD34D;">100</div>
+                        <div style="font-size:0.8rem; color:#E2E8F0;">เหรียญแรก (10 กม.)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= OFFICIAL RACE ROUTES ================= -->
+    <section class="section" id="routes">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> เส้นทางวิ่งและจุดบริการน้ำ</div>
+                <h3 class="section-title">เส้นทางการแข่งขันจริง เกาะยาวใหญ่</h3>
+                <p class="section-desc">ปล่อยตัวและเข้าเส้นชัย ณ <strong>อ่าวโละจาก</strong>
+                    แสดงแนวเส้นทางการวิ่งจริงบนแผนที่แยกทั้ง 2 ระยะทาง พร้อมจุดบริการน้ำดื่มและจุดประทับตราครบถ้วน</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap:2rem;">
+                <!-- 5K Route Card + Interactive Drawn Route Map 1 -->
+                <div class="form-envelope-card"
+                    style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem;">
+                        <div>
+                            <span
+                                style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ROUTE
+                                MAP 1 • ปล่อยตัว 05.30 น.</span>
+                            <h4 style="font-size:1.35rem; color:var(--navy-marine); margin:2px 0 0 0;">เส้นทางวิ่งระยะ 5
+                                กม.</h4>
+                        </div>
+                        <span class="status-pill approved">จุดบริการน้ำ 2 จุด</span>
+                    </div>
+
+                    <!-- แผนที่เส้นทางที่ 1: ระยะ 5 กม. -->
+                    <div class="route-card-map-box">
+                        <div class="route-card-map-bar">
+                            <span class="route-card-map-label">
+                                <span class="map-dot-5k"></span> เส้นทางวิ่งระยะ 5 กม.
+                            </span>
+                            <div class="map-bar-controls">
+                                <button type="button" class="btn-map-mode" id="editBtn5k"
+                                    onclick="toggleEditRoute('5k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
+                                    ปรับจุดเส้นทาง
+                                </button>
+                                <button type="button" class="btn-map-mode" id="satBtn5k"
+                                    onclick="toggleLeafletLayer('5k')">
+                                    ภาพถ่ายดาวเทียม
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="routeMap5k" class="route-leaflet-canvas"></div>
+
+                        <div class="route-map-legend">
+                            <span class="legend-item"><span class="legend-line-5k"></span> เส้นทาง 5 กม.</span>
+                            <span class="legend-item"><span class="legend-pin-start"></span> ปล่อยตัว/เส้นชัย</span>
+                            <span class="legend-item"><span class="legend-pin-water"></span> จุดบริการน้ำ (2)</span>
+                            <span class="legend-item"><span class="legend-pin-stamp"></span> จุดประทับตรา</span>
+                        </div>
+
+                        <div class="route-edit-helper" id="editHelper5k">
+                            <span>ลากหมุดบนแผนที่เพื่อขยับแนวเส้นทางให้ตรงซอย</span>
+                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('5k')">
+                                คัดลอกพิกัด 5 กม.
+                            </button>
+                        </div>
+
+                        <div class="route-card-map-footer">
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=7.9262,98.5838&destination=7.9262,98.5838&waypoints=7.9292,98.5912%7C7.9260,98.5955%7C7.9325,98.5985%7C7.9310,98.5935%7C7.9280,98.5930&travelmode=walking"
+                                target="_blank" rel="noopener noreferrer" class="btn-open-gmap theme-5k">
+                                เปิดนำทางระยะ 5 กม. ใน Google Maps ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <ol
+                        style="padding-left:1.25rem; margin:0; color:var(--ink-secondary); font-size:0.93rem; line-height:1.85;">
+                        <li><strong>จุดปล่อยตัว (Start 05.30 น.):</strong> ออกวิ่งจาก <strong>อ่าวโละจาก</strong>
+                            มุ่งหน้าไปทางกุโบร์อ่าวโละจาก</li>
+                        <li>เลี้ยวขวาที่ <strong>สามแยก รร.อ่าวกะพ้อ</strong> วิ่งเข้าสู่ถนนสายหลัก</li>
+                        <li>เลี้ยวซ้ายที่ <strong>สามแยกบ้านออก</strong> วิ่งตรงถึง <strong>สี่แยกบ้านชามเลาะ</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 1 + จุดประทับตรา</strong> (สี่แยกบ้านชามเลาะ)
+                            </div>
+                        </li>
+                        <li>วิ่งเข้าสู่ <strong>ซอยอิสาน</strong> และเลี้ยวขวาที่ <strong>สามแยกท่ายาง</strong></li>
+                        <li>วิ่งต่อถึง <strong>สามแยกบ้านออก</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 2</strong> (สามแยกบ้านออก)
+                            </div>
+                        </li>
+                        <li>วิ่งต่อไปถึง <strong>สามแยกโละจาก</strong> เลี้ยวเข้าสู่ <strong>เส้นชัย (Finish) ณ
+                                อ่าวโละจาก</strong></li>
+                    </ol>
+                </div>
+
+                <!-- 10K Route Card + Interactive Drawn Route Map 2 -->
+                <div class="form-envelope-card"
+                    style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem;">
+                        <div>
+                            <span
+                                style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ROUTE
+                                MAP 2 • ปล่อยตัว 06.00 น.</span>
+                            <h4 style="font-size:1.35rem; color:var(--navy-marine); margin:2px 0 0 0;">เส้นทางวิ่งระยะ
+                                10 กม.</h4>
+                        </div>
+                        <span class="status-pill pending">จุดบริการน้ำ 4 จุด</span>
+                    </div>
+
+                    <!-- แผนที่เส้นทางที่ 2: ระยะ 10 กม. -->
+                    <div class="route-card-map-box">
+                        <div class="route-card-map-bar">
+                            <span class="route-card-map-label">
+                                <span class="map-dot-10k"></span> เส้นทางวิ่งระยะ 10 กม.
+                            </span>
+                            <div class="map-bar-controls">
+                                <button type="button" class="btn-map-mode" id="editBtn10k"
+                                    onclick="toggleEditRoute('10k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
+                                    ปรับจุดเส้นทาง
+                                </button>
+                                <button type="button" class="btn-map-mode" id="satBtn10k"
+                                    onclick="toggleLeafletLayer('10k')">
+                                    ภาพถ่ายดาวเทียม
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="routeMap10k" class="route-leaflet-canvas"></div>
+
+                        <div class="route-map-legend">
+                            <span class="legend-item"><span class="legend-line-10k"></span> เส้นทาง 10 กม.</span>
+                            <span class="legend-item"><span class="legend-pin-start"></span> ปล่อยตัว/เส้นชัย</span>
+                            <span class="legend-item"><span class="legend-pin-water"></span> จุดบริการน้ำ (4)</span>
+                            <span class="legend-item"><span class="legend-pin-stamp"></span> จุดประทับตรา</span>
+                        </div>
+
+                        <div class="route-edit-helper" id="editHelper10k">
+                            <span>ลากหมุดบนแผนที่เพื่อขยับแนวเส้นทางให้ตรงซอย</span>
+                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('10k')">
+                                คัดลอกพิกัด 10 กม.
+                            </button>
+                        </div>
+
+                        <div class="route-card-map-footer">
+                            <a href="https://www.google.com/maps/dir/?api=1&origin=7.9262,98.5838&destination=7.9262,98.5838&waypoints=7.9292,98.5912%7C7.9385,98.5910%7C7.9485,98.5945%7C7.9545,98.5975%7C7.9395,98.5995%7C7.9260,98.5955&travelmode=walking"
+                                target="_blank" rel="noopener noreferrer" class="btn-open-gmap theme-10k">
+                                เปิดนำทางระยะ 10 กม. ใน Google Maps ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <ol
+                        style="padding-left:1.25rem; margin:0; color:var(--ink-secondary); font-size:0.93rem; line-height:1.85;">
+                        <li><strong>จุดปล่อยตัว (Start 06.00 น.):</strong> ออกวิ่งจาก <strong>อ่าวโล๊ะจาก</strong>
+                            ไปทางกุโบร์อ่าวโล๊ะจาก ผ่าน รร.อ่าวกะพ้อ ไปตามถนนนาถ้ำ–นาบน</li>
+                        <li>วิ่งถึง <strong>สามแยกโรงน้ำ</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 1</strong> (สามแยกโรงน้ำ)
+                            </div>
+                        </li>
+                        <li>วิ่งต่อไปเลี้ยวขวาที่ <strong>สามแยกแหลมใต้</strong> และเลี้ยวซ้ายที่
+                            <strong>สามแยกมัสยิดนาบน</strong>
+                        </li>
+                        <li>วิ่งตรงไปยัง <strong>สามแยกบ่อหลวง ม.4</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 2 + จุดประทับตรา</strong> (สามแยกบ่อหลวง ม.4)
+                            </div>
+                        </li>
+                        <li>วิ่งต่อไปถึง <strong>สามแยกควนต้นท้อน</strong> ตรงไปถึง <strong>หน้าเทศบาลตำบลพรุใน</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 3</strong> (หน้าเทศบาลตำบลพรุใน)
+                            </div>
+                        </li>
+                        <li>วิ่งต่อบนถนนสายหลัก ถึง <strong>สามแยกบ้านออก</strong>
+                            <div
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 4</strong> (สามแยกบ้านออก)
+                            </div>
+                        </li>
+                        <li>วิ่งต่อไปถึง <strong>สี่แยกโล๊ะจาก</strong> เลี้ยวขวาสู่ <strong>เส้นชัย (Finish) ณ
+                                อ่าวโละจาก</strong></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= OFFICIAL KIT LOOKBOOK ================= -->
+    <section class="section" id="kit" style="background:#FFFFFF;">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> ชุดแข่งขันที่ระลึก</div>
+                <h3 class="section-title">ดีไซน์สะท้อนธรรมชาติอันดามัน (เลือกได้ทั้งแขนสั้น & แขนยาว)</h3>
+                <p class="section-desc">ออกแบบลวดลายสะท้อนเสน่ห์ "สะพานท่าเรืออัสดง และ ผืนน้ำมรกตแหลมหาด"
+                    สวมใส่สบายด้วยเทคโนโลยีผ้า QuickDry (เสื้อแขนยาวเพิ่ม 50 บาท)</p>
+            </div>
+
+            <div class="editorial-kit-showcase">
+                <div class="kit-imagery-panel">
+                    <img src="Photo/50764.jpg" alt="ชุดแข่งขันเปิดโลกทะเล เกาะยาวใหญ่">
+                </div>
+
+                <div class="kit-spec-panel">
+                    <span
+                        style="font-size:0.8rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.08em; text-transform:uppercase;">OFFICIAL
+                        RACE APPAREL • SHORT & LONG SLEEVE</span>
+                    <h4 style="font-size:1.6rem; color:var(--navy-marine); margin:0.35rem 0 1rem 0;">
+                        เนื้อผ้า Micro-Polyester 100% เกรดการแข่งขัน
+                    </h4>
+                    <p style="color:var(--ink-muted); font-size:0.95rem; margin-bottom:1.5rem;">
+                        โครงสร้างผ้ารังผึ้งขนาดเล็ก ช่วยเร่งการระเหยของเหงื่อและระบายความร้อนได้อย่างรวดเร็ว
+                        <strong>นักวิ่งสามารถเลือกรุ่นแขนยาวได้โดยเพิ่มค่าบริการ 50 บาท</strong> (นัดรับเสื้อวันที่ 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล)
+                    </p>
+
+                    <div class="kit-feature-pill sunset">
+                        <div>
+                            <strong style="color:#92400E; display:block; font-size:0.95rem;">รุ่นแขนสั้น (รวมในค่าสมัครปกติ: 5 กม. ฿350 / 10 กม. ฿450)</strong>
+                            <span
+                                style="font-size:0.85rem; color:#B45309;">แรงบันดาลใจจากแสงอาทิตย์อัสดงสาดส่องสะพานท่าเรือเกาะยาวใหญ่
+                                สัญลักษณ์แห่งมิตรภาพและพลัง</span>
+                        </div>
+                    </div>
+
+                    <div class="kit-feature-pill emerald">
+                        <div>
+                            <strong style="color:#155E75; display:block; font-size:0.95rem;">รุ่นแขนยาว (+50 บาท: 5 กม. ฿400 / 10 กม. ฿500)</strong>
+                            <span
+                                style="font-size:0.85rem; color:#0E7490;">สื่อถึงความบริสุทธิ์ของผืนน้ำทะเลมรกตและหาดทรายขาวละเอียดของแหลมหาด
+                                ปกป้องแดดและลมทะเลได้ดีเยี่ยม</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:1.5rem;">
+                        <a href="register.html" class="btn btn-primary">
+                            เลือกขนาดเสื้อและลงทะเบียน (XS - 3XL) →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= COURSE HIGHLIGHTS ================= -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> ภูมิประเทศเส้นทางวิ่ง & สถานที่จัดงาน</div>
+                <h3 class="section-title">สัมผัสมนต์เสน่ห์อ่าวโล๊ะจาก & เกาะยาวใหญ่</h3>
+                <p class="section-desc">เส้นทางวิ่งเลียบหาดโล๊ะจาก ท่ามกลางหาดทรายขาว สะพานท่าเรือชมตะวันตกดิน
+                    และวิถีชุมชนประมงพื้นบ้าน</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.75rem;">
+                <!-- 1. หาดโล๊ะจาก (สถานที่จัดงานจริง) -->
+                <div
+                    style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
+                    <div style="height:220px; overflow:hidden;">
+                        <img src="Photo/โล๊ะจาก5.png" onerror="this.src='Photo/lohjak5.png'"
+                            alt="อ่าวโล๊ะจาก เกาะยาวใหญ่"
+                            style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="padding:1.5rem; flex-grow:1; display:flex; flex-direction:column;">
+                        <span
+                            style="font-size:0.75rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">MAIN
+                            VENUE & RACE VILLAGE</span>
+                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">อ่าวโล๊ะจาก
+                            (จุดปล่อยตัว & เส้นชัย)</h4>
+                        <p style="font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            หาดทรายขาวละเอียดและน้ำทะเลสีมรกต ศูนย์กลางการจัดกิจกรรมวิ่งเปิดโลกทะเล ประจำปี
+                            2570
+                            จุดรวมพล และซุ้มอาหารทะเลพื้นบ้านต้อนรับนักวิ่ง
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2. สะพานท่าเรือโล๊ะจาก ยามเย็น -->
+                <div
+                    style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
+                    <div style="height:220px; overflow:hidden;">
+                        <img src="Photo/โล๊ะจาก2.jpg" onerror="this.src='Photo/lohjak2.jpg'"
+                            alt="สะพานท่าเรือโล๊ะจากยามเย็น"
+                            style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="padding:1.5rem; flex-grow:1; display:flex; flex-direction:column;">
+                        <span
+                            style="font-size:0.75rem; font-weight:700; color:var(--gold-dark); letter-spacing:0.06em; text-transform:uppercase;">SUNSET
+                            PIER & OFFICIAL ARTWORK</span>
+                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">
+                            สะพานท่าเรือโล๊ะจาก (Sunset Pier)</h4>
+                        <p style="font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            สะพานคอนกรีตทอดยาวสู่อ่าวพังงา จุดชมพระอาทิตย์อัสดงอันงดงาม
+                            และเป็นต้นแบบลวดลายกราฟิกบนเสื้อแข่งขันทางการประจำปี 2570
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. แหลมหาด มัลดีฟส์เมืองไทย -->
+                <div
+                    style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
+                    <div style="height:220px; overflow:hidden;">
+                        <img src="Photo/50769_0.jpg" alt="แหลมหาด เกาะยาวใหญ่"
+                            style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="padding:1.5rem; flex-grow:1; display:flex; flex-direction:column;">
+                        <span
+                            style="font-size:0.75rem; font-weight:700; color:var(--cyan-horizon); letter-spacing:0.06em; text-transform:uppercase;">NATURAL
+                            ICONIC WONDER</span>
+                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">แหลมหาด
+                            (สันทรายทะเลแหวก)</h4>
+                        <p style="font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            ปรากฏการณ์ธรรมชาติเมื่อน้ำลด สันทรายสีขาวทอดยื่นออกสู่ใจกลางทะเลมรกต
+                            จุดถ่ายภาพระดับแลนด์มาร์กที่ได้รับการยกย่องเป็นมัลดีฟส์แห่งเมืองไทย
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4. วิถีประมงพื้นบ้านเกาะยาว -->
+                <div
+                    style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
+                    <div style="height:220px; overflow:hidden;">
+                        <img src="Photo/เรือปลา.jpg" onerror="this.src='Photo/rueapla.jpg'"
+                            alt="วิถีประมงพื้นบ้านเกาะยาวใหญ่"
+                            style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
+                            onmouseover="this.style.transform='scale(1.05)'"
+                            onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="padding:1.5rem; flex-grow:1; display:flex; flex-direction:column;">
+                        <span
+                            style="font-size:0.75rem; font-weight:700; color:var(--navy-marine); letter-spacing:0.06em; text-transform:uppercase;">AUTHENTIC
+                            ISLAND HERITAGE</span>
+                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">
+                            วิถีชีวิตชาวประมงพื้นบ้านพรุใน</h4>
+                        <p style="font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            สัมผัสความอบอุ่นและเงียบสงบของหมู่บ้านประมงดั้งเดิม เรือหางยาวหาปลา และกระชังเลี้ยงกุ้งมังกร
+                            สะท้อนหัวใจแห่งมิตรไมตรีของชาวเลเกาะยาวใหญ่
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.25rem;">
+                        <img src="Photo/logo.jpeg" alt="ตราเทศบาล"
+                            style="width:48px; height:48px; border-radius:50%; background:#fff;">
+                        <div>
+                            <div class="footer-brand-title">เปิดโลกทะเล 2570</div>
+                            <span style="font-size:0.8rem; color:#94A3B8;">เทศบาลตำบลพรุใน อำเภอเกาะยาว
+                                จังหวัดพังงา</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;">
+                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดขึ้นเพื่อส่งเสริมสุขภาพของประชาชน
+                        กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
+                    </p>
+                </div>
+
+                <div>
+                    <h5
+                        style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
+                        เมนูนำทาง</h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html">หน้าแรก</a></li>
+                        <li><a href="register.html">สมัครแข่งขันออนไลน์</a></li>
+                        <li><a href="status.html">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
+                        <li><a href="guide.html">คู่มือเดินทาง & ตารางเรือ</a></li>
+                        <li><a href="admin.html">ระบบเจ้าหน้าที่ (Admin)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5
+                        style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
+                        กองอำนวยการจัดการแข่งขัน</h5>
+                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;">
+                        สำนักงานเทศบาลตำบลพรุใน<br>
+                        อำเภอเกาะยาว จังหวัดพังงา 82160<br>
+                        โทรศัพท์: 076-597-504<br>
+                        อีเมล: contact@phrunai.go.th
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน
+                จังหวัดพังงา.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet Interactive Map JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script>
+        // ================= INTERACTIVE DRAWN RACE ROUTES (5K & 10K) =================
+        const RACE_ROUTES_DATA = {
+            '5k': {
+                containerId: 'routeMap5k',
+                satBtnId: 'satBtn5k',
+                editBtnId: 'editBtn5k',
+                editHelperId: 'editHelper5k',
+                color: '#0E7490',
+                center: [7.9292, 98.5915],
+                zoom: 15,
+                points: [
+                    { lat: 7.9262, lng: 98.5838, type: 'start', code: 'START', title: 'จุดปล่อยตัว & เส้นชัย (อ่าวโล๊ะจาก)', desc: 'จุดรวมพล ปล่อยตัว 05.30 น. และเข้าเส้นชัยระยะ 5 กม.' },
+                    { lat: 7.9292, lng: 98.5912, type: 'turn', code: '1', title: 'สามแยก รร.อ่าวกะพ้อ', desc: 'เลี้ยวขวาเข้าสู่ถนนสายหลัก' },
+                    { lat: 7.9325, lng: 98.5985, type: 'stamp', code: 'น้ำ 1 + ตรา', title: 'สี่แยกบ้านชามเลาะ', desc: 'จุดบริการน้ำที่ 1 + จุดประทับตราตรวจสอบเส้นทาง' },
+                    { lat: 7.9308, lng: 98.5948, type: 'turn', code: '2', title: 'ซอยอิสาน – สามแยกท่ายาง', desc: 'วิ่งเข้าซอยอิสานและเลี้ยวขวาที่สามแยกท่ายาง' },
+                    { lat: 7.9260, lng: 98.5955, type: 'water', code: 'น้ำ 2', title: 'สามแยกบ้านออก', desc: 'จุดบริการน้ำที่ 2 ก่อนมุ่งหน้ากลับอ่าวโล๊ะจาก' },
+                    { lat: 7.9278, lng: 98.5885, type: 'turn', code: '3', title: 'สามแยกโล๊ะจาก', desc: 'เลี้ยวเข้าสู่เส้นชัย ณ อ่าวโล๊ะจาก' },
+                    { lat: 7.9262, lng: 98.5838, type: 'finish', code: 'FINISH', title: 'เส้นชัย (อ่าวโล๊ะจาก)', desc: 'เข้าเส้นชัยระยะ 5 กม.' }
+                ]
+            },
+            '10k': {
+                containerId: 'routeMap10k',
+                satBtnId: 'satBtn10k',
+                editBtnId: 'editBtn10k',
+                editHelperId: 'editHelper10k',
+                color: '#D97706',
+                center: [7.9395, 98.5935],
+                zoom: 14,
+                points: [
+                    { lat: 7.9262, lng: 98.5838, type: 'start', code: 'START', title: 'จุดปล่อยตัว & เส้นชัย (อ่าวโล๊ะจาก)', desc: 'จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 10 กม.' },
+                    { lat: 7.9292, lng: 98.5912, type: 'turn', code: '1', title: 'ผ่าน รร.อ่าวกะพ้อ', desc: 'มุ่งหน้าไปตามถนนนาถ้ำ–นาบน' },
+                    { lat: 7.9385, lng: 98.5910, type: 'water', code: 'น้ำ 1', title: 'สามแยกโรงน้ำ', desc: 'จุดบริการน้ำที่ 1' },
+                    { lat: 7.9465, lng: 98.5905, type: 'turn', code: '2', title: 'สามแยกแหลมใต้', desc: 'เลี้ยวขวาที่สามแยกแหลมใต้' },
+                    { lat: 7.9485, lng: 98.5945, type: 'turn', code: '3', title: 'สามแยกมัสยิดนาบน', desc: 'เลี้ยวซ้ายที่สามแยกมัสยิดนาบน' },
+                    { lat: 7.9545, lng: 98.5975, type: 'stamp', code: 'น้ำ 2 + ตรา', title: 'สามแยกบ่อหลวง ม.4', desc: 'จุดบริการน้ำที่ 2 + จุดประทับตราตรวจสอบเส้นทาง' },
+                    { lat: 7.9475, lng: 98.6005, type: 'turn', code: '4', title: 'สามแยกควนต้นท้อน', desc: 'วิ่งตรงไปทางเทศบาลตำบลพรุใน' },
+                    { lat: 7.9395, lng: 98.5995, type: 'water', code: 'น้ำ 3', title: 'หน้าเทศบาลตำบลพรุใน', desc: 'จุดบริการน้ำที่ 3' },
+                    { lat: 7.9260, lng: 98.5955, type: 'water', code: 'น้ำ 4', title: 'สามแยกบ้านออก', desc: 'จุดบริการน้ำที่ 4' },
+                    { lat: 7.9278, lng: 98.5885, type: 'turn', code: '5', title: 'สี่แยกโล๊ะจาก', desc: 'เลี้ยวขวาสู่เส้นชัย ณ อ่าวโล๊ะจาก' },
+                    { lat: 7.9262, lng: 98.5838, type: 'finish', code: 'FINISH', title: 'เส้นชัย (อ่าวโล๊ะจาก)', desc: 'เข้าเส้นชัยระยะ 10 กม.' }
+                ]
+            }
+        };
+
+        const mapInstances = {};
+
+        function createPinIcon(pt) {
+            if (pt.type === 'start') {
+                return L.divIcon({
+                    className: '',
+                    html: `<div class="race-pin-badge pin-start">START / FINISH</div>`,
+                    iconSize: [96, 24],
+                    iconAnchor: [48, 12]
+                });
+            }
+            if (pt.type === 'water') {
+                return L.divIcon({
+                    className: '',
+                    html: `<div class="race-pin-badge pin-water">${pt.code}</div>`,
+                    iconSize: [46, 24],
+                    iconAnchor: [23, 12]
+                });
+            }
+            if (pt.type === 'stamp') {
+                return L.divIcon({
+                    className: '',
+                    html: `<div class="race-pin-badge pin-stamp">${pt.code}</div>`,
+                    iconSize: [74, 24],
+                    iconAnchor: [37, 12]
+                });
+            }
+            return L.divIcon({
+                className: '',
+                html: `<div class="race-pin-badge pin-turn">${pt.code}</div>`,
+                iconSize: [18, 18],
+                iconAnchor: [9, 9]
+            });
+        }
+
+        async function fetchSnappedRoadRoute(points) {
+            const coordStr = points.map(p => `${p.lng.toFixed(6)},${p.lat.toFixed(6)}`).join(';');
+            const url = `https://router.project-osrm.org/route/v1/foot/${coordStr}?overview=full&geometries=geojson`;
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('OSRM response error');
+                const data = await res.json();
+                if (data.routes && data.routes[0] && data.routes[0].geometry) {
+                    return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                }
+            } catch (err) {
+                // Fallback ใช้เส้นเชื่อมจุดตามลำดับหากเครือข่ายไม่สามารถเรียก OSRM ได้
+            }
+            return points.map(p => [p.lat, p.lng]);
+        }
+
+        async function drawRouteOnMap(routeKey) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg) return;
+
+            const latLngs = await fetchSnappedRoadRoute(cfg.points);
+
+            if (state.casingLine) state.map.removeLayer(state.casingLine);
+            if (state.routeLine) state.map.removeLayer(state.routeLine);
+
+            // วาดเส้นขอบสีขาวด้านล่างเพื่อให้เส้นทางเด่นชัดทั้งโหมดถนนและดาวเทียม
+            state.casingLine = L.polyline(latLngs, {
+                color: '#FFFFFF',
+                weight: 8,
+                opacity: 0.95,
+                lineJoin: 'round'
+            }).addTo(state.map);
+
+            state.routeLine = L.polyline(latLngs, {
+                color: cfg.color,
+                weight: 5,
+                opacity: 0.95,
+                lineJoin: 'round'
+            }).addTo(state.map);
+
+            if (!state.hasFitted) {
+                state.map.fitBounds(state.routeLine.getBounds(), { padding: [30, 30] });
+                state.hasFitted = true;
+            }
+        }
+
+        function renderMarkersForRoute(routeKey) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg) return;
+
+            state.markers.forEach(m => state.map.removeLayer(m));
+            state.markers = [];
+
+            cfg.points.forEach((pt, idx) => {
+                if (pt.type === 'finish') return;
+
+                const marker = L.marker([pt.lat, pt.lng], {
+                    icon: createPinIcon(pt),
+                    draggable: state.isEditing
+                }).addTo(state.map);
+
+                marker.bindPopup(`<strong>${pt.title}</strong><br><span style="color:#475569;">${pt.desc}</span>`);
+
+                marker.on('dragend', async function (e) {
+                    const pos = e.target.getLatLng();
+                    cfg.points[idx].lat = Number(pos.lat.toFixed(6));
+                    cfg.points[idx].lng = Number(pos.lng.toFixed(6));
+                    if (idx === 0 && cfg.points[cfg.points.length - 1].type === 'finish') {
+                        cfg.points[cfg.points.length - 1].lat = cfg.points[0].lat;
+                        cfg.points[cfg.points.length - 1].lng = cfg.points[0].lng;
+                    }
+                    await drawRouteOnMap(routeKey);
+                });
+
+                state.markers.push(marker);
+            });
+        }
+
+        async function initSingleRouteMap(routeKey) {
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            const el = document.getElementById(cfg.containerId);
+            if (!el || typeof L === 'undefined') return;
+
+            const map = L.map(cfg.containerId, {
+                scrollWheelZoom: false
+            }).setView(cfg.center, cfg.zoom);
+
+            // ใช้ CartoDB Voyager ซึ่งแสดงชื่อถนนชัดเจนและไม่ติดบล็อก Referer เมื่อเปิดไฟล์ในเครื่อง (file://)
+            const streetLayer = L.tileLayer(
+                'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                {
+                    subdomains: 'abcd',
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap &copy; CARTO'
+                }
+            ).addTo(map);
+
+            const satelliteLayer = L.tileLayer(
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                {
+                    maxZoom: 19,
+                    attribution: '&copy; Esri Satellite'
+                }
+            );
+
+            mapInstances[routeKey] = {
+                map,
+                streetLayer,
+                satelliteLayer,
+                isSatellite: false,
+                isEditing: false,
+                hasFitted: false,
+                casingLine: null,
+                routeLine: null,
+                markers: []
+            };
+
+            renderMarkersForRoute(routeKey);
+            await drawRouteOnMap(routeKey);
+        }
+
+        function toggleLeafletLayer(routeKey) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg) return;
+
+            state.isSatellite = !state.isSatellite;
+            if (state.isSatellite) {
+                state.map.removeLayer(state.streetLayer);
+                state.satelliteLayer.addTo(state.map);
+            } else {
+                state.map.removeLayer(state.satelliteLayer);
+                state.streetLayer.addTo(state.map);
+            }
+
+            const btn = document.getElementById(cfg.satBtnId);
+            if (btn) {
+                btn.classList.toggle('active', state.isSatellite);
+                btn.textContent = state.isSatellite ? 'แผนที่ถนน' : 'ภาพถ่ายดาวเทียม';
+            }
+        }
+
+        function toggleEditRoute(routeKey) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg) return;
+
+            state.isEditing = !state.isEditing;
+            const btn = document.getElementById(cfg.editBtnId);
+            const helper = document.getElementById(cfg.editHelperId);
+
+            if (btn) btn.classList.toggle('active', state.isEditing);
+            if (helper) helper.classList.toggle('open', state.isEditing);
+
+            renderMarkersForRoute(routeKey);
+        }
+
+        function copyRouteCoords(routeKey) {
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!cfg) return;
+            const jsonText = JSON.stringify(cfg.points, null, 2);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(jsonText).then(() => {
+                    alert(`คัดลอกพิกัดเส้นทาง ${routeKey.toUpperCase()} เรียบร้อยแล้ว สามารถนำไปวางแทนใน RACE_ROUTES_DATA['${routeKey}'].points ได้ทันที`);
+                });
+            } else {
+                prompt(`คัดลอกพิกัดเส้นทาง ${routeKey.toUpperCase()}:`, jsonText);
+            }
+        }
+
+        // Sync real event config (350/450 THB, 200 quota per category)
+        if (window.KohYaoStore && window.KohYaoStore.CATEGORIES) {
+            window.KohYaoStore.CATEGORIES['5K'] = {
+                ...window.KohYaoStore.CATEGORIES['5K'],
+                name: 'Fun Run 5 กม.',
+                distance: '5 กม.',
+                price: 350,
+                quota: 200,
+                maxQuota: 200
+            };
+            window.KohYaoStore.CATEGORIES['10K'] = {
+                ...window.KohYaoStore.CATEGORIES['10K'],
+                name: 'Mini Marathon 10 กม.',
+                distance: '10 กม.',
+                price: 450,
+                quota: 200,
+                maxQuota: 200
+            };
+        }
+
+        const mobileToggleBtn = document.getElementById('mobileToggle');
+        const navMenuEl = document.getElementById('navMenu');
+
+        if (mobileToggleBtn && navMenuEl) {
+            mobileToggleBtn.addEventListener('click', function () {
+                navMenuEl.classList.toggle('open');
+            });
+
+            navMenuEl.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenuEl.classList.remove('open');
+                });
+            });
+        }
+
+        async function updateHeroStats() {
+            if (!window.KohYaoStore) return;
+            const stats = await window.KohYaoStore.getStats();
+            const quota5k = 200;
+            const quota10k = 200;
+            const rem5k = Math.max(0, quota5k - (stats.count5K || 0));
+            const rem10k = Math.max(0, quota10k - (stats.count10K || 0));
+
+            document.getElementById('heroQuota5k').textContent = `คงเหลือ ${rem5k} / ${quota5k} ที่`;
+            document.getElementById('heroQuota10k').textContent = `คงเหลือ ${rem10k} / ${quota10k} ที่`;
+
+            const pct5k = Math.min(100, Math.round(((stats.count5K || 0) / quota5k) * 100));
+            const pct10k = Math.min(100, Math.round(((stats.count10K || 0) / quota10k) * 100));
+
+            document.getElementById('heroBar5k').style.width = pct5k + '%';
+            document.getElementById('heroBar10k').style.width = pct10k + '%';
+        }
+
+        function runCountdown() {
+            // 31 มกราคม 2570 (2027-01-31)
+            const target = new Date('2027-01-31T05:30:00').getTime();
+            function tick() {
+                const now = new Date().getTime();
+                const diff = target - now;
+                if (diff <= 0) {
+                    document.getElementById('cdDays').textContent = '0';
+                    document.getElementById('cdHours').textContent = '0';
+                    document.getElementById('cdMinutes').textContent = '0';
+                    document.getElementById('cdSeconds').textContent = '0';
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('cdDays').textContent = days;
+                document.getElementById('cdHours').textContent = hours;
+                document.getElementById('cdMinutes').textContent = minutes;
+                document.getElementById('cdSeconds').textContent = seconds;
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSingleRouteMap('5k');
+            initSingleRouteMap('10k');
+            updateHeroStats();
+            runCountdown();
+        });
+    </script>
+</body>
+
+</html>

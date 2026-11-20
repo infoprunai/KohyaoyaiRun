@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเดินทาง ตารางเรือ & ที่พัก | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐</title>
+    <meta name="description" content="คู่มือการเดินทางสู่เกาะยาวใหญ่ จังหวัดพังงา ตารางเรือสปีดโบ๊ทและเรือหางยาว จากภูเก็ต กระบี่ พังงา พร้อมแนะนำที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก">
+    <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+</head>
+<body>
+
+    <!-- ================= SITE NAVIGATION ================= -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="brand-wrapper">
+                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-text">
+                    <h1>เปิดโลกทะเล ๒๕๗๐</h1>
+                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+                <li><a href="#ferry" class="nav-link">ตารางเรือ & การเดินทาง</a></li>
+                <li><a href="#stay" class="nav-link">โซนที่พัก</a></li>
+                <li><a href="#attractions" class="nav-link">แหล่งท่องเที่ยว</a></li>
+                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge">ระบบเจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register">สมัครแข่งขัน</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= GUIDE PAGE HEADER ================= -->
+    <header style="background:linear-gradient(135deg, var(--deep-abyss) 0%, var(--navy-marine) 55%, var(--teal-andaman) 100%); color:#FFFFFF; padding:4.5rem 0 3.75rem 0; border-bottom:3px solid var(--cyan-horizon);">
+        <div class="container">
+            <div style="max-width:780px;">
+                <div class="hero-pill-badge" style="margin-bottom:1rem;">
+                    RUNNER TRAVEL & HOSPITALITY GUIDE • เกาะยาวใหญ่ จ.พังงา
+                </div>
+                <h2 style="font-size:clamp(1.85rem, 3.2vw, 2.75rem); font-weight:800; line-height:1.25; margin-bottom:1rem;">
+                    คู่มือการเดินทาง ตารางเรือข้ามฟาก<br>
+                    <span style="color:#FCD34D;">และแนะนำที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</span>
+                </h2>
+                <p style="font-size:1.02rem; color:#E0F2FE; line-height:1.8; margin-bottom:1.75rem;">
+                    วางแผนการเดินทางสู่อำเภอเกาะยาว จังหวัดพังงา อย่างสะดวกและตรงเวลา สำหรับนักวิ่งและผู้ติดตามในงาน
+                    <strong>กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570</strong> วันอาทิตย์ที่ 31 มกราคม 2570
+                </p>
+
+                <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
+                    <a href="#ferry" class="btn btn-accent">ดูตารางเรือข้ามฟาก ↓</a>
+                    <a href="https://maps.google.com/?q=7.9262,98.5838" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        เปิดพิกัดจุดปล่อยตัว อ่าวโล๊ะจาก ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= IMPORTANT RACE WEEKEND NOTICE ================= -->
+    <section style="background:#FFFBEB; border-bottom:1px solid #FDE68A; padding:1.5rem 0;">
+        <div class="container">
+            <div style="display:flex; align-items:flex-start; gap:1rem; flex-wrap:wrap; justify-content:space-between;">
+                <div style="max-width:860px;">
+                    <span style="display:inline-block; background:#FEF3C7; color:#92400E; font-size:0.78rem; font-weight:700; padding:0.2rem 0.7rem; border-radius:999px; border:1px solid #F59E0B; margin-bottom:0.35rem;">
+                        คำแนะนำสำคัญสำหรับนักวิ่งต่างจังหวัด
+                    </span>
+                    <h3 style="font-size:1.12rem; color:#78350F; margin-bottom:0.25rem;">
+                        ควรเดินทางถึงเกาะยาวใหญ่อย่างช้า วันเสาร์ที่ 30 มกราคม 2570 ก่อนเวลา 16.00 น.
+                    </h3>
+                    <p style="font-size:0.92rem; color:#92400E; line-height:1.7; margin:0;">
+                        เนื่องจากเรือโดยสารเที่ยวแรกจากฝั่งภูเก็ตและกระบี่เริ่มออกให้บริการเวลา 07.30 น. ซึ่งจะไม่ทันเวลาเช็คบิบ <strong>05.00 น.</strong> ของวันอาทิตย์ที่ 31 มกราคม 2570 และนักวิ่งจำเป็นต้องเข้ารับเสื้อแข่งขันและหมายเลข BIB ใน<strong>วันเสาร์ที่ 30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล อ่าวโล๊ะจาก
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FERRY & TRANSPORT SCHEDULES ================= -->
+    <section class="section" id="ferry">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> เส้นทางเดินเรือโดยสาร</div>
+                <h3 class="section-title">ตารางเรือข้ามฟากสู่เกาะยาวใหญ่</h3>
+                <p class="section-desc">สามารถเดินทางข้ามสู่เกาะยาวใหญ่ได้ทั้งจากฝั่งจังหวัดภูเก็ต จังหวัดกระบี่ และจังหวัดพังงา ใช้เวลาเดินทางเพียง 30–50 นาที</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.75rem; margin-bottom:2rem;">
+                <!-- Route 1: Phuket (Bang Rong Pier) -->
+                <div class="form-envelope-card" style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ROUTE A • จ.ภูเก็ต (แนะนำ)</span>
+                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;">ท่าเรือบางโรง (ภูเก็ต) → เกาะยาวใหญ่</h4>
+                        </div>
+                        <span class="status-pill approved">ใช้เวลา 30–45 นาที</span>
+                    </div>
+
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); margin-bottom:1.15rem; line-height:1.7;">
+                        <strong>ท่าเรือบางโรง (อ.ถลาง จ.ภูเก็ต)</strong> อยู่ห่างจากสนามบินนานาชาติภูเก็ตประมาณ 20 นาที มีทั้งเรือสปีดโบ๊ทและเรือหางยาวโดยสารให้บริการทุกวัน ลงที่ <strong>ท่าเรือคลองเหีย</strong> หรือ <strong>ท่าเรือโล๊ะจาก</strong>
+                    </p>
+
+                    <table class="size-matrix-table" style="text-align:left;">
+                        <thead>
+                            <tr>
+                                <th>ประเภทเรือ</th>
+                                <th>ท่าเรือปลายทาง</th>
+                                <th>รอบเรือโดยประมาณ</th>
+                                <th>อัตราค่าโดยสาร</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>สปีดโบ๊ท (Speedboat)</strong></td>
+                                <td>คลองเหีย / โล๊ะจาก</td>
+                                <td>07.30 – 17.30 น. (ออกทุก 1 ชม.)</td>
+                                <td>~300 – 400 บ./เที่ยว</td>
+                            </tr>
+                            <tr>
+                                <td><strong>เรือหางยาวโดยสาร</strong></td>
+                                <td>คลองเหีย / โล๊ะจาก</td>
+                                <td>08.00 / 10.30 / 13.00 / 16.00 น.</td>
+                                <td>~200 – 250 บ./เที่ยว</td>
+                            </tr>
+                            <tr>
+                                <td><strong>เรือเฟอร์รี่ (นำรถยนต์ข้าม)</strong></td>
+                                <td>ท่าเรือคลองเหีย</td>
+                                <td>วันละ 2–3 รอบ (ตรวจสอบล่วงหน้า)</td>
+                                <td>รถยนต์ ~600–800 บ.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top:0.85rem; padding:0.75rem 1rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); font-size:0.84rem; color:#155E75; border-radius:0 6px 6px 0;">
+                        <strong>จุดเด่น:</strong> หากเลือกขึ้นเรือรอบที่เทียบท่า <strong>ท่าเรืออ่าวโล๊ะจาก</strong> จะถึงบริเวณจุดปล่อยตัวและเต็นท์รับบิบโดยตรงทันที
+                    </div>
+                </div>
+
+                <!-- Route 2: Krabi & Phang Nga -->
+                <div class="form-envelope-card" style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ROUTE B • จ.กระบี่ & จ.พังงา</span>
+                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;">ท่าเรือท่าเลน (กระบี่) / ด่านศุลกากร (พังงา)</h4>
+                        </div>
+                        <span class="status-pill pending">ใช้เวลา 30–50 นาที</span>
+                    </div>
+
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); margin-bottom:1.15rem; line-height:1.7;">
+                        สำหรับนักวิ่งที่เดินทางมาจากฝั่งจังหวัดกระบี่ สุราษฎร์ธานี หรืออำเภอเมืองพังงา สามารถขึ้นเรือได้ที่ <strong>ท่าเรือท่าเลน (จ.กระบี่)</strong> หรือ <strong>ท่าเรือด่านศุลกากร (จ.พังงา)</strong>
+                    </p>
+
+                    <table class="size-matrix-table" style="text-align:left;">
+                        <thead>
+                            <tr>
+                                <th>ท่าเรือต้นทาง</th>
+                                <th>ท่าเรือปลายทาง</th>
+                                <th>รอบเรือโดยประมาณ</th>
+                                <th>อัตราค่าโดยสาร</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>ท่าเรือท่าเลน (จ.กระบี่)</strong></td>
+                                <td>ท่าเรือคลองเหีย</td>
+                                <td>09.00 / 11.30 / 13.30 / 16.30 น.</td>
+                                <td>~250 – 350 บ./เที่ยว</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ท่าเรือด่านศุลกากร (พังงา)</strong></td>
+                                <td>เกาะยาวน้อย → ยาวใหญ่</td>
+                                <td>09.30 / 13.00 / 15.30 น.</td>
+                                <td>~200 – 300 บ./เที่ยว</td>
+                            </tr>
+                            <tr>
+                                <td><strong>เกาะยาวน้อย → เกาะยาวใหญ่</strong></td>
+                                <td>ท่าเรือช่องหลาด</td>
+                                <td>07.00 – 17.00 น. (เรือหางยาวข้ามฟาก)</td>
+                                <td>~50 บ./เที่ยว (10 นาที)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top:0.85rem; padding:0.75rem 1rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); font-size:0.84rem; color:#92400E; border-radius:0 6px 6px 0;">
+                        <strong>หมายเหตุ:</strong> ตารางเวลาเรืออาจปรับเปลี่ยนตามสภาพอากาศและระดับน้ำขึ้น-น้ำลง กรุณาเผื่อเวลาเดินทางและยืนยันรอบเรือกับผู้ประกอบการล่วงหน้า 1–2 วัน
+                    </div>
+                </div>
+            </div>
+
+            <!-- Local Transport on Koh Yao Yai -->
+            <div class="form-envelope-card" style="max-width:100%; padding:1.75rem 2rem; background:var(--canvas-subtle); border:1px solid var(--border-subtle);">
+                <h4 style="font-size:1.15rem; color:var(--navy-marine); margin-bottom:0.65rem;">
+                    การเดินทางบนเกาะยาวใหญ่ (จากท่าเรือคลองเหีย → อ่าวโล๊ะจาก)
+                </h4>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; font-size:0.9rem; color:var(--ink-secondary);">
+                    <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <strong style="color:var(--teal-andaman); display:block; margin-bottom:4px;">1. รถสองแถวท้องถิ่น & รถรับจ้าง</strong>
+                        มีรถสองแถวจอดให้บริการบริเวณหน้าท่าเรือคลองเหีย และท่าเรือช่องหลาด สามารถเหมาหรือแชร์ค่าโดยสารไปยังที่พักโซนตำบลพรุในและอ่าวโล๊ะจากได้สะดวก (ระยะทาง ~12 กม. ใช้เวลา 15–20 นาที)
+                    </div>
+                    <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <strong style="color:var(--navy-marine); display:block; margin-bottom:4px;">2. บริการเช่ารถจักรยานยนต์รายวัน</strong>
+                        มีร้านเช่ารถจักรยานยนต์บริเวณหน้าท่าเรือและที่พัก ราคาประมาณ 250–350 บาท/วัน เหมาะสำหรับเดินทางไปรับเสื้อแข่งขัน หาของรับประทาน และเที่ยวชมรอบเกาะยาวใหญ่
+                    </div>
+                    <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <strong style="color:var(--gold-dark); display:block; margin-bottom:4px;">3. บริการรถรับ-ส่งของที่พัก</strong>
+                        รีสอร์ทและโฮมสเตย์ส่วนใหญ่ในตำบลพรุในมีบริการรถรับ-ส่งจากท่าเรือ และจัดรถรับ-ส่งนักวิ่งมายังจุดปล่อยตัวอ่าวโล๊ะจากในช่วงเช้ามืดวันแข่งขัน (แนะนำให้แจ้งที่พักล่วงหน้าขณะจอง)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ACCOMMODATIONS NEAR START LINE ================= -->
+    <section class="section" id="stay" style="background:#FFFFFF; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle);">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> ที่พักแนะนำสำหรับนักวิ่ง</div>
+                <h3 class="section-title">โซนที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</h3>
+                <p class="section-desc">เลือกโซนที่พักให้เหมาะกับสไตล์การเดินทางของคุณ ทั้งโซนใกล้จุดปล่อยตัวในตำบลพรุใน โซนริมทะเลฝั่งตะวันตก และโฮมสเตย์วิถีชุมชน</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem;">
+                <!-- Zone 1 -->
+                <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--teal-andaman); display:flex; flex-direction:column;">
+                    <span style="font-size:0.76rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ZONE 1 • ห่างจุดปล่อยตัว 0–3 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนอ่าวโล๊ะจาก & บ้านพรุใน</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                        พื้นที่ใกล้จุดปล่อยตัวและเส้นชัยมากที่สุด สามารถเดินหรือนั่งรถเพียง 5 นาทีถึงบริเวณงานในเช้ามืด เหมาะสำหรับนักวิ่งที่ต้องการความสะดวกในการรับเสื้อและเช็คบิบเวลา 05.00 น.
+                    </p>
+                    <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
+                        <li style="margin-bottom:4px;">• รีสอร์ทขนาดเล็กและบังกะโลริมหาดอ่าวโล๊ะจาก</li>
+                        <li style="margin-bottom:4px;">• บ้านพักรับรองและห้องพักรายวันในชุมชนพรุใน</li>
+                        <li>• ใกล้ร้านอาหารพื้นบ้านและตลาดชุมชน</li>
+                    </ul>
+                </div>
+
+                <!-- Zone 2 -->
+                <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--gold-sand); display:flex; flex-direction:column;">
+                    <span style="font-size:0.76rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ZONE 2 • ห่างจุดปล่อยตัว 4–8 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนหาดสน – อ่าวคลองสน – หาดโล๊ะปาแรด</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                        โซนรีสอร์ทริมทะเลบรรยากาศเงียบสงบทางฝั่งตะวันตกของเกาะ มีที่พักให้เลือกหลากหลายระดับ ตั้งแต่บูทีครีสอร์ทไปจนถึงพูลวิลล่าริมชายหาด ใช้เวลาเดินทางมาอ่าวโล๊ะจากประมาณ 10–15 นาที
+                    </p>
+                    <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
+                        <li style="margin-bottom:4px;">• เหมาะสำหรับนักวิ่งที่พาครอบครัวมาพักผ่อน</li>
+                        <li style="margin-bottom:4px;">• วิวพระอาทิตย์ตกและหมู่เกาะฝั่งภูเก็ตสวยงาม</li>
+                        <li>• มีบริการรถรับ-ส่งและรถเช่าครบครัน</li>
+                    </ul>
+                </div>
+
+                <!-- Zone 3 -->
+                <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--cyan-horizon); display:flex; flex-direction:column;">
+                    <span style="font-size:0.76rem; font-weight:700; color:#0E7490; text-transform:uppercase;">ZONE 3 • ห่างจุดปล่อยตัว 10–16 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนคลองเหีย – อ่าวหินกอง – แหลมหาด</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                        โซนใกล้ท่าเรือหลัก (คลองเหีย) และจุดชมวิวสันทรายแหลมหาด เหมาะสำหรับผู้ที่เดินทางด้วยเรือรอบบ่ายแก่ ๆ และต้องการพักใกล้แหล่งท่องเที่ยวสำคัญทางตอนเหนือของเกาะ
+                    </p>
+                    <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
+                        <li style="margin-bottom:4px;">• เดินทางจากท่าเรือคลองเหียถึงที่พักใน 5 นาที</li>
+                        <li style="margin-bottom:4px;">• ใกล้จุดถ่ายภาพทะเลแหวกแหลมหาด</li>
+                        <li>• ใช้เวลาเดินทางไปจุดปล่อยตัว ~20 นาที</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= LOCAL ATTRACTIONS & FOOD ================= -->
+    <section class="section" id="attractions">
+        <div class="container">
+            <div class="section-header">
+                <div class="badge-tag"><span class="dot"></span> กิน เที่ยว พักผ่อนหลังเข้าเส้นชัย</div>
+                <h3 class="section-title">สัมผัสเสน่ห์เกาะยาวใหญ่ & อาหารพื้นบ้าน</h3>
+                <p class="section-desc">หลังจบการแข่งขันในช่วงเช้า ขอเชิญร่วมลิ้มรสอาหารทะเลสดใหม่และแวะเช็กอินจุดท่องเที่ยวสำคัญของตำบลพรุใน</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.5rem;">
+                <div style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card);">
+                    <div style="height:200px; overflow:hidden;">
+                        <img src="Photo/50769_0.jpg" alt="แหลมหาด เกาะยาวใหญ่" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div style="padding:1.4rem;">
+                        <span style="font-size:0.75rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">LANDMARK</span>
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">แหลมหาด (สันทรายทะเลแหวก)</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            หาดทรายสีขาวทอดยาวกลางน้ำทะเลสีมรกต ฉากหลังเป็นเกาะยาวน้อยและอ่าวพังงา แนะนำให้ตรวจสอบเวลาน้ำลงเพื่อเดินบนสันทราย
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card);">
+                    <div style="height:200px; overflow:hidden;">
+                        <img src="Photo/โล๊ะจาก2.jpg" onerror="this.src='Photo/lohjak2.jpg'" alt="สะพานท่าเรือโล๊ะจาก" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div style="padding:1.4rem;">
+                        <span style="font-size:0.75rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">SUNSET VIEWPOINT</span>
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">สะพานท่าเรืออ่าวโล๊ะจาก</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            จุดชมพระอาทิตย์ตกที่งดงามที่สุดแห่งหนึ่งบนเกาะยาวใหญ่ ตั้งอยู่ติดกับบริเวณจุดปล่อยตัวและเส้นชัยของกิจกรรมวิ่งเปิดโลกทะเล
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card);">
+                    <div style="height:200px; overflow:hidden;">
+                        <img src="Photo/เรือปลา.jpg" onerror="this.src='Photo/rueapla.jpg'" alt="กระชังปลาและอาหารทะเลเกาะยาว" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div style="padding:1.4rem;">
+                        <span style="font-size:0.75rem; font-weight:700; color:var(--navy-marine); text-transform:uppercase;">LOCAL GASTRONOMY</span>
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">กระชังกุ้งมังกร & ซีฟู้ดพื้นบ้าน</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                            ลิ้มรสอาหารทะเลสดจากกระชังชาวประมงพื้นบ้านตำบลพรุใน อาทิ กุ้งมังกรเจ็ดสี ปลาเก๋านึ่งซีอิ๊ว แกงส้มปลากะพง และขนมพื้นเมืองเกาะยาว
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin-top:3rem;">
+                <a href="register.html" class="btn btn-accent" style="padding:0.95rem 2.25rem; font-size:1.05rem;">
+                    พร้อมแล้ว! สมัครเข้าร่วมแข่งขันวิ่งเปิดโลกทะเล ๒๕๗๐ →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.25rem;">
+                        <img src="Photo/logo.jpeg" alt="ตราเทศบาล" style="width:48px; height:48px; border-radius:50%; background:#fff;">
+                        <div>
+                            <div class="footer-brand-title">เปิดโลกทะเล ๒๕๗๐</div>
+                            <span style="font-size:0.8rem; color:#94A3B8;">เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;">
+                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดขึ้นเพื่อส่งเสริมสุขภาพของประชาชน
+                        กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
+                    </p>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
+                        เมนูนำทาง</h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html">หน้าแรก</a></li>
+                        <li><a href="register.html">สมัครแข่งขันออนไลน์</a></li>
+                        <li><a href="status.html">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
+                        <li><a href="guide.html">คู่มือเดินทาง & ตารางเรือ</a></li>
+                        <li><a href="admin.html">ระบบเจ้าหน้าที่ (Admin)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
+                        กองอำนวยการจัดการแข่งขัน</h5>
+                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;">
+                        สำนักงานเทศบาลตำบลพรุใน<br>
+                        อำเภอเกาะยาว จังหวัดพังงา 82160<br>
+                        โทรศัพท์: 076-597-504<br>
+                        อีเมล: contact@phrunai.go.th
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar">
+                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const mobileToggleBtn = document.getElementById('mobileToggle');
+        const navMenuEl = document.getElementById('navMenu');
+
+        if (mobileToggleBtn && navMenuEl) {
+            mobileToggleBtn.addEventListener('click', function () {
+                navMenuEl.classList.toggle('open');
+            });
+
+            navMenuEl.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenuEl.classList.remove('open');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

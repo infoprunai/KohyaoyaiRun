@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบจัดการแข่งขันสำหรับเจ้าหน้าที่ (Admin Cockpit) | เปิดโลกทะเล ๒๕๗๐</title>
+    <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+
+    <style>
+        .admin-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-pill-group {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-filter-btn {
+            font-family: var(--font-heading);
+            font-size: 0.84rem;
+            font-weight: 600;
+            padding: 0.42rem 0.95rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--border-subtle);
+            background: #FFFFFF;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cat-filter-btn:hover {
+            border-color: var(--navy-marine);
+            color: var(--navy-marine);
+        }
+
+        .cat-filter-btn.active {
+            background: var(--navy-marine);
+            border-color: var(--navy-marine);
+            color: #FFFFFF;
+        }
+
+        .shirt-summary-strip {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2.25rem;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .shirt-size-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .shirt-chip {
+            background: var(--canvas-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 0.35rem 0.75rem;
+            font-size: 0.82rem;
+            color: var(--ink-primary);
+            font-weight: 600;
+        }
+
+        .admin-table-wrapper {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-subtle);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .admin-runners-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            text-align: left;
+            min-width: 820px;
+        }
+
+        .admin-runners-table th {
+            background: var(--canvas-subtle);
+            color: var(--navy-marine);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            padding: 0.85rem 1rem;
+            border-bottom: 1.5px solid var(--border-subtle);
+            white-space: nowrap;
+        }
+
+        .admin-runners-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            vertical-align: middle;
+            color: var(--ink-secondary);
+        }
+
+        .admin-runners-table tr:hover td {
+            background: #F8FAFC;
+        }
+
+        .dup-badge-inline {
+            display: inline-block;
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #FCA5A5;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-pill);
+            margin-top: 4px;
+        }
+
+        .reason-chip {
+            display: inline-block;
+            background: var(--canvas-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill);
+            padding: 0.32rem 0.75rem;
+            font-size: 0.8rem;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            margin: 0.2rem 0.25rem 0.2rem 0;
+            transition: var(--transition);
+        }
+
+        .reason-chip:hover {
+            background: #FEE2E2;
+            border-color: #FCA5A5;
+            color: #991B1B;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= SITE NAVIGATION ================= -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="brand-wrapper">
+                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-text">
+                    <h1>เปิดโลกทะเล ๒๕๗๐</h1>
+                    <span>RACE OPERATIONS COCKPIT • เทศบาลตำบลพรุใน</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="register.html" class="nav-link">หน้าลงทะเบียน</a></li>
+                <li><button type="button" class="nav-admin-badge" onclick="refreshAdminDashboard()" style="cursor:pointer;">รีเฟรชข้อมูล</button></li>
+                <li><button type="button" class="nav-btn-register" onclick="lockAdminSession()" style="cursor:pointer;">ล็อกหน้าจอ</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= ADMIN PIN LOCK MODAL ================= -->
+    <div id="adminPinModal" style="display:flex; position:fixed; inset:0; background:rgba(3,20,27,0.88); backdrop-filter:blur(12px); z-index:3000; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:440px; width:100%; padding:2.5rem; box-shadow:var(--shadow-floating); text-align:center;">
+            <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:64px; height:64px; border-radius:50%; margin:0 auto 1rem auto; border:2px solid var(--teal-andaman);">
+            <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">STAFF AUTHENTICATION</span>
+            <h2 style="color:var(--navy-marine); font-size:1.45rem; margin:0.25rem 0 0.5rem 0;">เข้าสู่ระบบเจ้าหน้าที่จัดการแข่งขัน</h2>
+            <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem;">
+                กรุณากรอกรหัสผ่านเจ้าหน้าที่ 4 หลัก เพื่อตรวจสอบสลิปการโอนเงินและออกหมายเลข BIB
+            </p>
+
+            <form onsubmit="event.preventDefault(); verifyAdminAccess();">
+                <div class="form-field-group" style="margin-bottom:1rem;">
+                    <input type="password" inputmode="numeric" maxlength="6" id="adminPinInput" class="form-input-control" placeholder="รหัสผ่านเจ้าหน้าที่ (เช่น 2570)" style="text-align:center; font-size:1.35rem; letter-spacing:0.25em; font-weight:700;" required autofocus>
+                </div>
+                <div id="pinErrorMsg" style="display:none; color:#DC2626; font-size:0.84rem; margin-bottom:1rem; font-weight:600;">
+                    รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+                    ยืนยันเข้าสู่ระบบเจ้าหน้าที่ →
+                </button>
+            </form>
+
+            <div style="margin-top:1.25rem; font-size:0.8rem; color:var(--ink-muted);">
+                <a href="index.html" style="color:var(--teal-andaman); font-weight:600;">← กลับสู่หน้าหลักเว็บไซต์</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MAIN ADMIN COCKPIT ================= -->
+    <main class="section" style="padding-top:2.75rem;">
+        <div class="container">
+            <!-- Header Bar -->
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;">
+                <div>
+                    <div class="badge-tag"><span class="dot"></span> กองอำนวยการจัดการแข่งขัน เทศบาลตำบลพรุใน</div>
+                    <h2 style="font-size:1.95rem; color:var(--navy-marine); margin:0;">ระบบตรวจสอบสลิป & บริหารรายชื่อนักวิ่ง</h2>
+                </div>
+                <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="refreshAdminDashboard()">
+                        อัปเดตข้อมูลล่าสุด
+                    </button>
+                    <button type="button" class="btn btn-accent btn-sm" onclick="exportRunnersCSV()">
+                        ส่งออกไฟล์ Excel (CSV) ↓
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Metrics Row -->
+            <div class="admin-metrics-row">
+                <div class="metric-kpi-card kpi-navy">
+                    <div class="kpi-label">ผู้สมัครทั้งหมด (โควตา 400)</div>
+                    <div class="kpi-number" id="kpiTotal">0</div>
+                    <div style="font-size:0.8rem; color:var(--ink-muted);" id="kpiBreakdown">5 กม.: 0/200 • 10 กม.: 0/200</div>
+                </div>
+
+                <div class="metric-kpi-card kpi-gold">
+                    <div class="kpi-label">รอตรวจสอบสลิป (PENDING)</div>
+                    <div class="kpi-number" id="kpiPending" style="color:var(--status-pending);">0</div>
+                    <div style="font-size:0.8rem; color:var(--ink-muted);">รายการที่รอการอนุมัติ</div>
+                </div>
+
+                <div class="metric-kpi-card kpi-green">
+                    <div class="kpi-label">อนุมัติแล้ว (APPROVED)</div>
+                    <div class="kpi-number" id="kpiApproved" style="color:var(--status-approved);">0</div>
+                    <div style="font-size:0.8rem; color:var(--ink-muted);">ออกหมายเลข BIB เรียบร้อย</div>
+                </div>
+
+                <div class="metric-kpi-card kpi-cyan">
+                    <div class="kpi-label">ยอดเงินที่ยืนยันแล้ว</div>
+                    <div class="kpi-number" id="kpiRevenue" style="color:var(--teal-andaman);">฿0</div>
+                    <div style="font-size:0.8rem; color:var(--ink-muted);" id="kpiPendingRevenue">ยอดรอตรวจ: ฿0</div>
+                </div>
+            </div>
+
+            <!-- Shirt Production Summary Strip -->
+            <div class="shirt-summary-strip">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                    <strong style="color:var(--navy-marine); font-size:0.95rem;">
+                        สรุปยอดสั่งผลิตเสื้อแข่งขัน (เฉพาะรายการที่อนุมัติแล้ว & รอตรวจสอบ)
+                    </strong>
+                    <span style="font-size:0.84rem; color:var(--teal-andaman); font-weight:700;" id="sleeveTypeSummary">
+                        แขนสั้น: 0 ตัว • แขนยาว: 0 ตัว
+                    </span>
+                </div>
+                <div class="shirt-size-chips" id="shirtSizeBreakdown">
+                    <span class="shirt-chip">กำลังคำนวณจำนวนเสื้อ...</span>
+                </div>
+            </div>
+
+            <!-- ================= PENDING VERIFICATION QUEUE ================= -->
+            <section id="pendingQueueSection" style="margin-bottom:3.5rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+                    <h3 style="font-size:1.35rem; color:var(--navy-marine); margin:0;">
+                        รายการรอตรวจสอบสลิปการโอนเงิน (<span id="pendingQueueCount">0</span> รายการ)
+                    </h3>
+                    <span style="font-size:0.84rem; color:var(--ink-muted);">* คลิกที่รูปสลิปเพื่อขยายดูรายละเอียดเต็มหน้าจอ</span>
+                </div>
+
+                <div id="pendingQueueList">
+                    <div class="form-envelope-card" style="text-align:center; padding:2.5rem; max-width:100%;">
+                        กำลังโหลดรายการตรวจสอบ...
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= ALL RUNNERS DIRECTORY ================= -->
+            <section id="allRunners">
+                <div class="admin-toolbar">
+                    <div>
+                        <h3 style="font-size:1.35rem; color:var(--navy-marine); margin:0 0 0.5rem 0;">
+                            ทะเบียนรายชื่อนักวิ่งทั้งหมด (<span id="filteredRunnerCount">0</span> คน)
+                        </h3>
+                        <div class="filter-pill-group">
+                            <button type="button" class="cat-filter-btn active" data-cat="ALL" onclick="setCategoryFilter('ALL', this)">ทุกระยะทาง</button>
+                            <button type="button" class="cat-filter-btn" data-cat="5K" onclick="setCategoryFilter('5K', this)">ระยะ 5 กม.</button>
+                            <button type="button" class="cat-filter-btn" data-cat="10K" onclick="setCategoryFilter('10K', this)">ระยะ 10 กม.</button>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                        <select id="statusFilter" class="form-input-control" style="width:190px;" onchange="renderAllRunnersTable()">
+                            <option value="ALL">ทุกสถานะ (All)</option>
+                            <option value="PENDING">รอตรวจสอบ (Pending)</option>
+                            <option value="APPROVED">อนุมัติแล้ว (Approved)</option>
+                            <option value="REJECTED">ไม่ผ่านการอนุมัติ (Rejected)</option>
+                        </select>
+                        <input type="text" id="tableSearch" class="form-input-control" style="width:270px;" placeholder="ค้นหา BIB / ชื่อ / เลขบัตร / เบอร์โทร..." oninput="renderAllRunnersTable()">
+                    </div>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-runners-table">
+                        <thead>
+                            <tr>
+                                <th>หมายเลข BIB</th>
+                                <th>ชื่อ-นามสกุล / เลขบัตร</th>
+                                <th>ระยะทาง</th>
+                                <th>เสื้อ & ยอดชำระ</th>
+                                <th>เบอร์โทร / ฉุกเฉิน</th>
+                                <th>สถานะ</th>
+                                <th>จัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runnersTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding:2rem; color:var(--ink-muted);">กำลังโหลดรายชื่อนักวิ่ง...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ================= SLIP ZOOM LIGHTBOX MODAL ================= -->
+    <div id="slipZoomModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.85); backdrop-filter:blur(8px); z-index:2500; align-items:center; justify-content:center; padding:1.5rem;" onclick="if(event.target===this) closeSlipZoomModal()">
+        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:560px; width:100%; max-height:92vh; overflow-y:auto; padding:1.75rem; box-shadow:var(--shadow-floating); position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;">
+                <div>
+                    <strong style="color:var(--navy-marine); font-size:1.1rem;" id="zoomModalRunnerName">หลักฐานการโอนเงิน</strong>
+                    <div style="font-size:0.82rem; color:var(--teal-andaman); font-weight:600;" id="zoomModalPaymentMeta"></div>
+                </div>
+                <button type="button" onclick="closeSlipZoomModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
+            </div>
+            <div style="background:#0B1920; border-radius:var(--radius-sm); padding:0.75rem; text-align:center;">
+                <img id="zoomModalImg" src="" alt="สลิปขยายเต็มขนาด" style="max-height:65vh; margin:0 auto; border-radius:6px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= REJECT REASON MODAL ================= -->
+    <div id="rejectModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.78); backdrop-filter:blur(8px); z-index:2500; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:520px; width:100%; padding:2rem; box-shadow:var(--shadow-floating);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;">
+                <h3 style="color:#991B1B; font-size:1.2rem; margin:0;">ระบุสาเหตุที่สลิปไม่ผ่านการอนุมัติ</h3>
+                <button type="button" onclick="closeRejectModal()" style="border:none; background:none; font-size:1.4rem; cursor:pointer; color:var(--ink-muted);">✕</button>
+            </div>
+
+            <p style="font-size:0.88rem; color:var(--ink-secondary); margin-bottom:0.85rem;">
+                นักวิ่ง: <strong id="rejectRunnerName">-</strong> (ข้อความนี้จะแสดงให้นักวิ่งเห็นเพื่อส่งสลิปใหม่)
+            </p>
+
+            <div style="margin-bottom:0.85rem;">
+                <span class="reason-chip" onclick="fillRejectReason('ยอดโอนไม่ครบตามที่กำหนด (กรุณาตรวจสอบค่าเสื้อแขนยาว +50 บาท)')">ยอดโอนไม่ครบ (+50 บ. แขนยาว)</span>
+                <span class="reason-chip" onclick="fillRejectReason('ภาพสลิปไม่ชัดเจน ไม่เห็นวันเวลาหรือยอดเงินโอน')">ภาพสลิปไม่ชัดเจน</span>
+                <span class="reason-chip" onclick="fillRejectReason('ตรวจพบสลิปซ้ำกับรายการลงทะเบียนอื่นในระบบ')">สลิปซ้ำกับรายการอื่น</span>
+                <span class="reason-chip" onclick="fillRejectReason('บัญชีปลายทางไม่ถูกต้อง กรุณาโอนเข้าบัญชีงานเปิดโลกทะเล')">บัญชีปลายทางไม่ถูกต้อง</span>
+            </div>
+
+            <input type="hidden" id="rejectRegId">
+            <div class="form-field-group">
+                <textarea id="rejectReasonInput" rows="3" class="form-input-control" placeholder="พิมพ์รายละเอียดสาเหตุ..." required></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="closeRejectModal()">ยกเลิก</button>
+                <button type="button" class="btn btn-danger btn-sm" id="confirmRejectBtn" onclick="confirmRejectRegistration()">ยืนยันปฏิเสธสลิป</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script>
+        let allRunnersCache = [];
+        let selectedCategoryFilter = 'ALL';
+        const ADMIN_SESSION_KEY = 'kohyao_admin_unlocked_2570';
+
+        const mobileToggleBtn = document.getElementById('mobileToggle');
+        const navMenuEl = document.getElementById('navMenu');
+
+        if (mobileToggleBtn && navMenuEl) {
+            mobileToggleBtn.addEventListener('click', function () {
+                navMenuEl.classList.toggle('open');
+            });
+
+            navMenuEl.querySelectorAll('a, button').forEach(el => {
+                el.addEventListener('click', () => {
+                    navMenuEl.classList.remove('open');
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function verifyAdminAccess() {
+            const pin = document.getElementById('adminPinInput').value.trim();
+            const isValid = (window.KohYaoStore && typeof window.KohYaoStore.verifyAdminPin === 'function')
+                ? window.KohYaoStore.verifyAdminPin(pin)
+                : (pin === '2570' || pin === '1234');
+
+            if (isValid) {
+                sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+                document.getElementById('adminPinModal').style.display = 'none';
+                document.getElementById('pinErrorMsg').style.display = 'none';
+                refreshAdminDashboard();
+            } else {
+                document.getElementById('pinErrorMsg').style.display = 'block';
+                document.getElementById('adminPinInput').value = '';
+                document.getElementById('adminPinInput').focus();
+            }
+        }
+
+        function lockAdminSession() {
+            sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('adminPinModal').style.display = 'flex';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') {
+                document.getElementById('adminPinModal').style.display = 'none';
+                refreshAdminDashboard();
+            }
+        });
+
+        async function refreshAdminDashboard() {
+            if (!window.KohYaoStore || !window.KohYaoStore.getAllRegistrations) {
+                alert('ไม่พบข้อมูลระบบจัดเก็บ (js/store.js)');
+                return;
+            }
+
+            allRunnersCache = await window.KohYaoStore.getAllRegistrations();
+            updateAdminKPIs();
+            renderShirtSummary();
+            renderPendingQueue();
+            renderAllRunnersTable();
+        }
+
+        function getStatusConstants() {
+            return (window.KohYaoStore && window.KohYaoStore.STATUS)
+                ? window.KohYaoStore.STATUS
+                : { PENDING: 'PENDING', APPROVED: 'APPROVED', REJECTED: 'REJECTED' };
+        }
+
+        function updateAdminKPIs() {
+            const ST = getStatusConstants();
+            const activeRunners = allRunnersCache.filter(r => r.status !== ST.REJECTED);
+            const count5K = activeRunners.filter(r => r.category === '5K').length;
+            const count10K = activeRunners.filter(r => r.category === '10K').length;
+            const pendingList = allRunnersCache.filter(r => r.status === ST.PENDING);
+            const approvedList = allRunnersCache.filter(r => r.status === ST.APPROVED);
+
+            const approvedRevenue = approvedList.reduce((sum, r) => sum + (Number(r.amount) || (r.category === '10K' ? 450 : 350)), 0);
+            const pendingRevenue = pendingList.reduce((sum, r) => sum + (Number(r.amount) || (r.category === '10K' ? 450 : 350)), 0);
+
+            document.getElementById('kpiTotal').textContent = activeRunners.length;
+            document.getElementById('kpiBreakdown').textContent = `5 กม.: ${count5K}/200 • 10 กม.: ${count10K}/200`;
+            document.getElementById('kpiPending').textContent = pendingList.length;
+            document.getElementById('kpiApproved').textContent = approvedList.length;
+            document.getElementById('kpiRevenue').textContent = `฿${approvedRevenue.toLocaleString()}`;
+            document.getElementById('kpiPendingRevenue').textContent = `ยอดรอตรวจสอบ: ฿${pendingRevenue.toLocaleString()}`;
+        }
+
+        function renderShirtSummary() {
+            const ST = getStatusConstants();
+            const active = allRunnersCache.filter(r => r.status !== ST.REJECTED);
+
+            let shortCount = 0;
+            let longCount = 0;
+            const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+            const sizeCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
+
+            active.forEach(r => {
+                if ((r.shirtType || 'แขนสั้น') === 'แขนยาว') longCount++;
+                else shortCount++;
+
+                if (sizeCounts.hasOwnProperty(r.shirtSize)) {
+                    sizeCounts[r.shirtSize]++;
+                }
+            });
+
+            document.getElementById('sleeveTypeSummary').textContent = `แขนสั้น: ${shortCount} ตัว • แขนยาว: ${longCount} ตัว (รวม ${active.length} ตัว)`;
+            document.getElementById('shirtSizeBreakdown').innerHTML = sizes.map(sz =>
+                `<span class="shirt-chip">ไซส์ ${sz}: <strong>${sizeCounts[sz]}</strong> ตัว</span>`
+            ).join('');
+        }
+
+        function getDuplicateHashSet() {
+            const counts = {};
+            allRunnersCache.forEach(r => {
+                if (r.slipHash) {
+                    counts[r.slipHash] = (counts[r.slipHash] || 0) + 1;
+                }
+            });
+            const dups = new Set();
+            Object.keys(counts).forEach(h => {
+                if (counts[h] > 1) dups.add(h);
+            });
+            return dups;
+        }
+
+        function renderPendingQueue() {
+            const ST = getStatusConstants();
+            const pendingList = allRunnersCache.filter(r => r.status === ST.PENDING);
+            const dupHashes = getDuplicateHashSet();
+
+            document.getElementById('pendingQueueCount').textContent = pendingList.length;
+            const container = document.getElementById('pendingQueueList');
+
+            if (pendingList.length === 0) {
+                container.innerHTML = `
+                    <div class="form-envelope-card" style="text-align:center; padding:2.25rem; max-width:100%; background:#F8FAFC;">
+                        <strong style="color:var(--status-approved); font-size:1.05rem;">ไม่มีรายการรอตรวจสอบสลิปในขณะนี้</strong>
+                        <p style="font-size:0.88rem; color:var(--ink-muted); margin-top:4px;">รายการสมัครใหม่ทั้งหมดได้รับการตรวจสอบเรียบร้อยแล้ว</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pendingList.map(r => {
+                const shirtType = r.shirtType || 'แขนสั้น';
+                const expectedFee = (r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0);
+                const amountVal = Number(r.amount) || expectedFee;
+                const isDup = r.slipHash && dupHashes.has(r.slipHash);
+                const slipSrc = r.slipUrl || 'Photo/Qr Payment.jpg';
+
+                return `
+                    <div class="review-card-item">
+                        <div>
+                            <img src="${slipSrc}" alt="สลิปโอนเงิน ${escapeHtml(r.firstName)}" class="review-slip-thumb" onclick="openSlipZoomModal('${r.id}')">
+                        </div>
+
+                        <div>
+                            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.35rem;">
+                                <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-muted);">${escapeHtml(r.id)}</span>
+                                <span class="status-pill ${r.category === '10K' ? 'pending' : 'approved'}">ระยะ ${escapeHtml(r.category)}</span>
+                                <span style="font-size:0.78rem; color:var(--ink-muted);">ส่งเมื่อ: ${new Date(r.createdAt).toLocaleString('th-TH')}</span>
+                            </div>
+
+                            <h4 style="font-size:1.2rem; color:var(--navy-marine); margin-bottom:0.4rem;">
+                                ${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}
+                                <span style="font-size:0.85rem; font-weight:500; color:var(--ink-muted);">(${escapeHtml(r.gender)} • ${escapeHtml(r.ageGroup || '-')})</span>
+                            </h4>
+
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:0.5rem; font-size:0.88rem; color:var(--ink-secondary); margin-bottom:0.5rem;">
+                                <div>เลขบัตร: <strong>${escapeHtml(r.idCard)}</strong></div>
+                                <div>เบอร์โทร: <strong>${escapeHtml(r.phone)}</strong></div>
+                                <div>เสื้อ: <strong>ไซส์ ${escapeHtml(r.shirtSize)} (${escapeHtml(shirtType)})</strong></div>
+                                <div>ยอดที่ต้องชำระ: <strong style="color:var(--teal-andaman); font-size:1rem;">฿${amountVal}</strong></div>
+                            </div>
+
+                            ${isDup ? `
+                                <div class="dup-badge-inline">
+                                    คำเตือน: ตรวจพบภาพสลิปซ้ำกับรายการอื่นในระบบ กรุณาตรวจสอบละเอียด
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                            <button type="button" class="btn btn-success btn-sm" style="width:100%; justify-content:center;" onclick="handleApproveRunner('${r.id}')">
+                                อนุมัติ & ออก BIB
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" style="width:100%; justify-content:center;" onclick="openRejectModal('${r.id}', '${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}')">
+                                ปฏิเสธสลิป
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" style="width:100%; justify-content:center;" onclick="openSlipZoomModal('${r.id}')">
+                                ขยายภาพสลิป
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setCategoryFilter(cat, btnEl) {
+            selectedCategoryFilter = cat;
+            document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderAllRunnersTable();
+        }
+
+        function renderAllRunnersTable() {
+            const ST = getStatusConstants();
+            const statusVal = document.getElementById('statusFilter').value;
+            const keyword = document.getElementById('tableSearch').value.trim().toLowerCase();
+
+            const filtered = allRunnersCache.filter(r => {
+                if (selectedCategoryFilter !== 'ALL' && r.category !== selectedCategoryFilter) return false;
+                if (statusVal !== 'ALL' && r.status !== statusVal) return false;
+                if (keyword) {
+                    const hay = `${r.bibNumber || ''} ${r.id || ''} ${r.firstName || ''} ${r.lastName || ''} ${r.idCard || ''} ${r.phone || ''}`.toLowerCase();
+                    if (!hay.includes(keyword)) return false;
+                }
+                return true;
+            });
+
+            document.getElementById('filteredRunnerCount').textContent = filtered.length;
+            const tbody = document.getElementById('runnersTableBody');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding:2.25rem; color:var(--ink-muted);">
+                            ไม่พบรายชื่อนักวิ่งที่ตรงกับเงื่อนไขการค้นหา
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(r => {
+                const shirtType = r.shirtType || 'แขนสั้น';
+                const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
+                let statusPill = '<span class="status-pill pending">รอตรวจสอบ</span>';
+                if (r.status === ST.APPROVED) statusPill = '<span class="status-pill approved">อนุมัติแล้ว</span>';
+                else if (r.status === ST.REJECTED) statusPill = '<span class="status-pill rejected">สลิปไม่ผ่าน</span>';
+
+                return `
+                    <tr>
+                        <td>
+                            <strong style="font-family:var(--font-heading); font-size:0.98rem; color:${r.bibNumber ? 'var(--teal-andaman)' : 'var(--ink-muted)'};">
+                                ${escapeHtml(r.bibNumber || 'รออนุมัติ')}
+                            </strong>
+                            <div style="font-size:0.74rem; color:var(--ink-faint); font-family:var(--font-mono);">${escapeHtml(r.id)}</div>
+                        </td>
+                        <td>
+                            <strong style="color:var(--navy-marine);">${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}</strong>
+                            <div style="font-size:0.8rem; color:var(--ink-muted);">เลขบัตร: ${escapeHtml(r.idCard)} (${escapeHtml(r.gender)})</div>
+                        </td>
+                        <td>
+                            <strong>${escapeHtml(r.category)}</strong>
+                            <div style="font-size:0.78rem; color:var(--ink-muted);">${escapeHtml(r.ageGroup || '-')}</div>
+                        </td>
+                        <td>
+                            <strong>ไซส์ ${escapeHtml(r.shirtSize)} (${escapeHtml(shirtType)})</strong>
+                            <div style="font-size:0.82rem; color:var(--teal-andaman); font-weight:600;">฿${amountVal}</div>
+                        </td>
+                        <td>
+                            <div>${escapeHtml(r.phone)}</div>
+                            <div style="font-size:0.78rem; color:var(--ink-muted);">ฉุกเฉิน: ${escapeHtml(r.emergencyPhone || '-')}</div>
+                        </td>
+                        <td>
+                            ${statusPill}
+                            ${r.status === ST.REJECTED && r.adminNotes ? `<div style="font-size:0.75rem; color:#B91C1C; margin-top:3px; max-width:180px;">${escapeHtml(r.adminNotes)}</div>` : ''}
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+                                <button type="button" class="btn btn-secondary btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="openSlipZoomModal('${r.id}')">ดูสลิป</button>
+                                ${r.status !== ST.APPROVED ? `<button type="button" class="btn btn-success btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="handleApproveRunner('${r.id}')">อนุมัติ</button>` : ''}
+                                ${r.status === ST.PENDING ? `<button type="button" class="btn btn-danger btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="openRejectModal('${r.id}', '${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}')">ปฏิเสธ</button>` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function handleApproveRunner(regId) {
+            const runner = allRunnersCache.find(r => r.id === regId);
+            if (!runner) return;
+
+            if (!confirm(`ยืนยันอนุมัติการสมัครและออกหมายเลข BIB ให้แก่:\n${runner.firstName} ${runner.lastName} (ระยะ ${runner.category}) ?`)) {
+                return;
+            }
+
+            try {
+                let updated = null;
+                if (window.KohYaoStore && typeof window.KohYaoStore.approveRegistration === 'function') {
+                    updated = await window.KohYaoStore.approveRegistration(regId);
+                } else if (window.KohYaoStore && typeof window.KohYaoStore.updateRegistrationStatus === 'function') {
+                    updated = await window.KohYaoStore.updateRegistrationStatus(regId, 'APPROVED', '');
+                }
+
+                await refreshAdminDashboard();
+                const latest = allRunnersCache.find(r => r.id === regId) || updated;
+                alert(`อนุมัติเรียบร้อยแล้ว!\nหมายเลข BIB ที่ออกให้คือ: ${latest && latest.bibNumber ? latest.bibNumber : 'ออกหมายเลขสำเร็จ'}`);
+            } catch (err) {
+                alert('เกิดข้อผิดพลาดในการอนุมัติ: ' + err.message);
+            }
+        }
+
+        function openSlipZoomModal(regId) {
+            const r = allRunnersCache.find(item => item.id === regId);
+            if (!r) return;
+
+            const shirtType = r.shirtType || 'แขนสั้น';
+            const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
+
+            document.getElementById('zoomModalRunnerName').textContent = `${r.firstName} ${r.lastName} (${r.id})`;
+            document.getElementById('zoomModalPaymentMeta').textContent = `ระยะ ${r.category} • เสื้อ${shirtType} ไซส์ ${r.shirtSize} • ยอดโอนที่ต้องชำระ ฿${amountVal}`;
+            document.getElementById('zoomModalImg').src = r.slipUrl || 'Photo/Qr Payment.jpg';
+            document.getElementById('slipZoomModal').style.display = 'flex';
+        }
+
+        function closeSlipZoomModal() {
+            document.getElementById('slipZoomModal').style.display = 'none';
+        }
+
+        function openRejectModal(regId, fullName) {
+            document.getElementById('rejectRegId').value = regId;
+            document.getElementById('rejectRunnerName').textContent = fullName;
+            document.getElementById('rejectReasonInput').value = '';
+            document.getElementById('rejectModal').style.display = 'flex';
+        }
+
+        function closeRejectModal() {
+            document.getElementById('rejectModal').style.display = 'none';
+        }
+
+        function fillRejectReason(text) {
+            document.getElementById('rejectReasonInput').value = text;
+        }
+
+        async function confirmRejectRegistration() {
+            const regId = document.getElementById('rejectRegId').value;
+            const reason = document.getElementById('rejectReasonInput').value.trim();
+
+            if (!reason) {
+                alert('กรุณาระบุสาเหตุที่ปฏิเสธสลิป');
+                return;
+            }
+
+            const btn = document.getElementById('confirmRejectBtn');
+            btn.disabled = true;
+            btn.textContent = 'กำลังบันทึก...';
+
+            try {
+                if (window.KohYaoStore && typeof window.KohYaoStore.rejectRegistration === 'function') {
+                    await window.KohYaoStore.rejectRegistration(regId, reason);
+                } else if (window.KohYaoStore && typeof window.KohYaoStore.updateRegistrationStatus === 'function') {
+                    await window.KohYaoStore.updateRegistrationStatus(regId, 'REJECTED', reason);
+                }
+
+                closeRejectModal();
+                await refreshAdminDashboard();
+                alert('บันทึกสถานะปฏิเสธสลิปเรียบร้อยแล้ว');
+            } catch (err) {
+                alert('เกิดข้อผิดพลาด: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'ยืนยันปฏิเสธสลิป';
+            }
+        }
+
+        function exportRunnersCSV() {
+            if (!allRunnersCache || allRunnersCache.length === 0) {
+                alert('ยังไม่มีข้อมูลนักวิ่งสำหรับส่งออก');
+                return;
+            }
+
+            const headers = [
+                'BIB',
+                'รหัสลงทะเบียน',
+                'ประเภทระยะทาง',
+                'ชื่อ',
+                'นามสกุล',
+                'เลขบัตรประชาชน',
+                'เพศ',
+                'วันเกิด',
+                'อายุ',
+                'รุ่นอายุ',
+                'เบอร์โทรศัพท์',
+                'อีเมล',
+                'รูปแบบเสื้อ',
+                'ไซส์เสื้อ',
+                'ยอดชำระ (บาท)',
+                'สถานะ',
+                'หมู่เลือด',
+                'ผู้ติดต่อฉุกเฉิน',
+                'เบอร์โทรฉุกเฉิน',
+                'โรคประจำตัว/แพ้ยา',
+                'วันที่ลงทะเบียน'
+            ];
+
+            const rows = allRunnersCache.map(r => {
+                const shirtType = r.shirtType || 'แขนสั้น';
+                const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
+                return [
+                    r.bibNumber || '-',
+                    r.id || '',
+                    r.category || '',
+                    r.firstName || '',
+                    r.lastName || '',
+                    `'${r.idCard || ''}`,
+                    r.gender || '',
+                    r.birthDate || '',
+                    r.age || '',
+                    r.ageGroup || '',
+                    `'${r.phone || ''}`,
+                    r.email || '',
+                    shirtType,
+                    r.shirtSize || '',
+                    amountVal,
+                    r.status || '',
+                    r.bloodType || '',
+                    r.emergencyContact || '',
+                    `'${r.emergencyPhone || ''}`,
+                    r.medicalConditions || 'ไม่มี',
+                    r.createdAt ? new Date(r.createdAt).toLocaleString('th-TH') : ''
+                ].map(val => `"${String(val).replace(/"/g, '""')}"`).join(',');
+            });
+
+            const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            const dateStamp = new Date().toISOString().slice(0, 10);
+
+            link.href = url;
+            link.setAttribute('download', `KohYaoRun2570_Runners_${dateStamp}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

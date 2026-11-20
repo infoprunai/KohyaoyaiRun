@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตรวจสอบสถานะ & บัตรประจำตัว E-Bib | กิจกรรมวิ่งเปิดโลกการท่องเที่ยว ๒๕๗๐</title>
+    <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=3.0">
+</head>
+<body>
+
+    <!-- ================= SITE NAVIGATION ================= -->
+    <nav class="site-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="brand-wrapper">
+                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-text">
+                    <h1>เปิดโลกการท่องเที่ยว ๒๕๗๐</h1>
+                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
+                </div>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
+                <li><a href="guide.html" class="nav-link">คู่มือเดินทาง & ท่องเที่ยว</a></li>
+                <li><a href="status.html" class="nav-link active">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge">ระบบเจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register">สมัครแข่งขัน</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= STATUS SEARCH SECTION ================= -->
+    <div class="section" style="padding-top:3.5rem;">
+        <div class="container">
+            <div class="section-header" style="margin-bottom:2.5rem;">
+                <div class="badge-tag"><span class="dot"></span> พอร์ทัลตรวจสอบตนเอง</div>
+                <h2 class="section-title">ตรวจสอบสถานะการสมัคร & ดาวน์โหลด E-Bib</h2>
+                <p class="section-desc">กรอกเลขบัตรประจำตัวประชาชน 13 หลัก หรือ เบอร์โทรศัพท์ที่ใช้ลงทะเบียน</p>
+            </div>
+
+            <!-- Search Console Card -->
+            <div class="form-envelope-card" style="max-width:680px; padding:2rem; margin-bottom:2.5rem;">
+                <form id="searchForm" onsubmit="event.preventDefault(); doSearch();">
+                    <div style="display:flex; gap:0.75rem;">
+                        <input type="text" inputmode="numeric" class="form-input-control" id="searchKeyword" placeholder="ระบุเลขบัตร ปชช. 13 หลัก หรือเบอร์โทรศัพท์..." style="font-size:1.02rem;" required>
+                        <button type="submit" class="btn btn-primary" style="white-space:nowrap; padding:0.75rem 1.75rem;">
+                            ค้นหาข้อมูล
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Result Display Container -->
+            <div id="searchResultArea" style="display:none; max-width:880px; margin:0 auto;"></div>
+
+            <!-- Initial State Hint -->
+            <div id="initialHint" style="text-align:center; padding:3rem 1rem; color:var(--ink-muted);">
+                <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600; margin-bottom:0.4rem;">
+                    พร้อมตรวจสอบสถานะการลงทะเบียน
+                </div>
+                <p style="font-size:0.92rem; max-width:520px; margin:0 auto; line-height:1.8;">
+                    ระบุเลขประจำตัวประชาชน 13 หลักในช่องด้านบน เพื่อตรวจสอบสถานะสลิป หมายเลข BIB และดาวน์โหลดบัตร E-Bib ดิจิทัล<br>
+                    <strong>นัดรับเสื้อ:</strong> 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= EDIT PROFILE MODAL ================= -->
+    <div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.75); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#fff; border-radius:var(--radius-lg); max-width:620px; width:100%; max-height:90vh; overflow-y:auto; padding:2.5rem; box-shadow:var(--shadow-floating); position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
+                <h3 style="color:var(--navy-marine); font-size:1.3rem;">แก้ไขข้อมูลส่วนบุคคล</h3>
+                <button type="button" onclick="closeEditModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
+            </div>
+
+            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.5rem;">
+                * อนุญาตให้แก้ไขข้อมูลติดต่อและขนาดเสื้อก่อนวันปิดรับสมัคร 10 มกราคม 2570 (ระยะทางและหมายเลข BIB ไม่สามารถแก้ไขได้)
+            </p>
+
+            <form id="editForm" onsubmit="event.preventDefault(); saveProfileChanges();">
+                <input type="hidden" id="editRegId">
+
+                <div class="form-field-group">
+                    <label class="field-label">ขนาดเสื้อแข่งขันที่ระลึก</label>
+                    <div class="size-picker-row">
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSizeXS" value="XS">
+                            <label for="eSizeXS">XS</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSizeS" value="S">
+                            <label for="eSizeS">S</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSizeM" value="M">
+                            <label for="eSizeM">M</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSizeL" value="L">
+                            <label for="eSizeL">L</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSizeXL" value="XL">
+                            <label for="eSizeXL">XL</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSize2XL" value="2XL">
+                            <label for="eSize2XL">2XL</label>
+                        </div>
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSize3XL" value="3XL">
+                            <label for="eSize3XL">3XL</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grid-2col">
+                    <div class="form-field-group">
+                        <label class="field-label">เบอร์โทรศัพท์</label>
+                        <input type="tel" inputmode="numeric" class="form-input-control" id="editPhone" maxlength="10" required>
+                    </div>
+                    <div class="form-field-group">
+                        <label class="field-label">อีเมล</label>
+                        <input type="email" class="form-input-control" id="editEmail">
+                    </div>
+                </div>
+
+                <div class="form-grid-2col">
+                    <div class="form-field-group">
+                        <label class="field-label">ผู้ติดต่อฉุกเฉิน</label>
+                        <input type="text" class="form-input-control" id="editEmergContact" required>
+                    </div>
+                    <div class="form-field-group">
+                        <label class="field-label">เบอร์โทรฉุกเฉิน</label>
+                        <input type="tel" inputmode="numeric" class="form-input-control" id="editEmergPhone" maxlength="10" required>
+                    </div>
+                </div>
+
+                <div class="form-field-group">
+                    <label class="field-label">โรคประจำตัว / ประวัติแพ้ยา</label>
+                    <input type="text" class="form-input-control" id="editMedical">
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:2rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= RESUBMIT SLIP MODAL ================= -->
+    <div id="resubmitModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.75); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#fff; border-radius:var(--radius-lg); max-width:540px; width:100%; padding:2.5rem; box-shadow:var(--shadow-floating); position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
+                <h3 style="color:var(--navy-marine); font-size:1.3rem;">อัปโหลดสลิปการโอนเงินใหม่</h3>
+                <button type="button" onclick="closeResubmitModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
+            </div>
+
+            <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem;">
+                กรุณาแนบภาพสลิปที่โอนเงินถูกต้อง ภาพคมชัด เพื่อส่งให้เจ้าหน้าที่ตรวจสอบใหม่อีกครั้ง
+            </p>
+
+            <input type="hidden" id="resubmitRegId">
+            <div class="slip-dropzone-box" onclick="document.getElementById('newSlipInput').click()">
+                <input type="file" id="newSlipInput" accept="image/*" style="display:none;" onchange="handleNewSlipSelected(this)">
+                <div id="newSlipPlaceholder">
+                    <strong>คลิกเพื่อเลือกไฟล์สลิปใหม่</strong>
+                </div>
+                <div id="newSlipPreviewContainer" style="display:none;">
+                    <img id="newSlipPreviewImg" src="" alt="สลิปใหม่" style="max-height:200px; margin:0 auto; border-radius:8px;">
+                </div>
+            </div>
+
+            <div class="compression-live-pill" id="newSlipCompressionInfo" style="margin-top:1rem;">
+                <span id="newSlipCompressionText">บีบอัดภาพสำเร็จ</span>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:2rem;">
+                <button type="button" class="btn btn-secondary" onclick="closeResubmitModal()">ยกเลิก</button>
+                <button type="button" class="btn btn-accent" id="saveNewSlipBtn" onclick="saveNewSlip()">ส่งตรวจสอบใหม่</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/store.js"></script>
+    <script src="js/ebib.js"></script>
+    <script>
+        let currentRunner = null;
+        let compressedNewSlip = null;
+
+        const mobileToggleBtn = document.getElementById('mobileToggle');
+        const navMenuEl = document.getElementById('navMenu');
+
+        if (mobileToggleBtn && navMenuEl) {
+            mobileToggleBtn.addEventListener('click', function() {
+                navMenuEl.classList.toggle('open');
+            });
+
+            navMenuEl.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenuEl.classList.remove('open');
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const search = params.get('search');
+            if (search) {
+                document.getElementById('searchKeyword').value = search;
+                doSearch();
+            }
+        });
+
+        async function doSearch() {
+            const keyword = document.getElementById('searchKeyword').value.trim();
+            if (!keyword) return;
+
+            if (!window.KohYaoStore || !window.KohYaoStore.searchRunner) {
+                alert('ระบบฐานข้อมูลยังไม่พร้อมใช้งาน กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง');
+                return;
+            }
+
+            const container = document.getElementById('searchResultArea');
+            const hint = document.getElementById('initialHint');
+
+            hint.style.display = 'none';
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="form-envelope-card" style="text-align:center; padding:3rem;">
+                    <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600;">กำลังตรวจสอบข้อมูลในระบบ...</div>
+                </div>
+            `;
+
+            const results = await window.KohYaoStore.searchRunner(keyword);
+
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="form-envelope-card" style="text-align:center; padding:3rem;">
+                        <h3 style="color:var(--navy-marine); margin-bottom:0.5rem;">ไม่พบข้อมูลการลงทะเบียน</h3>
+                        <p style="color:var(--ink-muted); margin-bottom:1.5rem;">
+                            ไม่พบข้อมูลที่ตรงกับ "${escapeHtml(keyword)}" กรุณาตรวจสอบเลขบัตรประชาชน หรือเบอร์โทรศัพท์อีกครั้ง
+                        </p>
+                        <a href="register.html" class="btn btn-accent">สมัครเข้าร่วมการแข่งขัน →</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = results.map(runner => renderRunnerCard(runner)).join('');
+
+            const bibGen = window.EBigGenerator || window.EBibGenerator;
+            results.forEach(runner => {
+                if (runner.status === window.KohYaoStore.STATUS.APPROVED) {
+                    const canvas = document.getElementById(`ebibCanvas_${runner.id}`);
+                    if (canvas && bibGen && bibGen.renderBibToCanvas) {
+                        bibGen.renderBibToCanvas(canvas, runner);
+                    }
+                }
+            });
+        }
+
+        function renderRunnerCard(runner) {
+            const isApproved = runner.status === window.KohYaoStore.STATUS.APPROVED;
+            const isPending = runner.status === window.KohYaoStore.STATUS.PENDING;
+            const isRejected = runner.status === window.KohYaoStore.STATUS.REJECTED;
+            const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
+            const startTimeLabel = runner.category === '10K' ? 'ปล่อยตัว 06.00 น. (เช็คบิบ 05.00 น.)' : 'ปล่อยตัว 05.30 น. (เช็คบิบ 05.00 น.)';
+
+            let badgeHtml = '';
+            let statusBannerHtml = '';
+
+            if (isApproved) {
+                badgeHtml = '<span class="status-pill approved">อนุมัติแล้ว (APPROVED)</span>';
+                statusBannerHtml = `
+                    <div style="background:#ECFDF5; border:1px solid #A7F3D0; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
+                        <h4 style="color:#065F46; font-size:1.1rem; margin-bottom:0.25rem;">การสมัครได้รับการอนุมัติเรียบร้อยแล้ว</h4>
+                        <p style="color:#047857; font-size:0.9rem; line-height:1.7;">
+                            หมายเลข BIB ของคุณคือ <strong>${runner.bibNumber}</strong> สามารถบันทึกบัตร E-Bib ด้านล่างเพื่อใช้รับเสื้อแข่งขันในวันที่ <strong>30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล
+                        </p>
+                    </div>
+                `;
+            } else if (isPending) {
+                badgeHtml = '<span class="status-pill pending">รอตรวจสอบสลิป (PENDING)</span>';
+                statusBannerHtml = `
+                    <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
+                        <h4 style="color:#92400E; font-size:1.1rem; margin-bottom:0.25rem;">อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิปการโอนเงิน</h4>
+                        <p style="color:#B45309; font-size:0.9rem;">
+                            ระบบจะออกหมายเลข BIB ต่อเนื่องให้ทันทีเมื่อเจ้าหน้าที่กดอนุมัติ
+                        </p>
+                    </div>
+                `;
+            } else if (isRejected) {
+                badgeHtml = '<span class="status-pill rejected">สลิปไม่ถูกต้อง (REJECTED)</span>';
+                statusBannerHtml = `
+                    <div style="background:#FEF2F2; border:1px solid #FECACA; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
+                        <h4 style="color:#991B1B; font-size:1.1rem; margin-bottom:0.25rem;">แจ้งเตือน: สลิปไม่ผ่านการอนุมัติ</h4>
+                        <p style="color:#B91C1C; font-size:0.9rem; margin-bottom:0.75rem;">
+                            สาเหตุ: <strong>${escapeHtml(runner.adminNotes || 'สลิปไม่ชัดเจน หรือยอดเงินไม่ตรงกับระยะวิ่ง')}</strong>
+                        </p>
+                        <button class="btn btn-sm btn-accent" onclick="openResubmitModal('${runner.id}')">
+                            อัปโหลดสลิปใหม่ทันที →
+                        </button>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="form-envelope-card" style="margin-bottom:2.5rem; padding:2.5rem;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1.25rem; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <div style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">REGISTRATION ID: ${runner.id}</div>
+                            <h3 style="font-size:1.6rem; color:var(--navy-marine); margin-top:2px;">
+                                ${escapeHtml(runner.firstName)} ${escapeHtml(runner.lastName)}
+                            </h3>
+                        </div>
+                        <div style="text-align:right;">
+                            ${badgeHtml}
+                            <div style="font-size:0.78rem; color:var(--ink-muted); margin-top:4px;">
+                                วันที่ลงทะเบียน: ${new Date(runner.createdAt).toLocaleDateString('th-TH')}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${statusBannerHtml}
+
+                    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.25rem; margin-bottom:1.5rem; font-size:0.92rem;">
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ระยะการแข่งขัน</span>
+                            <strong>${runner.category} (${startTimeLabel})</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">หมายเลข BIB</span>
+                            <strong style="font-size:1.2rem; color:var(--teal-andaman); font-family:var(--font-heading);">${runner.bibNumber || 'รออนุมัติ'}</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ขนาด & รูปแบบเสื้อ</span>
+                            <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong>
+                        </div>
+
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ยอดชำระเงิน</span>
+                            <strong>฿${runner.amount || '-'}</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">รุ่นอายุ / เพศ</span>
+                            <strong>${runner.ageGroup} (${runner.gender})</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ผู้ติดต่อฉุกเฉิน</span>
+                            <strong>${escapeHtml(runner.emergencyContact)} (${escapeHtml(runner.emergencyPhone)})</strong>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-subtle); padding-top:1.25rem; margin-top:1.5rem; flex-wrap:wrap; gap:10px;">
+                        <button class="btn btn-sm btn-secondary" onclick="openEditModal('${runner.id}')">
+                            แก้ไขข้อมูลส่วนตัว / เปลี่ยนไซส์เสื้อ
+                        </button>
+
+                        ${isApproved ? `
+                            <button class="btn btn-sm btn-accent" onclick="downloadBib('${runner.id}', '${runner.bibNumber}')">
+                                ดาวน์โหลดบัตร E-Bib (รูปภาพ PNG) →
+                            </button>
+                        ` : ''}
+                    </div>
+
+                    ${isApproved ? `
+                        <div style="margin-top:2.5rem; border-top:1px dashed var(--border-subtle); padding-top:2rem;">
+                            <div style="text-align:center; margin-bottom:1rem;">
+                                <span style="font-size:0.82rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">OFFICIAL DIGITAL ACCREDITATION</span>
+                                <h4 style="color:var(--navy-marine); font-size:1.2rem; margin-top:2px;">
+                                    บัตรประจำตัวนักวิ่งดิจิทัล (Digital Race Bib)
+                                </h4>
+                            </div>
+                            <div class="ebib-stage-wrapper">
+                                <canvas id="ebibCanvas_${runner.id}"></canvas>
+                            </div>
+                            <p style="text-align:center; font-size:0.82rem; color:var(--ink-muted); margin-top:0.75rem;">
+                                * แสดงบัตรนี้ผ่านหน้าจอมือถือเพื่อรับเสื้อวันที่ 30 ม.ค. 2570 (10.00–18.00 น.) ณ เต็นท์อำนวยการงานเปิดโลกทะเล
+                            </p>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function downloadBib(regId, bibNumber) {
+            const canvas = document.getElementById(`ebibCanvas_${regId}`);
+            const bibGen = window.EBigGenerator || window.EBibGenerator;
+            if (canvas && bibGen && bibGen.downloadBibAsPNG) {
+                bibGen.downloadBibAsPNG(canvas, `Official_RaceBib_${bibNumber}_KohYao.png`);
+            }
+        }
+
+        async function openEditModal(regId) {
+            const runners = await window.KohYaoStore.getAllRegistrations();
+            const runner = runners.find(r => r.id === regId);
+            if (!runner) return;
+
+            currentRunner = runner;
+            document.getElementById('editRegId').value = runner.id;
+            document.getElementById('editPhone').value = runner.phone || '';
+            document.getElementById('editEmail').value = runner.email || '';
+            document.getElementById('editEmergContact').value = runner.emergencyContact || '';
+            document.getElementById('editEmergPhone').value = runner.emergencyPhone || '';
+            document.getElementById('editMedical').value = runner.medicalConditions || '';
+
+            const sizeRadio = document.querySelector(`input[name="editShirtSize"][value="${runner.shirtSize}"]`);
+            if (sizeRadio) sizeRadio.checked = true;
+
+            const modal = document.getElementById('editModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        async function saveProfileChanges() {
+            const regId = document.getElementById('editRegId').value;
+            const newSize = document.querySelector('input[name="editShirtSize"]:checked').value;
+            const updates = {
+                shirtSize: newSize,
+                phone: document.getElementById('editPhone').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                emergencyContact: document.getElementById('editEmergContact').value.trim(),
+                emergencyPhone: document.getElementById('editEmergPhone').value.trim(),
+                medicalConditions: document.getElementById('editMedical').value.trim()
+            };
+
+            await window.KohYaoStore.updateRunnerProfile(regId, updates);
+            closeEditModal();
+            alert('บันทึกข้อมูลส่วนบุคคลเรียบร้อยแล้ว');
+            doSearch();
+        }
+
+        function openResubmitModal(regId) {
+            compressedNewSlip = null;
+            document.getElementById('resubmitRegId').value = regId;
+            document.getElementById('newSlipInput').value = '';
+            document.getElementById('newSlipPlaceholder').style.display = 'block';
+            document.getElementById('newSlipPreviewContainer').style.display = 'none';
+            document.getElementById('newSlipCompressionInfo').style.display = 'none';
+            document.getElementById('resubmitModal').style.display = 'flex';
+        }
+
+        function closeResubmitModal() {
+            document.getElementById('resubmitModal').style.display = 'none';
+        }
+
+        async function handleNewSlipSelected(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            try {
+                const result = await window.KohYaoStore.compressSlipImage(file, 800, 0.7);
+                compressedNewSlip = result;
+
+                document.getElementById('newSlipPlaceholder').style.display = 'none';
+                document.getElementById('newSlipPreviewContainer').style.display = 'block';
+                document.getElementById('newSlipPreviewImg').src = result.dataUrl;
+
+                const origKb = Math.round(result.originalSize / 1024);
+                const compKb = Math.round(result.compressedSize / 1024);
+                document.getElementById('newSlipCompressionInfo').style.display = 'flex';
+                document.getElementById('newSlipCompressionText').textContent = 
+                    `ปรับขนาดเรียบร้อย: ${origKb} KB → ${compKb} KB`;
+            } catch (err) {
+                alert('เกิดข้อผิดพลาดในการอ่านรูป: ' + err.message);
+            }
+        }
+
+        async function saveNewSlip() {
+            if (!compressedNewSlip || !compressedNewSlip.dataUrl) {
+                alert('กรุณาเลือกรูปภาพสลิป');
+                return;
+            }
+
+            const btn = document.getElementById('saveNewSlipBtn');
+            btn.disabled = true;
+            btn.textContent = 'กำลังส่งสลิป...';
+
+            try {
+                const regId = document.getElementById('resubmitRegId').value;
+                await window.KohYaoStore.resubmitSlip(regId, compressedNewSlip.dataUrl, compressedNewSlip.hash);
+                closeResubmitModal();
+                alert('ส่งสลิปใหม่เรียบร้อยแล้ว รอเจ้าหน้าที่ตรวจสอบสถานะ');
+                doSearch();
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'ส่งตรวจสอบใหม่';
+            }
+        }
+    </script>
+</body>
+</html>
