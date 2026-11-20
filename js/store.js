@@ -458,32 +458,32 @@ const KohYaoStore = (function () {
         },
 
         // 7. GET ALL REGISTRATIONS
-     async getAllRegistrations() {
-         if (GOOGLE_SCRIPT_URL) {
-             const res = await callGoogleScript('getAll', {}, 'GET');
-             if (res && res.success && res.runners) {
-                 _cachedRegistrations = res.runners;
-                 return res.runners;
-             }
-             return [];
-         }
-         const db = loadDB();
-         return db.registrations;
-     },
+        async getAllRegistrations() {
+            if (GOOGLE_SCRIPT_URL) {
+                const res = await callGoogleScript('getAll', {}, 'GET');
+                if (res && res.success && res.runners) {
+                    _cachedRegistrations = res.runners;
+                    return res.runners;
+                }
+                return [];
+            }
+            const db = loadDB();
+            return db.registrations;
+        },
 
-     // 8. GET SUMMARY STATS
-     async getStats() {
-         if (GOOGLE_SCRIPT_URL) {
-             // อัปเดตแคชรายชื่อในพื้นหลังเพื่อให้หน้าสมัครเช็กสลิปซ้ำได้ทันที
-             callGoogleScript('getAll', {}, 'GET').then(r => {
-                 if (r && r.success && r.runners) _cachedRegistrations = r.runners;
-             }).catch(() => {});
+        // 8. GET SUMMARY STATS
+        async getStats() {
+            if (GOOGLE_SCRIPT_URL) {
+                // อัปเดตแคชรายชื่อในพื้นหลังเพื่อให้หน้าสมัครเช็กสลิปซ้ำได้ทันที
+                callGoogleScript('getAll', {}, 'GET').then(r => {
+                    if (r && r.success && r.runners) _cachedRegistrations = r.runners;
+                }).catch(() => {});
 
-             const res = await callGoogleScript('getStats', {}, 'GET');
-             if (res && res.success) {
-                 return res;
-             }
-         }
+                const res = await callGoogleScript('getStats', {}, 'GET');
+                if (res && res.success) {
+                    return res;
+                }
+            }
 
             const db = loadDB();
             const regs = db.registrations;
@@ -596,3 +596,81 @@ const KohYaoStore = (function () {
 })();
 
 window.KohYaoStore = KohYaoStore;
+
+/* ==========================================================================
+   GLOBAL UI ENHANCEMENTS:
+   1. STICKY TOPBAR AUTO-COMPACT & SCROLL PROGRESS BAR
+   2. MOBILE BOTTOM QUICK-ACTION BAR (<= 768px)
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Topbar Smart Compact & Progress Bar
+    const siteNav = document.querySelector('.site-nav');
+    if (siteNav) {
+        const progressBar = document.createElement('div');
+        progressBar.className = 'nav-scroll-progress';
+        siteNav.appendChild(progressBar);
+
+        const onScrollUpdateNav = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollTop > 30) {
+                siteNav.classList.add('scrolled');
+            } else {
+                siteNav.classList.remove('scrolled');
+            }
+
+            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+            progressBar.style.width = pct + '%';
+        };
+
+        window.addEventListener('scroll', onScrollUpdateNav, { passive: true });
+        onScrollUpdateNav();
+    }
+
+    // 2. Mobile Bottom Quick-Action Bar
+    if (!document.querySelector('.mobile-bottom-bar')) {
+        const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+        const bottomBar = document.createElement('nav');
+        bottomBar.className = 'mobile-bottom-bar';
+        bottomBar.setAttribute('aria-label', 'เมนูลัดสำหรับมือถือ');
+
+        if (currentPage === 'admin.html') {
+            bottomBar.innerHTML = `
+                <a href="#pendingQueueSection" class="mobile-quick-item">
+                    คิวตรวจสลิป
+                    <span class="quick-sub">รอตรวจสอบ</span>
+                </a>
+                <a href="#allRunners" class="mobile-quick-item">
+                    รายชื่อทั้งหมด
+                    <span class="quick-sub">ค้นหา & BIB</span>
+                </a>
+                <a href="index.html" class="mobile-quick-item quick-cta">
+                    หน้าหลักเว็บ
+                    <span class="quick-sub">มุมมองนักวิ่ง</span>
+                </a>
+            `;
+        } else {
+            const isHome = currentPage === 'index.html' || currentPage === '';
+            const isStatus = currentPage === 'status.html';
+            const isRegister = currentPage === 'register.html';
+
+            bottomBar.innerHTML = `
+                <a href="index.html" class="mobile-quick-item ${isHome ? 'active' : ''}">
+                    หน้าแรก
+                    <span class="quick-sub">ข้อมูล & เส้นทาง</span>
+                </a>
+                <a href="status.html" class="mobile-quick-item ${isStatus ? 'active' : ''}">
+                    ตรวจ E-Bib
+                    <span class="quick-sub">เช็กสถานะสลิป</span>
+                </a>
+                <a href="register.html" class="mobile-quick-item quick-cta ${isRegister ? 'active' : ''}">
+                    สมัครแข่งขัน
+                    <span class="quick-sub">ลงทะเบียนวิ่ง</span>
+                </a>
+            `;
+        }
+
+        document.body.appendChild(bottomBar);
+    }
+});

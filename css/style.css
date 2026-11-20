@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* ==========================================================================
-   KOH YAO YAI OPEN SEA RUN 2027 — DESIGN SYSTEM (v3.0)
+   KOH YAO YAI OPEN SEA RUN 2027 — DESIGN SYSTEM (v3.1)
    Municipal District of Phru Nai, Koh Yao Yai, Phang Nga Province
    ========================================================================== */
 
@@ -63,7 +63,7 @@ html {
     scroll-behavior: smooth;
     font-size: 16px;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -75,7 +75,12 @@ body {
     background-color: var(--canvas-bg);
     line-height: 1.7;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+section[id],
+header[id] {
+    scroll-margin-top: 84px;
 }
 
 h1,
@@ -106,17 +111,49 @@ iframe {
 }
 
 /* ==========================================================================
-   NAVIGATION BAR
+   NAVIGATION BAR (STICKY ON ALL PAGES + SMART COMPACT MODE)
    ========================================================================== */
 .site-nav {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     z-index: 1000;
-    background: rgba(3, 20, 27, 0.9);
+    background: rgba(3, 20, 27, 0.92);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(6, 182, 212, 0.2);
-    transition: var(--transition);
+    border-bottom: 1px solid rgba(6, 182, 212, 0.25);
+    box-shadow: 0 4px 20px rgba(3, 20, 27, 0.22);
+    transition: background 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
+}
+
+.site-nav.scrolled {
+    background: rgba(3, 20, 27, 0.97);
+    border-bottom-color: rgba(6, 182, 212, 0.4);
+    box-shadow: 0 10px 30px rgba(3, 20, 27, 0.42);
+}
+
+.site-nav.scrolled .nav-inner {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+}
+
+.site-nav.scrolled .brand-logo {
+    width: 38px;
+    height: 38px;
+}
+
+.nav-scroll-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--cyan-horizon), var(--gold-sand));
+    transition: width 0.1s linear;
+    pointer-events: none;
 }
 
 .nav-inner {
@@ -127,6 +164,7 @@ iframe {
     justify-content: space-between;
     align-items: center;
     gap: 1.25rem;
+    transition: padding 0.25s ease;
 }
 
 .brand-wrapper {
@@ -145,6 +183,7 @@ iframe {
     object-fit: cover;
     background: #fff;
     flex-shrink: 0;
+    transition: width 0.25s ease, height 0.25s ease;
 }
 
 .brand-text h1 {
@@ -264,6 +303,13 @@ iframe {
     height: 2.5px;
     background: #FFFFFF;
     border-radius: 2px;
+}
+
+/* ==========================================================================
+   MOBILE BOTTOM QUICK-ACTION BAR (HIDDEN ON DESKTOP)
+   ========================================================================== */
+.mobile-bottom-bar {
+    display: none;
 }
 
 /* ==========================================================================
@@ -1366,6 +1412,75 @@ iframe {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Mobile Bottom Quick-Action Bar */
+    .mobile-bottom-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        gap: 0.45rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 990;
+        background: rgba(3, 20, 27, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(6, 182, 212, 0.35);
+        box-shadow: 0 -6px 24px rgba(3, 20, 27, 0.35);
+        padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom, 0px)) 0.75rem;
+    }
+
+    .mobile-quick-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0.35rem 0.4rem;
+        border-radius: var(--radius-sm);
+        font-family: var(--font-heading);
+        font-size: 0.76rem;
+        font-weight: 600;
+        color: #CBD5E1;
+        text-align: center;
+        line-height: 1.25;
+        border: 1px solid transparent;
+        transition: var(--transition);
+    }
+
+    .mobile-quick-item span.quick-sub {
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 400;
+        color: #94A3B8;
+        margin-top: 1px;
+    }
+
+    .mobile-quick-item.active {
+        color: #FFFFFF;
+        background: rgba(6, 182, 212, 0.18);
+        border-color: rgba(6, 182, 212, 0.45);
+    }
+
+    .mobile-quick-item.quick-cta {
+        background: linear-gradient(135deg, var(--gold-sand), var(--gold-dark));
+        color: #FFFFFF !important;
+        border-radius: var(--radius-pill);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 3px 12px var(--gold-glow);
+        font-weight: 700;
+    }
+
+    .mobile-quick-item.quick-cta span.quick-sub {
+        color: #FEF3C7;
+    }
+
     .container {
         padding-left: 1rem;
         padding-right: 1rem;

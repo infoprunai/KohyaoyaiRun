@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบจัดการแข่งขันสำหรับเจ้าหน้าที่ (Admin Cockpit) | เปิดโลกทะเล ๒๕๗๐</title>
+    <title>ศูนย์ปฏิบัติการงานแข่งขัน (Race Operations) | เปิดโลกการท่องเที่ยว ๒๕๗๐</title>
     <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
 
     <!-- Fonts -->
@@ -12,145 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3.0">
-
-    <style>
-        .admin-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-pill-group {
-            display: flex;
-            gap: 0.45rem;
-            flex-wrap: wrap;
-        }
-
-        .cat-filter-btn {
-            font-family: var(--font-heading);
-            font-size: 0.84rem;
-            font-weight: 600;
-            padding: 0.42rem 0.95rem;
-            border-radius: var(--radius-pill);
-            border: 1px solid var(--border-subtle);
-            background: #FFFFFF;
-            color: var(--ink-secondary);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .cat-filter-btn:hover {
-            border-color: var(--navy-marine);
-            color: var(--navy-marine);
-        }
-
-        .cat-filter-btn.active {
-            background: var(--navy-marine);
-            border-color: var(--navy-marine);
-            color: #FFFFFF;
-        }
-
-        .shirt-summary-strip {
-            background: #FFFFFF;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 1.25rem 1.5rem;
-            margin-bottom: 2.25rem;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .shirt-size-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-
-        .shirt-chip {
-            background: var(--canvas-subtle);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-sm);
-            padding: 0.35rem 0.75rem;
-            font-size: 0.82rem;
-            color: var(--ink-primary);
-            font-weight: 600;
-        }
-
-        .admin-table-wrapper {
-            background: #FFFFFF;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-subtle);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .admin-runners-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.88rem;
-            text-align: left;
-            min-width: 820px;
-        }
-
-        .admin-runners-table th {
-            background: var(--canvas-subtle);
-            color: var(--navy-marine);
-            font-family: var(--font-heading);
-            font-weight: 700;
-            padding: 0.85rem 1rem;
-            border-bottom: 1.5px solid var(--border-subtle);
-            white-space: nowrap;
-        }
-
-        .admin-runners-table td {
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid var(--border-subtle);
-            vertical-align: middle;
-            color: var(--ink-secondary);
-        }
-
-        .admin-runners-table tr:hover td {
-            background: #F8FAFC;
-        }
-
-        .dup-badge-inline {
-            display: inline-block;
-            background: #FEE2E2;
-            color: #991B1B;
-            border: 1px solid #FCA5A5;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.2rem 0.6rem;
-            border-radius: var(--radius-pill);
-            margin-top: 4px;
-        }
-
-        .reason-chip {
-            display: inline-block;
-            background: var(--canvas-subtle);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill);
-            padding: 0.32rem 0.75rem;
-            font-size: 0.8rem;
-            color: var(--ink-secondary);
-            cursor: pointer;
-            margin: 0.2rem 0.25rem 0.2rem 0;
-            transition: var(--transition);
-        }
-
-        .reason-chip:hover {
-            background: #FEE2E2;
-            border-color: #FCA5A5;
-            color: #991B1B;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css?v=2.2">
 </head>
-<body>
+<body style="background:#F1F5F9;">
 
     <!-- ================= SITE NAVIGATION ================= -->
     <nav class="site-nav">
@@ -158,8 +22,8 @@
             <a href="index.html" class="brand-wrapper">
                 <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
                 <div class="brand-text">
-                    <h1>เปิดโลกทะเล ๒๕๗๐</h1>
-                    <span>RACE OPERATIONS COCKPIT • เทศบาลตำบลพรุใน</span>
+                    <h1>เปิดโลกทะเล 2570</h1>
+                    <span>ระบบบริหารจัดการ & อนุมัติสลิปออกบิบ</span>
                 </div>
             </a>
 
@@ -169,211 +33,193 @@
 
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
-                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
-                <li><a href="register.html" class="nav-link">หน้าลงทะเบียน</a></li>
-                <li><button type="button" class="nav-admin-badge" onclick="refreshAdminDashboard()" style="cursor:pointer;">รีเฟรชข้อมูล</button></li>
-                <li><button type="button" class="nav-btn-register" onclick="lockAdminSession()" style="cursor:pointer;">ล็อกหน้าจอ</button></li>
+                <li><a href="status.html" class="nav-link">หน้าตรวจสอบสถานะ</a></li>
+                <li><a href="#fastReview" class="nav-link active">คิวตรวจสลิป</a></li>
+                <li><a href="#allRunners" class="nav-link">ทะเบียนนักวิ่ง</a></li>
+                <li>
+                    <button class="btn btn-sm btn-accent" onclick="exportData()" style="white-space:nowrap;">
+                        ส่งออกข้อมูล CSV (โรงพิมพ์)
+                    </button>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <!-- ================= ADMIN PIN LOCK MODAL ================= -->
-    <div id="adminPinModal" style="display:flex; position:fixed; inset:0; background:rgba(3,20,27,0.88); backdrop-filter:blur(12px); z-index:3000; align-items:center; justify-content:center; padding:1.5rem;">
-        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:440px; width:100%; padding:2.5rem; box-shadow:var(--shadow-floating); text-align:center;">
-            <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:64px; height:64px; border-radius:50%; margin:0 auto 1rem auto; border:2px solid var(--teal-andaman);">
-            <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">STAFF AUTHENTICATION</span>
-            <h2 style="color:var(--navy-marine); font-size:1.45rem; margin:0.25rem 0 0.5rem 0;">เข้าสู่ระบบเจ้าหน้าที่จัดการแข่งขัน</h2>
-            <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem;">
-                กรุณากรอกรหัสผ่านเจ้าหน้าที่ 4 หลัก เพื่อตรวจสอบสลิปการโอนเงินและออกหมายเลข BIB
-            </p>
+    <!-- ================= DASHBOARD CONTENT ================= -->
+    <div class="container" style="padding-top:3rem; padding-bottom:5rem;">
 
-            <form onsubmit="event.preventDefault(); verifyAdminAccess();">
-                <div class="form-field-group" style="margin-bottom:1rem;">
-                    <input type="password" inputmode="numeric" maxlength="6" id="adminPinInput" class="form-input-control" placeholder="รหัสผ่านเจ้าหน้าที่ (เช่น 2570)" style="text-align:center; font-size:1.35rem; letter-spacing:0.25em; font-weight:700;" required autofocus>
-                </div>
-                <div id="pinErrorMsg" style="display:none; color:#DC2626; font-size:0.84rem; margin-bottom:1rem; font-weight:600;">
-                    รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
-                    ยืนยันเข้าสู่ระบบเจ้าหน้าที่ →
-                </button>
-            </form>
-
-            <div style="margin-top:1.25rem; font-size:0.8rem; color:var(--ink-muted);">
-                <a href="index.html" style="color:var(--teal-andaman); font-weight:600;">← กลับสู่หน้าหลักเว็บไซต์</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= MAIN ADMIN COCKPIT ================= -->
-    <main class="section" style="padding-top:2.75rem;">
-        <div class="container">
-            <!-- Header Bar -->
-            <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem; margin-bottom:2rem;">
-                <div>
-                    <div class="badge-tag"><span class="dot"></span> กองอำนวยการจัดการแข่งขัน เทศบาลตำบลพรุใน</div>
-                    <h2 style="font-size:1.95rem; color:var(--navy-marine); margin:0;">ระบบตรวจสอบสลิป & บริหารรายชื่อนักวิ่ง</h2>
-                </div>
-                <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="refreshAdminDashboard()">
-                        อัปเดตข้อมูลล่าสุด
-                    </button>
-                    <button type="button" class="btn btn-accent btn-sm" onclick="exportRunnersCSV()">
-                        ส่งออกไฟล์ Excel (CSV) ↓
-                    </button>
-                </div>
-            </div>
-
-            <!-- KPI Metrics Row -->
-            <div class="admin-metrics-row">
-                <div class="metric-kpi-card kpi-navy">
-                    <div class="kpi-label">ผู้สมัครทั้งหมด (โควตา 400)</div>
-                    <div class="kpi-number" id="kpiTotal">0</div>
-                    <div style="font-size:0.8rem; color:var(--ink-muted);" id="kpiBreakdown">5 กม.: 0/200 • 10 กม.: 0/200</div>
-                </div>
-
-                <div class="metric-kpi-card kpi-gold">
-                    <div class="kpi-label">รอตรวจสอบสลิป (PENDING)</div>
-                    <div class="kpi-number" id="kpiPending" style="color:var(--status-pending);">0</div>
-                    <div style="font-size:0.8rem; color:var(--ink-muted);">รายการที่รอการอนุมัติ</div>
-                </div>
-
-                <div class="metric-kpi-card kpi-green">
-                    <div class="kpi-label">อนุมัติแล้ว (APPROVED)</div>
-                    <div class="kpi-number" id="kpiApproved" style="color:var(--status-approved);">0</div>
-                    <div style="font-size:0.8rem; color:var(--ink-muted);">ออกหมายเลข BIB เรียบร้อย</div>
-                </div>
-
-                <div class="metric-kpi-card kpi-cyan">
-                    <div class="kpi-label">ยอดเงินที่ยืนยันแล้ว</div>
-                    <div class="kpi-number" id="kpiRevenue" style="color:var(--teal-andaman);">฿0</div>
-                    <div style="font-size:0.8rem; color:var(--ink-muted);" id="kpiPendingRevenue">ยอดรอตรวจ: ฿0</div>
-                </div>
-            </div>
-
-            <!-- Shirt Production Summary Strip -->
-            <div class="shirt-summary-strip">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
-                    <strong style="color:var(--navy-marine); font-size:0.95rem;">
-                        สรุปยอดสั่งผลิตเสื้อแข่งขัน (เฉพาะรายการที่อนุมัติแล้ว & รอตรวจสอบ)
-                    </strong>
-                    <span style="font-size:0.84rem; color:var(--teal-andaman); font-weight:700;" id="sleeveTypeSummary">
-                        แขนสั้น: 0 ตัว • แขนยาว: 0 ตัว
+        <!-- Header Controls & Backend Status -->
+        <div style="background:#fff; border-radius:var(--radius-md); padding:1.25rem 1.75rem; margin-bottom:2rem; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; box-shadow:var(--shadow-subtle);">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <h2 style="font-size:1.6rem; color:var(--navy-marine); font-weight:800; margin:0;">
+                        ศูนย์ปฏิบัติการจัดการแข่งขัน (Operations Cockpit)
+                    </h2>
+                    <span id="backendStatusBadge" class="status-pill pending">
+                        โหมดจำลอง (LocalStorage)
                     </span>
                 </div>
-                <div class="shirt-size-chips" id="shirtSizeBreakdown">
-                    <span class="shirt-chip">กำลังคำนวณจำนวนเสื้อ...</span>
-                </div>
+                <p style="color:var(--ink-muted); font-size:0.88rem; margin-top:2px;">
+                    กิจกรรมวิ่งเปิดโลกการท่องเที่ยว ประจำปี ๒๕๗๐ • วันแข่ง 31 ม.ค. 2570 • รับเสื้อ 30 ม.ค. 2570
+                </p>
+            </div>
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+                <button class="btn btn-sm btn-secondary" onclick="configureGoogleScript()">
+                    ตั้งค่า Google Sheets
+                </button>
+                <button class="btn btn-sm btn-secondary" onclick="resetDbConfirm()">
+                    รีเซ็ตข้อมูลทดสอบ
+                </button>
+                <button class="btn btn-sm btn-primary" onclick="loadDashboard()">
+                    รีเฟรชข้อมูล
+                </button>
+            </div>
+        </div>
+
+        <!-- 4 KPI Metrics -->
+        <div class="admin-metrics-row">
+            <div class="metric-kpi-card kpi-navy">
+                <div class="kpi-label">ยอดผู้สมัครรวม (โควตา 400)</div>
+                <div class="kpi-number" id="mTotalRunners">0</div>
+                <span style="font-size:0.8rem; color:var(--ink-muted);" id="mRatioText">5K: 0/200 | 10K: 0/200</span>
             </div>
 
-            <!-- ================= PENDING VERIFICATION QUEUE ================= -->
-            <section id="pendingQueueSection" style="margin-bottom:3.5rem;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-                    <h3 style="font-size:1.35rem; color:var(--navy-marine); margin:0;">
-                        รายการรอตรวจสอบสลิปการโอนเงิน (<span id="pendingQueueCount">0</span> รายการ)
-                    </h3>
-                    <span style="font-size:0.84rem; color:var(--ink-muted);">* คลิกที่รูปสลิปเพื่อขยายดูรายละเอียดเต็มหน้าจอ</span>
-                </div>
+            <div class="metric-kpi-card kpi-gold">
+                <div class="kpi-label">รอตรวจสอบสลิป (คิวตรวจ)</div>
+                <div class="kpi-number" id="mPendingCount" style="color:var(--gold-dark);">0</div>
+                <span style="font-size:0.8rem; color:var(--ink-muted);">รอการตรวจสอบยอดเงิน</span>
+            </div>
 
-                <div id="pendingQueueList">
-                    <div class="form-envelope-card" style="text-align:center; padding:2.5rem; max-width:100%;">
-                        กำลังโหลดรายการตรวจสอบ...
-                    </div>
-                </div>
-            </section>
+            <div class="metric-kpi-card kpi-green">
+                <div class="kpi-label">อนุมัติแล้ว (ออกบิบแล้ว)</div>
+                <div class="kpi-number" id="mApprovedCount" style="color:var(--status-approved);">0</div>
+                <span style="font-size:0.8rem; color:var(--ink-muted);">มีสิทธิ์รับชุดแข่งขัน</span>
+            </div>
 
-            <!-- ================= ALL RUNNERS DIRECTORY ================= -->
-            <section id="allRunners">
-                <div class="admin-toolbar">
-                    <div>
-                        <h3 style="font-size:1.35rem; color:var(--navy-marine); margin:0 0 0.5rem 0;">
-                            ทะเบียนรายชื่อนักวิ่งทั้งหมด (<span id="filteredRunnerCount">0</span> คน)
-                        </h3>
-                        <div class="filter-pill-group">
-                            <button type="button" class="cat-filter-btn active" data-cat="ALL" onclick="setCategoryFilter('ALL', this)">ทุกระยะทาง</button>
-                            <button type="button" class="cat-filter-btn" data-cat="5K" onclick="setCategoryFilter('5K', this)">ระยะ 5 กม.</button>
-                            <button type="button" class="cat-filter-btn" data-cat="10K" onclick="setCategoryFilter('10K', this)">ระยะ 10 กม.</button>
-                        </div>
-                    </div>
-
-                    <div style="display:flex; gap:0.5rem; align-items:center;">
-                        <select id="statusFilter" class="form-input-control" style="width:190px;" onchange="renderAllRunnersTable()">
-                            <option value="ALL">ทุกสถานะ (All)</option>
-                            <option value="PENDING">รอตรวจสอบ (Pending)</option>
-                            <option value="APPROVED">อนุมัติแล้ว (Approved)</option>
-                            <option value="REJECTED">ไม่ผ่านการอนุมัติ (Rejected)</option>
-                        </select>
-                        <input type="text" id="tableSearch" class="form-input-control" style="width:270px;" placeholder="ค้นหา BIB / ชื่อ / เลขบัตร / เบอร์โทร..." oninput="renderAllRunnersTable()">
-                    </div>
-                </div>
-
-                <div class="admin-table-wrapper">
-                    <table class="admin-runners-table">
-                        <thead>
-                            <tr>
-                                <th>หมายเลข BIB</th>
-                                <th>ชื่อ-นามสกุล / เลขบัตร</th>
-                                <th>ระยะทาง</th>
-                                <th>เสื้อ & ยอดชำระ</th>
-                                <th>เบอร์โทร / ฉุกเฉิน</th>
-                                <th>สถานะ</th>
-                                <th>จัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="runnersTableBody">
-                            <tr>
-                                <td colspan="7" style="text-align:center; padding:2rem; color:var(--ink-muted);">กำลังโหลดรายชื่อนักวิ่ง...</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+            <div class="metric-kpi-card kpi-cyan">
+                <div class="kpi-label">ยอดชำระเงินสำเร็จ</div>
+                <div class="kpi-number" id="mTotalIncome">฿0</div>
+                <span style="font-size:0.8rem; color:var(--ink-muted);" id="mPendingIncomeText">รอยืนยัน ฿0</span>
+            </div>
         </div>
-    </main>
 
-    <!-- ================= SLIP ZOOM LIGHTBOX MODAL ================= -->
-    <div id="slipZoomModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.85); backdrop-filter:blur(8px); z-index:2500; align-items:center; justify-content:center; padding:1.5rem;" onclick="if(event.target===this) closeSlipZoomModal()">
-        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:560px; width:100%; max-height:92vh; overflow-y:auto; padding:1.75rem; box-shadow:var(--shadow-floating); position:relative;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;">
+        <!-- Shirt Production Matrix Table (แยกแขนสั้น และ แขนยาว) -->
+        <div class="form-envelope-card" style="margin-bottom:2.5rem; padding:2rem; max-width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:8px;">
                 <div>
-                    <strong style="color:var(--navy-marine); font-size:1.1rem;" id="zoomModalRunnerName">หลักฐานการโอนเงิน</strong>
-                    <div style="font-size:0.82rem; color:var(--teal-andaman); font-weight:600;" id="zoomModalPaymentMeta"></div>
+                    <h3 style="color:var(--navy-marine); font-size:1.25rem;">
+                        สรุปยอดสั่งผลิตเสื้อแข่งขันแยกตามขนาดและรูปแบบแขน (เฉพาะที่อนุมัติแล้ว)
+                    </h3>
+                    <p style="font-size:0.85rem; color:var(--ink-muted);">
+                        แยกรายการเสื้อแขนสั้น และ เสื้อแขนยาว (+50 บ.) แบบเรียลไทม์สำหรับสั่งผลิตแจกวันที่ 30 ม.ค. 2570
+                    </p>
                 </div>
-                <button type="button" onclick="closeSlipZoomModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
+                <span class="status-pill approved">อัปเดตตามลำดับสลิป</span>
             </div>
-            <div style="background:#0B1920; border-radius:var(--radius-sm); padding:0.75rem; text-align:center;">
-                <img id="zoomModalImg" src="" alt="สลิปขยายเต็มขนาด" style="max-height:65vh; margin:0 auto; border-radius:6px;">
+
+            <div style="overflow-x:auto;">
+                <table class="size-matrix-table" style="font-size:0.95rem;">
+                    <thead>
+                        <tr>
+                            <th style="padding:0.75rem; text-align:left;">รูปแบบเสื้อ</th>
+                            <th>XS (34")</th>
+                            <th>S (36")</th>
+                            <th>M (38")</th>
+                            <th>L (40")</th>
+                            <th>XL (42")</th>
+                            <th>2XL (44")</th>
+                            <th>3XL (46")</th>
+                            <th style="background:var(--navy-marine); color:#fff;">รวมทั้งสิ้น</th>
+                        </tr>
+                    </thead>
+                    <tbody id="shirtSummaryBody"></tbody>
+                </table>
             </div>
         </div>
+
+        <!-- Fast-Review Queue -->
+        <div id="fastReview" style="margin-bottom:3rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:8px;">
+                <div>
+                    <h3 style="font-size:1.45rem; color:var(--navy-marine); font-weight:800;">
+                        คิวตรวจสอบสลิปด่วน (Fast-Review Queue)
+                    </h3>
+                    <p style="color:var(--ink-muted); font-size:0.9rem;">
+                        ตรวจสอบยอดเงินคู่กับรูปสลิป (5K: 350บ./แขนยาว 400บ. | 10K: 450บ./แขนยาว 500บ.)
+                    </p>
+                </div>
+                <span class="status-pill pending" id="queueBadge">รอตรวจสอบ 0 รายการ</span>
+            </div>
+
+            <div id="reviewContainer"></div>
+        </div>
+
+        <!-- All Runners Directory -->
+        <div id="allRunners" class="form-envelope-card" style="padding:2rem; max-width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+                <div>
+                    <h3 style="font-size:1.35rem; color:var(--navy-marine);">
+                        ทะเบียนรายชื่อผู้สมัครทั้งหมด
+                    </h3>
+                    <p style="font-size:0.85rem; color:var(--ink-muted);">
+                        ตรวจสอบ แก้ไข หรือดาวน์โหลดข้อมูลสำหรับจัดทำป้าย BIB
+                    </p>
+                </div>
+
+                <div style="display:flex; gap:0.5rem;">
+                    <select class="form-input-control" id="statusFilter" onchange="filterRunners()" style="width:160px; padding:0.4rem 0.8rem; font-size:0.88rem;">
+                        <option value="ALL">สถานะทั้งหมด</option>
+                        <option value="PENDING_PAYMENT">รอตรวจสลิป</option>
+                        <option value="APPROVED">อนุมัติแล้ว</option>
+                        <option value="REJECTED">ปฏิเสธสลิป</option>
+                    </select>
+                    <input type="text" class="form-input-control" id="tableSearch" placeholder="ค้นหาชื่อ, บิบ, เลขบัตร..." oninput="filterRunners()" style="width:220px; padding:0.4rem 0.8rem; font-size:0.88rem;">
+                </div>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="size-matrix-table" id="runnersTable" style="text-align:left;">
+                    <thead>
+                        <tr>
+                            <th style="padding:0.75rem;">เลข BIB</th>
+                            <th>รหัสสมัคร</th>
+                            <th>ชื่อ - นามสกุล</th>
+                            <th>ระยะ</th>
+                            <th>ไซส์ & แขนเสื้อ</th>
+                            <th>เบอร์โทร</th>
+                            <th>ยอดเงิน</th>
+                            <th>สถานะ</th>
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="runnersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-    <!-- ================= REJECT REASON MODAL ================= -->
-    <div id="rejectModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.78); backdrop-filter:blur(8px); z-index:2500; align-items:center; justify-content:center; padding:1.5rem;">
-        <div style="background:#FFFFFF; border-radius:var(--radius-lg); max-width:520px; width:100%; padding:2rem; box-shadow:var(--shadow-floating);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;">
-                <h3 style="color:#991B1B; font-size:1.2rem; margin:0;">ระบุสาเหตุที่สลิปไม่ผ่านการอนุมัติ</h3>
-                <button type="button" onclick="closeRejectModal()" style="border:none; background:none; font-size:1.4rem; cursor:pointer; color:var(--ink-muted);">✕</button>
-            </div>
+    <!-- Zoom Modal -->
+    <div id="imgZoomModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.88); z-index:4000; align-items:center; justify-content:center; padding:1.5rem;" onclick="this.style.display='none'">
+        <img id="zoomedImg" src="" alt="สลิปขนาดเต็ม" style="max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 0 40px rgba(0,0,0,0.6);">
+    </div>
 
-            <p style="font-size:0.88rem; color:var(--ink-secondary); margin-bottom:0.85rem;">
-                นักวิ่ง: <strong id="rejectRunnerName">-</strong> (ข้อความนี้จะแสดงให้นักวิ่งเห็นเพื่อส่งสลิปใหม่)
+    <!-- Admin PIN Login Overlay -->
+    <div id="adminPinModal" style="display:flex; position:fixed; inset:0; background:rgba(3,20,27,0.94); backdrop-filter:blur(12px); z-index:5000; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#fff; border-radius:var(--radius-lg); max-width:420px; width:100%; padding:2.5rem; text-align:center; box-shadow:0 20px 45px rgba(0,0,0,0.4);">
+            <div style="font-size:0.82rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">RESTRICTED ACCESS</div>
+            <h3 style="color:var(--navy-marine); font-size:1.4rem; margin:0.4rem 0 0.5rem 0;">เข้าสู่ระบบเจ้าหน้าที่</h3>
+            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.75rem;">
+                กรุณาระบุรหัสผ่านเพื่อเข้าถึงระบบจัดการ (รหัสเริ่มต้น: <strong>phrunai2570</strong>)
             </p>
-
-            <div style="margin-bottom:0.85rem;">
-                <span class="reason-chip" onclick="fillRejectReason('ยอดโอนไม่ครบตามที่กำหนด (กรุณาตรวจสอบค่าเสื้อแขนยาว +50 บาท)')">ยอดโอนไม่ครบ (+50 บ. แขนยาว)</span>
-                <span class="reason-chip" onclick="fillRejectReason('ภาพสลิปไม่ชัดเจน ไม่เห็นวันเวลาหรือยอดเงินโอน')">ภาพสลิปไม่ชัดเจน</span>
-                <span class="reason-chip" onclick="fillRejectReason('ตรวจพบสลิปซ้ำกับรายการลงทะเบียนอื่นในระบบ')">สลิปซ้ำกับรายการอื่น</span>
-                <span class="reason-chip" onclick="fillRejectReason('บัญชีปลายทางไม่ถูกต้อง กรุณาโอนเข้าบัญชีงานเปิดโลกทะเล')">บัญชีปลายทางไม่ถูกต้อง</span>
-            </div>
-
-            <input type="hidden" id="rejectRegId">
-            <div class="form-field-group">
-                <textarea id="rejectReasonInput" rows="3" class="form-input-control" placeholder="พิมพ์รายละเอียดสาเหตุ..." required></textarea>
-            </div>
-
-            <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
-                <button type="button" class="btn btn-secondary btn-sm" onclick="closeRejectModal()">ยกเลิก</button>
-                <button type="button" class="btn btn-danger btn-sm" id="confirmRejectBtn" onclick="confirmRejectRegistration()">ยืนยันปฏิเสธสลิป</button>
+            <form onsubmit="event.preventDefault(); verifyAdminPin();">
+                <input type="password" id="adminPinInput" class="form-input-control" placeholder="รหัสผ่านเข้าสู่ระบบ..." style="font-size:1.1rem; text-align:center; letter-spacing:2px; margin-bottom:1.25rem;" autofocus required>
+                <button type="submit" class="btn btn-primary" style="width:100%; font-size:1rem;">
+                    เข้าสู่ระบบเจ้าหน้าที่ →
+                </button>
+            </form>
+            <div style="margin-top:1.25rem;">
+                <a href="index.html" style="font-size:0.85rem; color:var(--ink-muted);">← กลับหน้าแรก</a>
             </div>
         </div>
     </div>
@@ -381,208 +227,184 @@
     <!-- Scripts -->
     <script src="js/store.js"></script>
     <script>
-        let allRunnersCache = [];
-        let selectedCategoryFilter = 'ALL';
-        const ADMIN_SESSION_KEY = 'kohyao_admin_unlocked_2570';
+        const DEFAULT_PIN = 'phrunai2570';
+        let cachedRunners = [];
 
-        const mobileToggleBtn = document.getElementById('mobileToggle');
-        const navMenuEl = document.getElementById('navMenu');
-
-        if (mobileToggleBtn && navMenuEl) {
-            mobileToggleBtn.addEventListener('click', function () {
-                navMenuEl.classList.toggle('open');
-            });
-
-            navMenuEl.querySelectorAll('a, button').forEach(el => {
-                el.addEventListener('click', () => {
-                    navMenuEl.classList.remove('open');
-                });
-            });
+        if (window.KohYaoStore && window.KohYaoStore.CATEGORIES) {
+            window.KohYaoStore.CATEGORIES['5K'].price = 350;
+            window.KohYaoStore.CATEGORIES['5K'].maxQuota = 200;
+            window.KohYaoStore.CATEGORIES['10K'].price = 450;
+            window.KohYaoStore.CATEGORIES['10K'].maxQuota = 200;
         }
 
-        function escapeHtml(str) {
-            if (str === null || str === undefined) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
-        }
-
-        function verifyAdminAccess() {
-            const pin = document.getElementById('adminPinInput').value.trim();
-            const isValid = (window.KohYaoStore && typeof window.KohYaoStore.verifyAdminPin === 'function')
-                ? window.KohYaoStore.verifyAdminPin(pin)
-                : (pin === '2570' || pin === '1234');
-
-            if (isValid) {
-                sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+        function checkAdminAuth() {
+            const isAuth = sessionStorage.getItem('KOHYAO_ADMIN_AUTH');
+            if (isAuth === 'true') {
                 document.getElementById('adminPinModal').style.display = 'none';
-                document.getElementById('pinErrorMsg').style.display = 'none';
-                refreshAdminDashboard();
+                loadDashboard();
             } else {
-                document.getElementById('pinErrorMsg').style.display = 'block';
-                document.getElementById('adminPinInput').value = '';
-                document.getElementById('adminPinInput').focus();
+                document.getElementById('adminPinModal').style.display = 'flex';
             }
         }
 
-        function lockAdminSession() {
-            sessionStorage.removeItem(ADMIN_SESSION_KEY);
-            document.getElementById('adminPinInput').value = '';
-            document.getElementById('adminPinModal').style.display = 'flex';
+        function verifyAdminPin() {
+            const pin = document.getElementById('adminPinInput').value.trim();
+            if (pin === DEFAULT_PIN) {
+                sessionStorage.setItem('KOHYAO_ADMIN_AUTH', 'true');
+                document.getElementById('adminPinModal').style.display = 'none';
+                loadDashboard();
+            } else {
+                alert('รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+                document.getElementById('adminPinInput').value = '';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') {
-                document.getElementById('adminPinModal').style.display = 'none';
-                refreshAdminDashboard();
+            const toggle = document.getElementById('mobileToggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    document.getElementById('navMenu').classList.toggle('open');
+                });
             }
+            checkAdminAuth();
         });
 
-        async function refreshAdminDashboard() {
-            if (!window.KohYaoStore || !window.KohYaoStore.getAllRegistrations) {
-                alert('ไม่พบข้อมูลระบบจัดเก็บ (js/store.js)');
-                return;
+        function configureGoogleScript() {
+            const current = window.KohYaoStore.getGoogleScriptUrl();
+            const url = prompt(
+                'ระบุ Web App URL ของ Google Apps Script:\n(ดูวิธีทำได้ในโฟลเดอร์ google-apps-script/README_GOOGLE_SHEETS.md)\n\nหากต้องการกลับไปใช้โหมดจำลอง ให้เว้นว่างไว้แล้วกดตกลง',
+                current || ''
+            );
+            if (url !== null) {
+                window.KohYaoStore.setGoogleScriptUrl(url.trim());
+                alert(url.trim() ? 'เชื่อมต่อ Google Sheets เรียบร้อยแล้ว' : 'สลับกลับมาใช้โหมดจำลอง LocalStorage');
+                loadDashboard();
+            }
+        }
+
+        async function loadDashboard() {
+            if (!window.KohYaoStore) return;
+
+            const badge = document.getElementById('backendStatusBadge');
+            if (window.KohYaoStore.isGoogleSheetsActive()) {
+                badge.className = 'status-pill approved';
+                badge.innerHTML = 'เชื่อมต่อ Google Sheets สดเรียบร้อย';
+            } else {
+                badge.className = 'status-pill pending';
+                badge.innerHTML = 'โหมดทดสอบจำลอง (LocalStorage)';
             }
 
-            allRunnersCache = await window.KohYaoStore.getAllRegistrations();
-            updateAdminKPIs();
-            renderShirtSummary();
-            renderPendingQueue();
-            renderAllRunnersTable();
+            const stats = await window.KohYaoStore.getStats();
+            cachedRunners = await window.KohYaoStore.getAllRegistrations();
+
+            document.getElementById('mTotalRunners').textContent = stats.total;
+            document.getElementById('mRatioText').textContent = `5K: ${stats.count5K}/200 คน | 10K: ${stats.count10K}/200 คน`;
+            document.getElementById('mPendingCount').textContent = stats.pendingCount;
+            document.getElementById('mApprovedCount').textContent = stats.approvedCount;
+            document.getElementById('mTotalIncome').textContent = `฿${stats.totalIncome.toLocaleString()}`;
+            document.getElementById('mPendingIncomeText').textContent = `รอยืนยัน ฿${stats.pendingIncome.toLocaleString()}`;
+            document.getElementById('queueBadge').textContent = `รอตรวจสอบ ${stats.pendingCount} รายการ`;
+
+            // สรุปจำนวนเสื้อแยก แขนสั้น / แขนยาว จากรายการที่อนุมัติแล้ว
+            const sizeKeys = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
+            const shortCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
+            const longCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
+
+            cachedRunners
+                .filter(r => r.status === window.KohYaoStore.STATUS.APPROVED)
+                .forEach(r => {
+                    const sz = r.shirtSize || 'M';
+                    if (r.shirtType === 'แขนยาว') {
+                        longCounts[sz] = (longCounts[sz] || 0) + 1;
+                    } else {
+                        shortCounts[sz] = (shortCounts[sz] || 0) + 1;
+                    }
+                });
+
+            const totalShort = sizeKeys.reduce((acc, k) => acc + shortCounts[k], 0);
+            const totalLong = sizeKeys.reduce((acc, k) => acc + longCounts[k], 0);
+            const grandTotal = totalShort + totalLong;
+
+            const shortRow = `
+                <tr style="font-size:1rem; font-weight:600;">
+                    <td style="text-align:left; font-weight:700; color:var(--navy-marine);">เสื้อแขนสั้น</td>
+                    ${sizeKeys.map(k => `<td>${shortCounts[k]} ตัว</td>`).join('')}
+                    <td style="color:var(--teal-andaman); font-weight:800;">${totalShort} ตัว</td>
+                </tr>
+            `;
+            const longRow = `
+                <tr style="font-size:1rem; font-weight:600; background:#FFFBEB;">
+                    <td style="text-align:left; font-weight:700; color:var(--gold-dark);">เสื้อแขนยาว (+50 บ.)</td>
+                    ${sizeKeys.map(k => `<td>${longCounts[k]} ตัว</td>`).join('')}
+                    <td style="color:var(--gold-dark); font-weight:800;">${totalLong} ตัว</td>
+                </tr>
+            `;
+            const totalRow = `
+                <tr style="font-size:1.05rem; font-weight:800; background:#F8FAFC; border-top:2px solid var(--border-subtle);">
+                    <td style="text-align:left; color:var(--navy-marine);">รวมทั้งหมด</td>
+                    ${sizeKeys.map(k => `<td>${shortCounts[k] + longCounts[k]} ตัว</td>`).join('')}
+                    <td style="color:var(--navy-marine);">${grandTotal} ตัว</td>
+                </tr>
+            `;
+            document.getElementById('shirtSummaryBody').innerHTML = shortRow + longRow + totalRow;
+
+            renderFastReviewQueue(cachedRunners.filter(r => r.status === window.KohYaoStore.STATUS.PENDING));
+            renderDirectoryTable(cachedRunners);
         }
 
-        function getStatusConstants() {
-            return (window.KohYaoStore && window.KohYaoStore.STATUS)
-                ? window.KohYaoStore.STATUS
-                : { PENDING: 'PENDING', APPROVED: 'APPROVED', REJECTED: 'REJECTED' };
-        }
-
-        function updateAdminKPIs() {
-            const ST = getStatusConstants();
-            const activeRunners = allRunnersCache.filter(r => r.status !== ST.REJECTED);
-            const count5K = activeRunners.filter(r => r.category === '5K').length;
-            const count10K = activeRunners.filter(r => r.category === '10K').length;
-            const pendingList = allRunnersCache.filter(r => r.status === ST.PENDING);
-            const approvedList = allRunnersCache.filter(r => r.status === ST.APPROVED);
-
-            const approvedRevenue = approvedList.reduce((sum, r) => sum + (Number(r.amount) || (r.category === '10K' ? 450 : 350)), 0);
-            const pendingRevenue = pendingList.reduce((sum, r) => sum + (Number(r.amount) || (r.category === '10K' ? 450 : 350)), 0);
-
-            document.getElementById('kpiTotal').textContent = activeRunners.length;
-            document.getElementById('kpiBreakdown').textContent = `5 กม.: ${count5K}/200 • 10 กม.: ${count10K}/200`;
-            document.getElementById('kpiPending').textContent = pendingList.length;
-            document.getElementById('kpiApproved').textContent = approvedList.length;
-            document.getElementById('kpiRevenue').textContent = `฿${approvedRevenue.toLocaleString()}`;
-            document.getElementById('kpiPendingRevenue').textContent = `ยอดรอตรวจสอบ: ฿${pendingRevenue.toLocaleString()}`;
-        }
-
-        function renderShirtSummary() {
-            const ST = getStatusConstants();
-            const active = allRunnersCache.filter(r => r.status !== ST.REJECTED);
-
-            let shortCount = 0;
-            let longCount = 0;
-            const sizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-            const sizeCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
-
-            active.forEach(r => {
-                if ((r.shirtType || 'แขนสั้น') === 'แขนยาว') longCount++;
-                else shortCount++;
-
-                if (sizeCounts.hasOwnProperty(r.shirtSize)) {
-                    sizeCounts[r.shirtSize]++;
-                }
-            });
-
-            document.getElementById('sleeveTypeSummary').textContent = `แขนสั้น: ${shortCount} ตัว • แขนยาว: ${longCount} ตัว (รวม ${active.length} ตัว)`;
-            document.getElementById('shirtSizeBreakdown').innerHTML = sizes.map(sz =>
-                `<span class="shirt-chip">ไซส์ ${sz}: <strong>${sizeCounts[sz]}</strong> ตัว</span>`
-            ).join('');
-        }
-
-        function getDuplicateHashSet() {
-            const counts = {};
-            allRunnersCache.forEach(r => {
-                if (r.slipHash) {
-                    counts[r.slipHash] = (counts[r.slipHash] || 0) + 1;
-                }
-            });
-            const dups = new Set();
-            Object.keys(counts).forEach(h => {
-                if (counts[h] > 1) dups.add(h);
-            });
-            return dups;
-        }
-
-        function renderPendingQueue() {
-            const ST = getStatusConstants();
-            const pendingList = allRunnersCache.filter(r => r.status === ST.PENDING);
-            const dupHashes = getDuplicateHashSet();
-
-            document.getElementById('pendingQueueCount').textContent = pendingList.length;
-            const container = document.getElementById('pendingQueueList');
-
+        function renderFastReviewQueue(pendingList) {
+            const container = document.getElementById('reviewContainer');
             if (pendingList.length === 0) {
                 container.innerHTML = `
-                    <div class="form-envelope-card" style="text-align:center; padding:2.25rem; max-width:100%; background:#F8FAFC;">
-                        <strong style="color:var(--status-approved); font-size:1.05rem;">ไม่มีรายการรอตรวจสอบสลิปในขณะนี้</strong>
-                        <p style="font-size:0.88rem; color:var(--ink-muted); margin-top:4px;">รายการสมัครใหม่ทั้งหมดได้รับการตรวจสอบเรียบร้อยแล้ว</p>
+                    <div class="form-envelope-card" style="text-align:center; padding:3rem;">
+                        <h4 style="color:var(--navy-marine); font-size:1.2rem;">ไม่มีสลิปรอตรวจสอบในขณะนี้</h4>
+                        <p style="color:var(--ink-muted); font-size:0.9rem;">
+                            ทุกรายการได้รับการตรวจสอบเรียบร้อยแล้ว
+                        </p>
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = pendingList.map(r => {
-                const shirtType = r.shirtType || 'แขนสั้น';
-                const expectedFee = (r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0);
-                const amountVal = Number(r.amount) || expectedFee;
-                const isDup = r.slipHash && dupHashes.has(r.slipHash);
-                const slipSrc = r.slipUrl || 'Photo/Qr Payment.jpg';
+            container.innerHTML = pendingList.map(runner => {
+                const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
+                const duplicate = window.KohYaoStore.checkDuplicateSlip(runner.slipHash, runner.id);
+                const hasDupAlert = duplicate ? `
+                    <div style="background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.8rem; margin-top:6px;">
+                        <strong>เตือนสลิปซ้ำ:</strong> พบสลิปนี้ตรงกับรหัส ${duplicate.id} (${duplicate.firstName})
+                    </div>
+                ` : '';
 
                 return `
-                    <div class="review-card-item">
+                    <div class="review-card-item" id="card_${runner.id}">
                         <div>
-                            <img src="${slipSrc}" alt="สลิปโอนเงิน ${escapeHtml(r.firstName)}" class="review-slip-thumb" onclick="openSlipZoomModal('${r.id}')">
+                            <img src="${runner.slipUrl || 'Photo/50768_0.jpg'}" alt="สลิป" class="review-slip-thumb" onclick="zoomImage(this.src)" title="คลิกเพื่อขยายดู">
+                            <span style="display:block; text-align:center; font-size:0.75rem; color:var(--ink-muted); margin-top:4px;">
+                                คลิกที่รูปเพื่อขยายสลิป
+                            </span>
                         </div>
 
                         <div>
-                            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.35rem;">
-                                <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-muted);">${escapeHtml(r.id)}</span>
-                                <span class="status-pill ${r.category === '10K' ? 'pending' : 'approved'}">ระยะ ${escapeHtml(r.category)}</span>
-                                <span style="font-size:0.78rem; color:var(--ink-muted);">ส่งเมื่อ: ${new Date(r.createdAt).toLocaleString('th-TH')}</span>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">${runner.id}</span>
+                                <span class="status-pill pending">รออนุมัติ</span>
                             </div>
-
-                            <h4 style="font-size:1.2rem; color:var(--navy-marine); margin-bottom:0.4rem;">
-                                ${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}
-                                <span style="font-size:0.85rem; font-weight:500; color:var(--ink-muted);">(${escapeHtml(r.gender)} • ${escapeHtml(r.ageGroup || '-')})</span>
-                            </h4>
-
-                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:0.5rem; font-size:0.88rem; color:var(--ink-secondary); margin-bottom:0.5rem;">
-                                <div>เลขบัตร: <strong>${escapeHtml(r.idCard)}</strong></div>
-                                <div>เบอร์โทร: <strong>${escapeHtml(r.phone)}</strong></div>
-                                <div>เสื้อ: <strong>ไซส์ ${escapeHtml(r.shirtSize)} (${escapeHtml(shirtType)})</strong></div>
-                                <div>ยอดที่ต้องชำระ: <strong style="color:var(--teal-andaman); font-size:1rem;">฿${amountVal}</strong></div>
+                            <h4 style="margin:0.25rem 0; font-size:1.2rem; color:var(--navy-marine);">${runner.firstName} ${runner.lastName}</h4>
+                            <div style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.7;">
+                                ระยะแข่งขัน: <strong>${runner.category} (${runner.category === '10K' ? 'ปล่อยตัว 06.00 น.' : 'ปล่อยตัว 05.30 น.'})</strong><br>
+                                ยอดชำระ: <strong style="color:var(--teal-andaman); font-size:1.2rem; font-family:var(--font-heading);">฿${runner.amount}.00</strong><br>
+                                ขนาดเสื้อ: <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong> | เบอร์โทร: <strong>${runner.phone}</strong><br>
+                                วันที่ลงทะเบียน: ${new Date(runner.createdAt).toLocaleString('th-TH')}
                             </div>
-
-                            ${isDup ? `
-                                <div class="dup-badge-inline">
-                                    คำเตือน: ตรวจพบภาพสลิปซ้ำกับรายการอื่นในระบบ กรุณาตรวจสอบละเอียด
-                                </div>
-                            ` : ''}
+                            ${hasDupAlert}
                         </div>
 
                         <div style="display:flex; flex-direction:column; gap:0.6rem;">
-                            <button type="button" class="btn btn-success btn-sm" style="width:100%; justify-content:center;" onclick="handleApproveRunner('${r.id}')">
-                                อนุมัติ & ออก BIB
+                            <button class="btn btn-sm btn-success" style="width:100%;" onclick="approveSlip('${runner.id}')">
+                                อนุมัติ & ออกบิบ
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" style="width:100%; justify-content:center;" onclick="openRejectModal('${r.id}', '${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}')">
+                            <button class="btn btn-sm btn-danger" style="width:100%;" onclick="promptRejectSlip('${runner.id}')">
                                 ปฏิเสธสลิป
-                            </button>
-                            <button type="button" class="btn btn-secondary btn-sm" style="width:100%; justify-content:center;" onclick="openSlipZoomModal('${r.id}')">
-                                ขยายภาพสลิป
                             </button>
                         </div>
                     </div>
@@ -590,246 +412,130 @@
             }).join('');
         }
 
-        function setCategoryFilter(cat, btnEl) {
-            selectedCategoryFilter = cat;
-            document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
-            if (btnEl) btnEl.classList.add('active');
-            renderAllRunnersTable();
-        }
-
-        function renderAllRunnersTable() {
-            const ST = getStatusConstants();
-            const statusVal = document.getElementById('statusFilter').value;
-            const keyword = document.getElementById('tableSearch').value.trim().toLowerCase();
-
-            const filtered = allRunnersCache.filter(r => {
-                if (selectedCategoryFilter !== 'ALL' && r.category !== selectedCategoryFilter) return false;
-                if (statusVal !== 'ALL' && r.status !== statusVal) return false;
-                if (keyword) {
-                    const hay = `${r.bibNumber || ''} ${r.id || ''} ${r.firstName || ''} ${r.lastName || ''} ${r.idCard || ''} ${r.phone || ''}`.toLowerCase();
-                    if (!hay.includes(keyword)) return false;
-                }
-                return true;
-            });
-
-            document.getElementById('filteredRunnerCount').textContent = filtered.length;
+        function renderDirectoryTable(list) {
             const tbody = document.getElementById('runnersTableBody');
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align:center; padding:2.25rem; color:var(--ink-muted);">
-                            ไม่พบรายชื่อนักวิ่งที่ตรงกับเงื่อนไขการค้นหา
-                        </td>
-                    </tr>
-                `;
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:2rem;">ไม่พบข้อมูล</td></tr>';
                 return;
             }
 
-            tbody.innerHTML = filtered.map(r => {
-                const shirtType = r.shirtType || 'แขนสั้น';
-                const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
-                let statusPill = '<span class="status-pill pending">รอตรวจสอบ</span>';
-                if (r.status === ST.APPROVED) statusPill = '<span class="status-pill approved">อนุมัติแล้ว</span>';
-                else if (r.status === ST.REJECTED) statusPill = '<span class="status-pill rejected">สลิปไม่ผ่าน</span>';
+            tbody.innerHTML = list.map(r => {
+                const shirtTypeLabel = r.shirtType || 'แขนสั้น';
+                let statusBadge = '<span class="status-pill pending">รอตรวจ</span>';
+                if (r.status === window.KohYaoStore.STATUS.APPROVED) {
+                    statusBadge = '<span class="status-pill approved">อนุมัติแล้ว</span>';
+                } else if (r.status === window.KohYaoStore.STATUS.REJECTED) {
+                    statusBadge = '<span class="status-pill rejected">ปฏิเสธ</span>';
+                }
 
                 return `
                     <tr>
+                        <td><strong style="color:var(--teal-andaman); font-family:var(--font-heading);">${r.bibNumber || '-'}</strong></td>
+                        <td style="font-family:var(--font-mono); font-size:0.85rem;">${r.id}</td>
+                        <td><strong>${r.firstName} ${r.lastName}</strong></td>
+                        <td>${r.category}</td>
+                        <td>${r.shirtSize} (${shirtTypeLabel})</td>
+                        <td>${r.phone}</td>
+                        <td>฿${r.amount}</td>
+                        <td>${statusBadge}</td>
                         <td>
-                            <strong style="font-family:var(--font-heading); font-size:0.98rem; color:${r.bibNumber ? 'var(--teal-andaman)' : 'var(--ink-muted)'};">
-                                ${escapeHtml(r.bibNumber || 'รออนุมัติ')}
-                            </strong>
-                            <div style="font-size:0.74rem; color:var(--ink-faint); font-family:var(--font-mono);">${escapeHtml(r.id)}</div>
-                        </td>
-                        <td>
-                            <strong style="color:var(--navy-marine);">${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}</strong>
-                            <div style="font-size:0.8rem; color:var(--ink-muted);">เลขบัตร: ${escapeHtml(r.idCard)} (${escapeHtml(r.gender)})</div>
-                        </td>
-                        <td>
-                            <strong>${escapeHtml(r.category)}</strong>
-                            <div style="font-size:0.78rem; color:var(--ink-muted);">${escapeHtml(r.ageGroup || '-')}</div>
-                        </td>
-                        <td>
-                            <strong>ไซส์ ${escapeHtml(r.shirtSize)} (${escapeHtml(shirtType)})</strong>
-                            <div style="font-size:0.82rem; color:var(--teal-andaman); font-weight:600;">฿${amountVal}</div>
-                        </td>
-                        <td>
-                            <div>${escapeHtml(r.phone)}</div>
-                            <div style="font-size:0.78rem; color:var(--ink-muted);">ฉุกเฉิน: ${escapeHtml(r.emergencyPhone || '-')}</div>
-                        </td>
-                        <td>
-                            ${statusPill}
-                            ${r.status === ST.REJECTED && r.adminNotes ? `<div style="font-size:0.75rem; color:#B91C1C; margin-top:3px; max-width:180px;">${escapeHtml(r.adminNotes)}</div>` : ''}
-                        </td>
-                        <td>
-                            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
-                                <button type="button" class="btn btn-secondary btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="openSlipZoomModal('${r.id}')">ดูสลิป</button>
-                                ${r.status !== ST.APPROVED ? `<button type="button" class="btn btn-success btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="handleApproveRunner('${r.id}')">อนุมัติ</button>` : ''}
-                                ${r.status === ST.PENDING ? `<button type="button" class="btn btn-danger btn-sm" style="padding:0.3rem 0.65rem; font-size:0.78rem;" onclick="openRejectModal('${r.id}', '${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}')">ปฏิเสธ</button>` : ''}
-                            </div>
+                            <button class="btn btn-sm btn-secondary" onclick="viewDetails('${r.id}')" title="ดูข้อมูล">
+                                รายละเอียด
+                            </button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        async function handleApproveRunner(regId) {
-            const runner = allRunnersCache.find(r => r.id === regId);
+        function filterRunners() {
+            const status = document.getElementById('statusFilter').value;
+            const search = document.getElementById('tableSearch').value.trim().toLowerCase();
+            let all = cachedRunners;
+
+            if (status !== 'ALL') {
+                all = all.filter(r => r.status === status);
+            }
+            if (search) {
+                all = all.filter(r => 
+                    r.firstName.toLowerCase().includes(search) ||
+                    r.lastName.toLowerCase().includes(search) ||
+                    (r.bibNumber && r.bibNumber.toLowerCase().includes(search)) ||
+                    (r.idCard && r.idCard.includes(search)) ||
+                    r.id.toLowerCase().includes(search)
+                );
+            }
+            renderDirectoryTable(all);
+        }
+
+        async function approveSlip(regId) {
+            try {
+                const reg = await window.KohYaoStore.approveRegistration(regId, 'เจ้าหน้าที่ตรวจสอบยอดเงินตรงและออกบิบเรียบร้อย');
+                alert(`อนุมัติสำเร็จ!\n\nออกหมายเลข BIB: ${reg.bibNumber || 'ออกบิบเรียบร้อย'}`);
+                loadDashboard();
+            } catch (e) {
+                alert('เกิดข้อผิดพลาด: ' + e.message);
+            }
+        }
+
+        async function promptRejectSlip(regId) {
+            const reasons = [
+                'ยอดเงินที่โอนไม่ตรงกับค่าสมัคร (กรุณาตรวจสอบค่าเสื้อแขนสั้น/แขนยาว)',
+                'สลิปการโอนเงินภาพเบลอ ไม่สามารถอ่านข้อความได้',
+                'ตรวจพบสลิปซ้ำกับผู้สมัครรายอื่น',
+                'โอนเข้าบัญชีที่ไม่ถูกต้อง'
+            ];
+            const reason = prompt('ระบุเหตุผลการปฏิเสธสลิป:\n1. ' + reasons.join('\n2. '), reasons[0]);
+            if (reason) {
+                await window.KohYaoStore.rejectRegistration(regId, reason);
+                alert('ปฏิเสธสลิปเรียบร้อยแล้ว');
+                loadDashboard();
+            }
+        }
+
+        function zoomImage(src) {
+            const modal = document.getElementById('imgZoomModal');
+            document.getElementById('zoomedImg').src = src;
+            modal.style.display = 'flex';
+        }
+
+        function viewDetails(regId) {
+            const runner = cachedRunners.find(r => r.id === regId);
             if (!runner) return;
 
-            if (!confirm(`ยืนยันอนุมัติการสมัครและออกหมายเลข BIB ให้แก่:\n${runner.firstName} ${runner.lastName} (ระยะ ${runner.category}) ?`)) {
-                return;
-            }
+            alert(`ข้อมูลนักวิ่ง: ${runner.firstName} ${runner.lastName}\n\n` +
+                  `BIB: ${runner.bibNumber || 'รออนุมัติ'}\n` +
+                  `ระยะ: ${runner.category}\n` +
+                  `ไซส์เสื้อ: ${runner.shirtSize} (${runner.shirtType || 'แขนสั้น'})\n` +
+                  `ยอดชำระ: ฿${runner.amount}\n` +
+                  `เลขบัตร ปชช.: ${runner.idCard}\n` +
+                  `เบอร์โทร: ${runner.phone}\n` +
+                  `ติดต่อฉุกเฉิน: ${runner.emergencyContact} (${runner.emergencyPhone})\n` +
+                  `สถานะ: ${runner.status}\n` +
+                  `หมายเหตุเจ้าหน้าที่: ${runner.adminNotes || '-'}`);
+        }
 
+        function exportData() {
             try {
-                let updated = null;
-                if (window.KohYaoStore && typeof window.KohYaoStore.approveRegistration === 'function') {
-                    updated = await window.KohYaoStore.approveRegistration(regId);
-                } else if (window.KohYaoStore && typeof window.KohYaoStore.updateRegistrationStatus === 'function') {
-                    updated = await window.KohYaoStore.updateRegistrationStatus(regId, 'APPROVED', '');
-                }
-
-                await refreshAdminDashboard();
-                const latest = allRunnersCache.find(r => r.id === regId) || updated;
-                alert(`อนุมัติเรียบร้อยแล้ว!\nหมายเลข BIB ที่ออกให้คือ: ${latest && latest.bibNumber ? latest.bibNumber : 'ออกหมายเลขสำเร็จ'}`);
-            } catch (err) {
-                alert('เกิดข้อผิดพลาดในการอนุมัติ: ' + err.message);
+                const csv = window.KohYaoStore.exportCSV(true);
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `RacePack_BIB_KohYao2570_${new Date().toISOString().slice(0,10)}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (e) {
+                alert('เกิดข้อผิดพลาดในการส่งออก: ' + e.message);
             }
         }
 
-        function openSlipZoomModal(regId) {
-            const r = allRunnersCache.find(item => item.id === regId);
-            if (!r) return;
-
-            const shirtType = r.shirtType || 'แขนสั้น';
-            const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
-
-            document.getElementById('zoomModalRunnerName').textContent = `${r.firstName} ${r.lastName} (${r.id})`;
-            document.getElementById('zoomModalPaymentMeta').textContent = `ระยะ ${r.category} • เสื้อ${shirtType} ไซส์ ${r.shirtSize} • ยอดโอนที่ต้องชำระ ฿${amountVal}`;
-            document.getElementById('zoomModalImg').src = r.slipUrl || 'Photo/Qr Payment.jpg';
-            document.getElementById('slipZoomModal').style.display = 'flex';
-        }
-
-        function closeSlipZoomModal() {
-            document.getElementById('slipZoomModal').style.display = 'none';
-        }
-
-        function openRejectModal(regId, fullName) {
-            document.getElementById('rejectRegId').value = regId;
-            document.getElementById('rejectRunnerName').textContent = fullName;
-            document.getElementById('rejectReasonInput').value = '';
-            document.getElementById('rejectModal').style.display = 'flex';
-        }
-
-        function closeRejectModal() {
-            document.getElementById('rejectModal').style.display = 'none';
-        }
-
-        function fillRejectReason(text) {
-            document.getElementById('rejectReasonInput').value = text;
-        }
-
-        async function confirmRejectRegistration() {
-            const regId = document.getElementById('rejectRegId').value;
-            const reason = document.getElementById('rejectReasonInput').value.trim();
-
-            if (!reason) {
-                alert('กรุณาระบุสาเหตุที่ปฏิเสธสลิป');
-                return;
+        function resetDbConfirm() {
+            if (confirm('คุณต้องการรีเซ็ตฐานข้อมูลเป็นค่าเริ่มต้นสำหรับการทดสอบหรือไม่?')) {
+                window.KohYaoStore.resetDatabase();
+                loadDashboard();
+                alert('รีเซ็ตฐานข้อมูลเรียบร้อยแล้ว');
             }
-
-            const btn = document.getElementById('confirmRejectBtn');
-            btn.disabled = true;
-            btn.textContent = 'กำลังบันทึก...';
-
-            try {
-                if (window.KohYaoStore && typeof window.KohYaoStore.rejectRegistration === 'function') {
-                    await window.KohYaoStore.rejectRegistration(regId, reason);
-                } else if (window.KohYaoStore && typeof window.KohYaoStore.updateRegistrationStatus === 'function') {
-                    await window.KohYaoStore.updateRegistrationStatus(regId, 'REJECTED', reason);
-                }
-
-                closeRejectModal();
-                await refreshAdminDashboard();
-                alert('บันทึกสถานะปฏิเสธสลิปเรียบร้อยแล้ว');
-            } catch (err) {
-                alert('เกิดข้อผิดพลาด: ' + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'ยืนยันปฏิเสธสลิป';
-            }
-        }
-
-        function exportRunnersCSV() {
-            if (!allRunnersCache || allRunnersCache.length === 0) {
-                alert('ยังไม่มีข้อมูลนักวิ่งสำหรับส่งออก');
-                return;
-            }
-
-            const headers = [
-                'BIB',
-                'รหัสลงทะเบียน',
-                'ประเภทระยะทาง',
-                'ชื่อ',
-                'นามสกุล',
-                'เลขบัตรประชาชน',
-                'เพศ',
-                'วันเกิด',
-                'อายุ',
-                'รุ่นอายุ',
-                'เบอร์โทรศัพท์',
-                'อีเมล',
-                'รูปแบบเสื้อ',
-                'ไซส์เสื้อ',
-                'ยอดชำระ (บาท)',
-                'สถานะ',
-                'หมู่เลือด',
-                'ผู้ติดต่อฉุกเฉิน',
-                'เบอร์โทรฉุกเฉิน',
-                'โรคประจำตัว/แพ้ยา',
-                'วันที่ลงทะเบียน'
-            ];
-
-            const rows = allRunnersCache.map(r => {
-                const shirtType = r.shirtType || 'แขนสั้น';
-                const amountVal = Number(r.amount) || ((r.category === '10K' ? 450 : 350) + (shirtType === 'แขนยาว' ? 50 : 0));
-                return [
-                    r.bibNumber || '-',
-                    r.id || '',
-                    r.category || '',
-                    r.firstName || '',
-                    r.lastName || '',
-                    `'${r.idCard || ''}`,
-                    r.gender || '',
-                    r.birthDate || '',
-                    r.age || '',
-                    r.ageGroup || '',
-                    `'${r.phone || ''}`,
-                    r.email || '',
-                    shirtType,
-                    r.shirtSize || '',
-                    amountVal,
-                    r.status || '',
-                    r.bloodType || '',
-                    r.emergencyContact || '',
-                    `'${r.emergencyPhone || ''}`,
-                    r.medicalConditions || 'ไม่มี',
-                    r.createdAt ? new Date(r.createdAt).toLocaleString('th-TH') : ''
-                ].map(val => `"${String(val).replace(/"/g, '""')}"`).join(',');
-            });
-
-            const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\r\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            const dateStamp = new Date().toISOString().slice(0, 10);
-
-            link.href = url;
-            link.setAttribute('download', `KohYaoRun2570_Runners_${dateStamp}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
         }
     </script>
 </body>
