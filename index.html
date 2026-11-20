@@ -24,6 +24,64 @@
     <link rel="stylesheet" href="css/style.css?v=3.1">
 
     <style>
+        /* ปรับการจัดวางการ์ดประเภทการวิ่งและรายการรายละเอียดให้เป็นระเบียบทุกขนาดหน้าจอ */
+        .pass-specs-list li {
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+            gap: 0.65rem !important;
+            text-align: left !important;
+            line-height: 1.65 !important;
+            padding: 0.75rem 0 !important;
+        }
+
+        .pass-specs-list li > span {
+            display: block;
+            flex: 1;
+            min-width: 0;
+            word-break: normal;
+            overflow-wrap: break-word;
+        }
+
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            .pass-header {
+                padding: 1.25rem !important;
+                flex-wrap: wrap !important;
+                gap: 0.6rem !important;
+            }
+
+            .pass-body {
+                padding: 1.25rem !important;
+            }
+
+            .pass-price-bar {
+                padding: 0.9rem 1rem !important;
+                gap: 0.5rem !important;
+                flex-wrap: wrap !important;
+            }
+
+            .pass-specs-list {
+                margin-bottom: 1.25rem !important;
+            }
+
+            .pass-specs-list li {
+                font-size: 0.92rem !important;
+                padding: 0.65rem 0 !important;
+            }
+
+            .pass-body .btn {
+                white-space: normal !important;
+                text-align: center !important;
+                line-height: 1.45 !important;
+                padding: 0.85rem 1rem !important;
+            }
+        }
+
         /* สไตล์สำหรับแผนที่วาดเส้นทางการวิ่งแยก 2 ระยะทาง */
         .route-card-map-box {
             border: 1px solid var(--border-subtle);
@@ -377,7 +435,7 @@
                     <!-- Live Quota Tracker -->
                     <div class="quota-tracker-panel">
                         <div class="quota-meta-row">
-                            <span style="color:#CFFAFE; font-weight:600;">ระยะ 5 กม. (350 บ. / ปล่อยตัว 05.30 น.)</span>
+                            <span style="color:#CFFAFE; font-weight:600;">ระยะ 5 กม. (350 บ. / ปล่อยตัว 06.00 น.)</span>
                             <span id="heroQuota5k" style="color:#94A3B8;">กำลังโหลดโควตา...</span>
                         </div>
                         <div class="quota-progress-track">
@@ -385,7 +443,7 @@
                         </div>
 
                         <div class="quota-meta-row">
-                            <span style="color:#FEF08A; font-weight:600;">ระยะ 10 กม. (450 บ. / ปล่อยตัว 06.00 น.)</span>
+                            <span style="color:#FEF08A; font-weight:600;">ระยะ 10 กม. (450 บ. / ปล่อยตัว 05.30 น.)</span>
                             <span id="heroQuota10k" style="color:#94A3B8;">กำลังโหลดโควตา...</span>
                         </div>
                         <div class="quota-progress-track">
@@ -482,12 +540,12 @@
                         </div>
 
                         <ul class="pass-specs-list">
-                            <li><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</li>
-                            <li>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</li>
-                            <li><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</li>
-                            <li><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (2,000 / 1,500 / 800 บาท)</li>
-                            <li>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 5K-0001 ถึง 5K-0200)</li>
-                            <li>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>05.30 น.</strong> • จุดบริการน้ำ 2 จุด</li>
+                            <li><span><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</span></li>
+                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</span></li>
+                            <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
+                            <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (2,000 / 1,500 / 800 บาท)</span></li>
+                            <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 5K-0001 ถึง 5K-0200)</span></li>
+                            <li><span>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>05.30 น.</strong> • จุดบริการน้ำ 2 จุด</span></li>
                         </ul>
 
                         <a href="register.html?category=5K" class="btn btn-primary" style="width:100%;">
@@ -518,12 +576,12 @@
                         </div>
 
                         <ul class="pass-specs-list">
-                            <li><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</li>
-                            <li>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</li>
-                            <li><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</li>
-                            <li><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (3,000 / 2,000 / 1,000 บาท)</li>
-                            <li>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 10K-0001 ถึง 10K-0200)</li>
-                            <li>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 4 จุด</li>
+                            <li><span><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</span></li>
+                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</span></li>
+                            <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
+                            <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 แยกชาย/หญิง</strong> (3,000 / 2,000 / 1,000 บาท)</span></li>
+                            <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 10K-0001 ถึง 10K-0200)</span></li>
+                            <li><span>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 4 จุด</span></li>
                         </ul>
 
                         <a href="register.html?category=10K" class="btn btn-accent" style="width:100%;">
@@ -547,7 +605,7 @@
             </div>
 
             <div
-                style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; margin-bottom:2rem;">
+                style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap:2rem; margin-bottom:2rem;">
                 <!-- 5K Prizes -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
@@ -684,7 +742,7 @@
                     แสดงแนวเส้นทางการวิ่งจริงบนแผนที่แยกทั้ง 2 ระยะทาง พร้อมจุดบริการน้ำดื่มและจุดประทับตราครบถ้วน</p>
             </div>
 
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(310px, 1fr)); gap:2rem;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap:2rem;">
                 <!-- 5K Route Card + Interactive Drawn Route Map 1 -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
@@ -1080,7 +1138,7 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- Scripts -->
-    <script src="js/store.js"></script>
+    <script src="js/store.js?v=3.1"></script>
     <script>
         // ================= INTERACTIVE DRAWN RACE ROUTES (5K & 10K) =================
         const RACE_ROUTES_DATA = {
