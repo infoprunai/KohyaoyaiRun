@@ -130,15 +130,15 @@
         .map-bar-controls {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             flex-wrap: wrap;
         }
 
         .btn-map-mode {
             font-family: 'Prompt', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.74rem;
             font-weight: 600;
-            padding: 0.3rem 0.7rem;
+            padding: 0.3rem 0.65rem;
             border-radius: 999px;
             border: 1px solid var(--border-subtle);
             background: #FFFFFF;
@@ -160,7 +160,7 @@
 
         .route-leaflet-canvas {
             width: 100%;
-            height: 350px;
+            height: 360px;
             z-index: 1;
             background: #E2E8F0;
         }
@@ -171,7 +171,7 @@
             border-top: 1px solid var(--border-subtle);
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem 1rem;
+            gap: 0.65rem 1rem;
             font-size: 0.76rem;
             color: var(--ink-secondary);
         }
@@ -303,7 +303,7 @@
         .pin-start {
             background: #059669;
             font-size: 10px;
-            padding: 0 7px;
+            padding: 0 8px;
             height: 24px;
         }
 
@@ -312,14 +312,14 @@
             font-size: 10px;
             width: auto;
             padding: 0 7px;
-            height: 24px;
+            height: 22px;
         }
 
         .pin-stamp {
             background: #E11D48;
             font-size: 10px;
             padding: 0 7px;
-            height: 24px;
+            height: 22px;
         }
 
         .pin-turn {
@@ -327,6 +327,19 @@
             font-size: 9px;
             width: 18px;
             height: 18px;
+            opacity: 0.9;
+        }
+
+        .route-step-clickable {
+            cursor: pointer;
+            border-radius: 6px;
+            padding: 2px 6px;
+            margin-left: -6px;
+            transition: background-color 0.15s ease;
+        }
+
+        .route-step-clickable:hover {
+            background-color: #F1F5F9;
         }
 
         .leaflet-popup-content-wrapper {
@@ -492,7 +505,7 @@
                         วันแข่งขัน & เช็คบิบ</div>
                     <div style="font-size:1.08rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">31 มกราคม
                         2570</div>
-                    <div style="font-size:0.82rem; color:var(--ink-muted);">เช็คบิบก่อนปล่อยตัว 30 นาที(05.00 น.) ณ อ่าวโละจาก</div>
+                    <div style="font-size:0.82rem; color:var(--ink-muted);">เช็คบิบก่อนปล่อยตัว 30 นาที (05.00 น.) ณ อ่าวโละจาก</div>
                 </div>
 
                 <div
@@ -500,7 +513,7 @@
                     <div
                         style="font-size:0.78rem; font-weight:700; color:var(--navy-marine); text-transform:uppercase;">
                         เวลาปล่อยตัวนักกีฬา</div>
-                    <div style="font-size:1.05rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">5 กม. 06.00 น. | 10 กม. 06.00 น.</div>
+                    <div style="font-size:1.05rem; font-weight:800; color:var(--navy-marine); margin-top:2px;">5 กม. 06.00 น. | 10 กม. 05.30 น.</div>
                     <div style="font-size:0.82rem; color:var(--ink-muted);">เหรียญรางวัล 100 คนแรกของแต่ละประเภท</div>
                 </div>
             </div>
@@ -545,7 +558,7 @@
                             <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
                             <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 (ไม่แยกชาย-หญิง)</strong> (2,000 / 1,500 / 800 บาท)</span></li>
                             <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 5K-0001 ถึง 5K-0200)</span></li>
-                            <li><span>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 2 จุด</span></li>
+                            <li><span>เช็คบิบเวลาได้ตั้งแต่เวลา <strong>05.30 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 2 จุด</span></li>
                         </ul>
 
                         <a href="register.html?category=5K" class="btn btn-primary" style="width:100%;">
@@ -581,11 +594,11 @@
                             <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
                             <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 (ไม่แยกชาย-หญิง)</strong> (3,000 / 2,000 / 1,000 บาท)</span></li>
                             <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 10K-0001 ถึง 10K-0200)</span></li>
-                            <li><span>เช็คบิบเวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>06.00 น.</strong> • จุดบริการน้ำ 4 จุด</span></li>
+                            <li><span>เช็คบิบเวลาได้ตั้งแต่เวลา <strong>05.00 น.</strong> • ปล่อยตัวเวลา <strong>05.30 น.</strong> • จุดบริการน้ำ 4 จุด</span></li>
                         </ul>
 
                         <a href="register.html?category=10K" class="btn btn-accent" style="width:100%;">
-                            สมัครวิ่งระยะ 10 กม. (฿450 / แขนยาว ฿500) →
+                            สมัครวิ่งระยะ 10 กม.
                         </a>
                     </div>
                 </div>
@@ -737,7 +750,7 @@
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
                     <div
-                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem;">
+                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem; gap:0.5rem; flex-wrap:wrap;">
                         <div>
                             <span
                                 style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ROUTE
@@ -752,12 +765,16 @@
                     <div class="route-card-map-box">
                         <div class="route-card-map-bar">
                             <span class="route-card-map-label">
-                                <span class="map-dot-5k"></span> เส้นทางวิ่งระยะ 5 กม.
+                                <span class="map-dot-5k"></span> แผนที่เส้นทาง 5 กม.
                             </span>
                             <div class="map-bar-controls">
+                                <button type="button" class="btn-map-mode" onclick="resetRouteView('5k')"
+                                    title="จัดกึ่งกลางเส้นทางทั้งหมด">
+                                    จัดกึ่งกลาง
+                                </button>
                                 <button type="button" class="btn-map-mode" id="editBtn5k"
                                     onclick="toggleEditRoute('5k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
-                                    ปรับจุดเส้นทาง
+                                    ปรับจุด
                                 </button>
                                 <button type="button" class="btn-map-mode" id="satBtn5k"
                                     onclick="toggleLeafletLayer('5k')">
@@ -783,7 +800,7 @@
                         </div>
 
                         <div class="route-card-map-footer">
-                            <a href="https://www.google.com/maps/dir/?api=1&origin=7.9262,98.5838&destination=7.9262,98.5838&waypoints=7.9292,98.5912%7C7.9260,98.5955%7C7.9325,98.5985%7C7.9310,98.5935%7C7.9280,98.5930&travelmode=walking"
+                            <a href="https://maps.app.goo.gl/djFaqJXwZXhDzr2g6"
                                 target="_blank" rel="noopener noreferrer" class="btn-open-gmap theme-5k">
                                 เปิดนำทางระยะ 5 กม. ใน Google Maps ↗
                             </a>
@@ -792,24 +809,45 @@
 
                     <ol
                         style="padding-left:1.25rem; margin:0; color:var(--ink-secondary); font-size:0.93rem; line-height:1.85;">
-                        <li><strong>จุดปล่อยตัว (Start 06.00 น.):</strong> ออกวิ่งจาก <strong>อ่าวโละจาก</strong>
-                            มุ่งหน้าไปทางกุโบร์อ่าวโละจาก</li>
-                        <li>เลี้ยวขวาที่ <strong>สามแยก รร.อ่าวกะพ้อ</strong> วิ่งเข้าสู่ถนนสายหลัก</li>
-                        <li>เลี้ยวซ้ายที่ <strong>สามแยกบ้านออก</strong> วิ่งตรงถึง <strong>สี่แยกบ้านชามเลาะ</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 0)">
+                            <strong>จุดปล่อยตัว (Start 06.00 น.):</strong> ออกวิ่งจาก <strong>สะพานโล๊ะจาก</strong>
+                            วิ่งตามถนนเส้นหลักจนถึง <strong>สามเเยกโล๊ะจากเลี้ยวซ้าย</strong> 
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 1)">
+                            วิ่งตรงไปวิ่งถึงสามเเยกบ้านออก <strong>เลี้ยวซ้าย</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 2)">
+                            วิ่งต่อไปถึง <strong>สามแยกโค้งชามเลาะห์</strong>
                             <div
-                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
-                                <strong>จุดบริการน้ำที่ 1 + จุดประทับตรา</strong> (สี่แยกบ้านชามเลาะ)
+                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 1+ จุดประทับตรา </strong> (สามแยกโค้งชามเลาะห์)
                             </div>
                         </li>
-                        <li>วิ่งเข้าสู่ <strong>ซอยอิสาน</strong> และเลี้ยวขวาที่ <strong>สามแยกท่ายาง</strong></li>
-                        <li>วิ่งต่อถึง <strong>สามแยกบ้านออก</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 3)">
+                            เลี้ยวขวาเข้าสู่ <strong>ซอยอิสาน</strong> และเลี้ยวขวาที่ <strong>สามแยกท่ายาง</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 4)">
+                            วิ่งตรงต่อไปถึง <strong>สามแยกบ้านออก</strong>
                             <div
                                 style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
                                 <strong>จุดบริการน้ำที่ 2</strong> (สามแยกบ้านออก)
                             </div>
                         </li>
-                        <li>วิ่งต่อไปถึง <strong>สามแยกโละจาก</strong> เลี้ยวเข้าสู่ <strong>เส้นชัย (Finish) ณ
-                                อ่าวโละจาก</strong></li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 5)">
+                            วิ่งตรงต่อไปผ่านมัสยิดอัสลามียะฮ์ถึง <strong>สามแยกอนันต์มินิมาร์ทเลี้ยวขวา</strong> มุ่งหน้าเข้าสู่
+                            <strong>โรงเรียนอ่าวกะพ้อ</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 5)">
+                            เลี้ยวซ้ายที่ <strong>สามแยกโรงเรียนอ่าวกะพ้อ</strong> มุ่งหน้าเข้าสู่
+                            <strong>กุโบร์โล๊ะจาก</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 6)">
+                            ถึงหน้าโรงเรียนอ่าวกระพ้อ <strong>วิ่งตรงไปตามถนนทางไปกุโบร์โล๊ะจาก</strong> ถึงกุโบร์โล๊ะจากเลี้ยวขวาก่อนถึงกุโบร์โล๊ะจาก
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('5k', 7)">
+                           เข้าสู่ชายหาดโล๊ะจาก มุ่งหน้าสู่
+                            <strong>เส้นชัย (Finish) ณ อ่าวโละจาก</strong>
+                        </li>
                     </ol>
                 </div>
 
@@ -817,11 +855,11 @@
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
                     <div
-                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem;">
+                        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem; margin-bottom:1.25rem; gap:0.5rem; flex-wrap:wrap;">
                         <div>
                             <span
                                 style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ROUTE
-                                MAP 2 • ปล่อยตัว 06.00 น.</span>
+                                MAP 2 • ปล่อยตัว 05.30 น.</span>
                             <h4 style="font-size:1.35rem; color:var(--navy-marine); margin:2px 0 0 0;">เส้นทางวิ่งระยะ
                                 10 กม.</h4>
                         </div>
@@ -832,12 +870,16 @@
                     <div class="route-card-map-box">
                         <div class="route-card-map-bar">
                             <span class="route-card-map-label">
-                                <span class="map-dot-10k"></span> เส้นทางวิ่งระยะ 10 กม.
+                                <span class="map-dot-10k"></span> แผนที่เส้นทาง 10 กม.
                             </span>
                             <div class="map-bar-controls">
+                                <button type="button" class="btn-map-mode" onclick="resetRouteView('10k')"
+                                    title="จัดกึ่งกลางเส้นทางทั้งหมด">
+                                    จัดกึ่งกลาง
+                                </button>
                                 <button type="button" class="btn-map-mode" id="editBtn10k"
                                     onclick="toggleEditRoute('10k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
-                                    ปรับจุดเส้นทาง
+                                    ปรับจุด
                                 </button>
                                 <button type="button" class="btn-map-mode" id="satBtn10k"
                                     onclick="toggleLeafletLayer('10k')">
@@ -863,7 +905,7 @@
                         </div>
 
                         <div class="route-card-map-footer">
-                            <a href="https://www.google.com/maps/dir/?api=1&origin=7.9262,98.5838&destination=7.9262,98.5838&waypoints=7.9292,98.5912%7C7.9385,98.5910%7C7.9485,98.5945%7C7.9545,98.5975%7C7.9395,98.5995%7C7.9260,98.5955&travelmode=walking"
+                            <a href="https://maps.app.goo.gl/Xh1XXGwqtU87wQeg9"
                                 target="_blank" rel="noopener noreferrer" class="btn-open-gmap theme-10k">
                                 เปิดนำทางระยะ 10 กม. ใน Google Maps ↗
                             </a>
@@ -872,37 +914,56 @@
 
                     <ol
                         style="padding-left:1.25rem; margin:0; color:var(--ink-secondary); font-size:0.93rem; line-height:1.85;">
-                        <li><strong>จุดปล่อยตัว (Start 06.00 น.):</strong> ออกวิ่งจาก <strong>อ่าวโละจาก</strong>
-                            ไปทางกุโบร์อ่าวโละจาก ผ่าน รร.อ่าวกะพ้อ ไปตามถนนนาถ้ำ–นาบน</li>
-                        <li>วิ่งถึง <strong>สามแยกโรงน้ำ</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 0)">
+                            <strong>จุดปล่อยตัว (Start 05.30 น.):</strong> ออกวิ่งจาก <strong>สะพานโล๊ะจาก</strong>
+                            วิ่งตามถนนเส้นหลักจนถึง <strong>สามเเยกโล๊ะจากเลี้ยวซ้าย</strong> 
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 1)">
+                            วิ่งตรงไปวิ่งถึงสามเเยกบ้านออก <strong>เลี้ยวซ้าย</strong>
                             <div
                                 style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
-                                <strong>จุดบริการน้ำที่ 1</strong> (สามแยกโรงน้ำ)
+                                <strong>จุดบริการน้ำที่ 1</strong> (สามแยกบ้านออก)
                             </div>
                         </li>
-                        <li>วิ่งต่อไปเลี้ยวขวาที่ <strong>สามแยกแหลมใต้</strong> และเลี้ยวซ้ายที่
-                            <strong>สามแยกมัสยิดนาบน</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 2)">
+                            วิ่งต่อไปเลี้ยวซ้ายที่ <strong>สามแยกโค้งชามเลาะห์</strong>
                         </li>
-                        <li>วิ่งตรงไปยัง <strong>สามแยกบ่อหลวง ม.4</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 3)">
+                            วิ่งตรงไป<strong>ผ่านหน้าเทศบาลตำบลพรุใน</strong>
+                            <div
+                                    style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                            <strong>จุดบริการน้ำที่ 2</strong> (หน้าเทศบาลตำบลพรุใน)
+                            </div>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 4)">
+                            วิ่งต่อไปจนถึง<strong>เลี้ยวซ้ายตรงสามแยกต้นท้อน</strong> มุ่งหน้าตรงถึง
+                            <strong>สามเเยกบ่อหลวง(สามเเยกศาลานาบน)</strong>
                             <div
                                 style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
-                                <strong>จุดบริการน้ำที่ 2 + จุดประทับตรา</strong> (สามแยกบ่อหลวง ม.4)
+                                <strong>จุดบริการน้ำที่ 3 + จุดประทับตรา</strong> สามเเยกบ่อหลวง ม.4 (สามเเยกศาลานาบน)
                             </div>
                         </li>
-                        <li>วิ่งต่อไปถึง <strong>สามแยกควนต้นท้อน</strong> ตรงไปถึง <strong>หน้าเทศบาลตำบลพรุใน</strong>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 5)">
+                            วิ่งตรงต่อตามถนนซอยนาบน ผ่าน <strong>หน้ามัสยิดนาบน(มัสยิดดารุนพียะ)</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 6)">
+                            วิ่งตรงต่อตามถนนซอยนาบนเส้นทางไปเเหลมใต้ <strong>เลี้ยวซ้ายสามเเยกเเหลมใต้</strong>
+                            <strong>มุ่งหน้าสู่ถนนนาถ้ำไปโรงเรียนอ่าวกระพ้อ</strong>
+                        </li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 3)">
+                            วิ่งตรงไป<strong>ผ่านถนนนาถ้ำ</strong>
                             <div
-                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
-                                <strong>จุดบริการน้ำที่ 3</strong> (หน้าเทศบาลตำบลพรุใน)
+                                    style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); color:#155E75; font-size:0.84rem; border-radius:0 6px 6px 0;">
+                                <strong>จุดบริการน้ำที่ 4</strong> (สามแยกโรงน้ำ)
                             </div>
                         </li>
-                        <li>วิ่งต่อบนถนนสายหลัก ถึง <strong>สามแยกบ้านออก</strong>
-                            <div
-                                style="margin:4px 0 6px 0; padding:0.4rem 0.75rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); color:#92400E; font-size:0.84rem; border-radius:0 6px 6px 0;">
-                                <strong>จุดบริการน้ำที่ 4</strong> (สามแยกบ้านออก)
-                            </div>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 8)">
+                            ถึงหน้าโรงเรียนอ่าวกระพ้อ <strong>วิ่งตรงไปตามถนนทางไปกุโบร์โล๊ะจาก</strong> ถึงกุโบร์โล๊ะจากเลี้ยวขวาก่อนถึงกุโบร์โล๊ะจาก
                         </li>
-                        <li>วิ่งต่อไปถึง <strong>สี่แยกโละจาก</strong> เลี้ยวขวาสู่ <strong>เส้นชัย (Finish) ณ
-                                อ่าวโละจาก</strong></li>
+                        <li class="route-step-clickable" onclick="focusRoutePoint('10k', 9)">
+                           เข้าสู่ชายหาดโล๊ะจาก มุ่งหน้าสู่
+                            <strong>เส้นชัย (Finish) ณ อ่าวโละจาก</strong>
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -915,7 +976,7 @@
             <div class="section-header">
                 <div class="badge-tag"><span class="dot"></span> ชุดแข่งขันที่ระลึก</div>
                 <h3 class="section-title">ดีไซน์สะท้อนธรรมชาติอันดามัน (เลือกได้ทั้งแขนสั้น & แขนยาว)</h3>
-                <p class="section-desc">ออกแบบลวดลายสะท้อนเสน่ห์ "สะพานท่าเรืออัสดง และ ผืนน้ำมรกตแหลมหาด"
+                <p class="section-desc">ออกแบบลวดลายสะท้อนเสน่ห์ "สะพานท่าเรืออัสดง และ ผืนน้ำมรกตเกาะไข่"
                     สวมใส่สบายด้วยเทคโนโลยีผ้า QuickDry (เสื้อแขนยาวเพิ่ม 50 บาท)</p>
             </div>
 
@@ -949,14 +1010,13 @@
                         <div>
                             <strong style="color:#155E75; display:block; font-size:0.95rem;">รุ่นแขนยาว (+50 บาท: 5 กม. ฿400 / 10 กม. ฿500)</strong>
                             <span
-                                style="font-size:0.85rem; color:#0E7490;">สื่อถึงความบริสุทธิ์ของผืนน้ำทะเลมรกตและหาดทรายขาวละเอียดของแหลมหาด
-                                ปกป้องแดดและลมทะเลได้ดีเยี่ยม</span>
+                                style="font-size:0.85rem; color:#0E7490;">สื่อถึงความบริสุทธิ์ของผืนน้ำทะเลมรกตและหาดทรายขาวละเอียดของเกาะไข่ ปกป้องแดดและลมทะเลได้ดีเยี่ยม</span>
                         </div>
                     </div>
 
                     <div style="margin-top:1.5rem;">
                         <a href="register.html" class="btn btn-primary">
-                            เลือกขนาดเสื้อและลงทะเบียน (XS - 3XL) →
+                            เลือกขนาดเสื้อและลงทะเบียน
                         </a>
                     </div>
                 </div>
@@ -1022,24 +1082,24 @@
                     </div>
                 </div>
 
-                <!-- 3. แหลมหาด มัลดีฟส์เมืองไทย -->
+                <!-- 3. เกาะไข่ (หมู่เกาะไข่ ต.พรุใน) -->
                 <div
                     style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
                     <div style="height:220px; overflow:hidden;">
-                        <img src="Photo/50769_0.jpg" alt="แหลมหาด เกาะยาวใหญ่"
+                        <img src="Photo/50769_0.jpg" alt="เกาะไข่ เกาะยาวใหญ่ พังงา"
                             style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
                             onmouseover="this.style.transform='scale(1.05)'"
                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                     <div style="padding:1.5rem; flex-grow:1; display:flex; flex-direction:column;">
                         <span
-                            style="font-size:0.75rem; font-weight:700; color:var(--cyan-horizon); letter-spacing:0.06em; text-transform:uppercase;">NATURAL
-                            ICONIC WONDER</span>
-                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">แหลมหาด
-                            (สันทรายทะเลแหวก)</h4>
+                            style="font-size:0.75rem; font-weight:700; color:var(--cyan-horizon); letter-spacing:0.06em; text-transform:uppercase;">ANDAMAN
+                            TROPICAL GEM</span>
+                        <h4 style="font-size:1.15rem; color:var(--navy-marine); margin:0.35rem 0 0.5rem 0;">เกาะไข่
+                            (หมู่เกาะไข่ ต.พรุใน)</h4>
                         <p style="font-size:0.88rem; color:var(--ink-muted); line-height:1.7; margin:0;">
-                            ปรากฏการณ์ธรรมชาติเมื่อน้ำลด สันทรายสีขาวทอดยื่นออกสู่ใจกลางทะเลมรกต
-                            จุดถ่ายภาพระดับแลนด์มาร์กที่ได้รับการยกย่องเป็นมัลดีฟส์แห่งเมืองไทย
+                            หมู่เกาะสวรรค์แห่งทะเลอันดามันในเขตตำบลพรุใน โดดเด่นด้วยหาดทรายขาวละเอียด น้ำทะเลใสสีมรกต
+                            แนวปะการังน้ำตื้น และฝูงปลาสวยงามที่แหวกว่ายใกล้ชายฝั่ง
                         </p>
                     </div>
                 </div>
@@ -1138,16 +1198,65 @@
                 editBtnId: 'editBtn5k',
                 editHelperId: 'editHelper5k',
                 color: '#0E7490',
-                center: [7.9292, 98.5915],
+                center: [7.9390, 98.5840],
                 zoom: 15,
                 points: [
-                    { lat: 7.9262, lng: 98.5838, type: 'start', code: 'START', title: 'จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)', desc: 'จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 5 กม.' },
-                    { lat: 7.9292, lng: 98.5912, type: 'turn', code: '1', title: 'สามแยก รร.อ่าวกะพ้อ', desc: 'เลี้ยวขวาเข้าสู่ถนนสายหลัก' },
-                    { lat: 7.9325, lng: 98.5985, type: 'stamp', code: 'น้ำ 1 + ตรา', title: 'สี่แยกบ้านชามเลาะ', desc: 'จุดบริการน้ำที่ 1 + จุดประทับตราตรวจสอบเส้นทาง' },
-                    { lat: 7.9308, lng: 98.5948, type: 'turn', code: '2', title: 'ซอยอิสาน – สามแยกท่ายาง', desc: 'วิ่งเข้าซอยอิสานและเลี้ยวขวาที่สามแยกท่ายาง' },
-                    { lat: 7.9260, lng: 98.5955, type: 'water', code: 'น้ำ 2', title: 'สามแยกบ้านออก', desc: 'จุดบริการน้ำที่ 2 ก่อนมุ่งหน้ากลับอ่าวโละจาก' },
-                    { lat: 7.9278, lng: 98.5885, type: 'turn', code: '3', title: 'สามแยกโละจาก', desc: 'เลี้ยวเข้าสู่เส้นชัย ณ อ่าวโละจาก' },
-                    { lat: 7.9262, lng: 98.5838, type: 'finish', code: 'FINISH', title: 'เส้นชัย (อ่าวโละจาก)', desc: 'เข้าเส้นชัยระยะ 5 กม.' }
+                    {
+                        "lat": 7.932883,
+                        "lng": 98.574954,
+                        "type": "start",
+                        "code": "START",
+                        "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)",
+                        "desc": "จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 5 กม."
+                    },
+                    {
+                        "lat": 7.940194,
+                        "lng": 98.585171,
+                        "type": "turn",
+                        "code": "1",
+                        "title": "สามแยก รร.อ่าวกะพ้อ",
+                        "desc": "เลี้ยวขวาเข้าสู่ถนนสายหลัก"
+                    },
+                    {
+                        "lat": 7.945719,
+                        "lng": 98.589441,
+                        "type": "stamp",
+                        "code": "น้ำ 1 + ตรา",
+                        "title": "สี่แยกบ้านชามเลาะ",
+                        "desc": "จุดบริการน้ำที่ 1 + จุดประทับตราตรวจสอบเส้นทาง"
+                    },
+                    {
+                        "lat": 7.936198,
+                        "lng": 98.593221,
+                        "type": "turn",
+                        "code": "2",
+                        "title": "ซอยอิสาน – สามแยกท่ายาง",
+                        "desc": "เลี้ยวขวาเข้าซอยอิสานและเลี้ยวขวาที่สามแยกท่ายาง"
+                    },
+                    {
+                        "lat": 7.939343,
+                        "lng": 98.584524,
+                        "type": "water",
+                        "code": "น้ำ 2",
+                        "title": "สามแยกบ้านออก",
+                        "desc": "จุดบริการน้ำที่ 2 ก่อนมุ่งหน้ากลับอ่าวโละจาก"
+                    },
+                    {
+                        "lat": 7.936453,
+                        "lng": 98.590107,
+                        "type": "turn",
+                        "code": "3",
+                        "title": "สามแยกโละจาก",
+                        "desc": "ผ่านสามแยกโละจากมุ่งหน้าเข้าสู่เส้นชัย ณ อ่าวโละจาก"
+                    },
+                    {
+                        "lat": 7.932883,
+                        "lng": 98.574954,
+                        "type": "finish",
+                        "code": "FINISH",
+                        "title": "เส้นชัย (อ่าวโละจาก)",
+                        "desc": "เข้าเส้นชัยระยะ 5 กม."
+                    }
                 ]
             },
             '10k': {
@@ -1156,20 +1265,97 @@
                 editBtnId: 'editBtn10k',
                 editHelperId: 'editHelper10k',
                 color: '#D97706',
-                center: [7.9395, 98.5935],
+                center: [7.9490, 98.5825],
                 zoom: 14,
                 points: [
-                    { lat: 7.9262, lng: 98.5838, type: 'start', code: 'START', title: 'จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)', desc: 'จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 10 กม.' },
-                    { lat: 7.9292, lng: 98.5912, type: 'turn', code: '1', title: 'ผ่าน รร.อ่าวกะพ้อ', desc: 'มุ่งหน้าไปตามถนนนาถ้ำ–นาบน' },
-                    { lat: 7.9385, lng: 98.5910, type: 'water', code: 'น้ำ 1', title: 'สามแยกโรงน้ำ', desc: 'จุดบริการน้ำที่ 1' },
-                    { lat: 7.9465, lng: 98.5905, type: 'turn', code: '2', title: 'สามแยกแหลมใต้', desc: 'เลี้ยวขวาที่สามแยกแหลมใต้' },
-                    { lat: 7.9485, lng: 98.5945, type: 'turn', code: '3', title: 'สามแยกมัสยิดนาบน', desc: 'เลี้ยวซ้ายที่สามแยกมัสยิดนาบน' },
-                    { lat: 7.9545, lng: 98.5975, type: 'stamp', code: 'น้ำ 2 + ตรา', title: 'สามแยกบ่อหลวง ม.4', desc: 'จุดบริการน้ำที่ 2 + จุดประทับตราตรวจสอบเส้นทาง' },
-                    { lat: 7.9475, lng: 98.6005, type: 'turn', code: '4', title: 'สามแยกควนต้นท้อน', desc: 'วิ่งตรงไปทางเทศบาลตำบลพรุใน' },
-                    { lat: 7.9395, lng: 98.5995, type: 'water', code: 'น้ำ 3', title: 'หน้าเทศบาลตำบลพรุใน', desc: 'จุดบริการน้ำที่ 3' },
-                    { lat: 7.9260, lng: 98.5955, type: 'water', code: 'น้ำ 4', title: 'สามแยกบ้านออก', desc: 'จุดบริการน้ำที่ 4' },
-                    { lat: 7.9278, lng: 98.5885, type: 'turn', code: '5', title: 'สี่แยกโละจาก', desc: 'เลี้ยวขวาสู่เส้นชัย ณ อ่าวโละจาก' },
-                    { lat: 7.9262, lng: 98.5838, type: 'finish', code: 'FINISH', title: 'เส้นชัย (อ่าวโละจาก)', desc: 'เข้าเส้นชัยระยะ 10 กม.' }
+                    {
+                        "lat": 7.93318,
+                        "lng": 98.574657,
+                        "type": "start",
+                        "code": "START",
+                        "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)",
+                        "desc": "จุดรวมพล ปล่อยตัว 05.30 น. และเข้าเส้นชัยระยะ 10 กม."
+                    },
+                    {
+                        "lat": 7.938451,
+                        "lng": 98.58088,
+                        "type": "turn",
+                        "code": "1",
+                        "title": "ผ่าน รร.อ่าวกะพ้อ",
+                        "desc": "มุ่งหน้าไปตามถนนนาถ้ำ–นาบน"
+                    },
+                    {
+                        "lat": 7.939301,
+                        "lng": 98.584528,
+                        "type": "water",
+                        "code": "น้ำ 1",
+                        "title": "สามแยกโรงน้ำ",
+                        "desc": "จุดบริการน้ำที่ 1"
+                    },
+                    {
+                        "lat": 7.946697,
+                        "lng": 98.590451,
+                        "type": "turn",
+                        "code": "2",
+                        "title": "สามแยกแหลมใต้",
+                        "desc": "เลี้ยวขวาที่สามแยกแหลมใต้"
+                    },
+                    {
+                        "lat": 7.956982,
+                        "lng": 98.577447,
+                        "type": "turn",
+                        "code": "3",
+                        "title": "สามแยกมัสยิดนาบน",
+                        "desc": "เลี้ยวซ้ายที่สามแยกมัสยิดนาบน"
+                    },
+                    {
+                        "lat": 7.964718,
+                        "lng": 98.581306,
+                        "type": "stamp",
+                        "code": "น้ำ 2 + ตรา",
+                        "title": "สามแยกบ่อหลวง ม.4",
+                        "desc": "จุดบริการน้ำที่ 2 + จุดประทับตราตรวจสอบเส้นทาง"
+                    },
+                    {
+                        "lat": 7.952647,
+                        "lng": 98.576712,
+                        "type": "turn",
+                        "code": "4",
+                        "title": "สามแยกควนต้นท้อน",
+                        "desc": "วิ่งตรงไปทางเทศบาลตำบลพรุใน"
+                    },
+                    {
+                        "lat": 7.955495,
+                        "lng": 98.589465,
+                        "type": "water",
+                        "code": "น้ำ 3",
+                        "title": "หน้าเทศบาลตำบลพรุใน",
+                        "desc": "จุดบริการน้ำที่ 3"
+                    },
+                    {
+                        "lat": 7.943424,
+                        "lng": 98.587063,
+                        "type": "water",
+                        "code": "น้ำ 4",
+                        "title": "สามแยกบ้านออก",
+                        "desc": "จุดบริการน้ำที่ 4"
+                    },
+                    {
+                        "lat": 7.938026,
+                        "lng": 98.576799,
+                        "type": "turn",
+                        "code": "5",
+                        "title": "สี่แยกโละจาก",
+                        "desc": "เลี้ยวขวาสู่เส้นชัย ณ อ่าวโละจาก"
+                    },
+                    {
+                        "lat": 7.93318,
+                        "lng": 98.574657,
+                        "type": "finish",
+                        "code": "FINISH",
+                        "title": "เส้นชัย (อ่าวโละจาก)",
+                        "desc": "เข้าเส้นชัยระยะ 10 กม."
+                    }
                 ]
             }
         };
@@ -1181,24 +1367,24 @@
                 return L.divIcon({
                     className: '',
                     html: `<div class="race-pin-badge pin-start">START / FINISH</div>`,
-                    iconSize: [96, 24],
-                    iconAnchor: [48, 12]
+                    iconSize: [102, 24],
+                    iconAnchor: [51, 28]
                 });
             }
             if (pt.type === 'water') {
                 return L.divIcon({
                     className: '',
                     html: `<div class="race-pin-badge pin-water">${pt.code}</div>`,
-                    iconSize: [46, 24],
-                    iconAnchor: [23, 12]
+                    iconSize: [48, 22],
+                    iconAnchor: [24, 11]
                 });
             }
             if (pt.type === 'stamp') {
                 return L.divIcon({
                     className: '',
                     html: `<div class="race-pin-badge pin-stamp">${pt.code}</div>`,
-                    iconSize: [74, 24],
-                    iconAnchor: [37, 12]
+                    iconSize: [76, 22],
+                    iconAnchor: [38, 11]
                 });
             }
             return L.divIcon({
@@ -1217,12 +1403,32 @@
                 if (!res.ok) throw new Error('OSRM response error');
                 const data = await res.json();
                 if (data.routes && data.routes[0] && data.routes[0].geometry) {
-                    return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                    const snapped = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+                    // เชื่อมหัวและท้ายเส้นทางให้แตะหมุด START/FINISH พอดี
+                    const firstPt = [points[0].lat, points[0].lng];
+                    const lastPt = [points[points.length - 1].lat, points[points.length - 1].lng];
+                    return [firstPt, ...snapped, lastPt];
                 }
             } catch (err) {
                 // Fallback ใช้เส้นเชื่อมจุดตามลำดับหากเครือข่ายไม่สามารถเรียก OSRM ได้
             }
             return points.map(p => [p.lat, p.lng]);
+        }
+
+        function fitFullRouteBounds(routeKey) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg) return;
+
+            state.map.invalidateSize();
+            const allCoords = [
+                ...cfg.points.map(p => [p.lat, p.lng]),
+                ...(state.routeLine ? state.routeLine.getLatLngs() : [])
+            ];
+            if (allCoords.length > 0) {
+                const bounds = L.latLngBounds(allCoords);
+                state.map.fitBounds(bounds, { padding: [36, 36] });
+            }
         }
 
         async function drawRouteOnMap(routeKey) {
@@ -1239,18 +1445,20 @@
                 color: '#FFFFFF',
                 weight: 8,
                 opacity: 0.95,
-                lineJoin: 'round'
+                lineJoin: 'round',
+                lineCap: 'round'
             }).addTo(state.map);
 
             state.routeLine = L.polyline(latLngs, {
                 color: cfg.color,
                 weight: 5,
                 opacity: 0.95,
-                lineJoin: 'round'
+                lineJoin: 'round',
+                lineCap: 'round'
             }).addTo(state.map);
 
             if (!state.hasFitted) {
-                state.map.fitBounds(state.routeLine.getBounds(), { padding: [30, 30] });
+                fitFullRouteBounds(routeKey);
                 state.hasFitted = true;
             }
         }
@@ -1262,13 +1470,17 @@
 
             state.markers.forEach(m => state.map.removeLayer(m));
             state.markers = [];
+            state.markerByIndex = {};
 
             cfg.points.forEach((pt, idx) => {
                 if (pt.type === 'finish') return;
 
+                const zOffset = pt.type === 'start' ? 1000 : (pt.type === 'stamp' || pt.type === 'water' ? 500 : 100);
+
                 const marker = L.marker([pt.lat, pt.lng], {
                     icon: createPinIcon(pt),
-                    draggable: state.isEditing
+                    draggable: state.isEditing,
+                    zIndexOffset: zOffset
                 }).addTo(state.map);
 
                 marker.bindPopup(`<strong>${pt.title}</strong><br><span style="color:#475569;">${pt.desc}</span>`);
@@ -1285,6 +1497,7 @@
                 });
 
                 state.markers.push(marker);
+                state.markerByIndex[idx] = marker;
             });
         }
 
@@ -1297,12 +1510,12 @@
                 scrollWheelZoom: false
             }).setView(cfg.center, cfg.zoom);
 
+            // ใช้ Esri World Street Map เป็นพื้นหลังหลักเพื่อไม่ให้ติดบล็อก Referer (403) เมื่อเปิดไฟล์ในเครื่องหรือบนเว็บ
             const streetLayer = L.tileLayer(
-                'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
                 {
-                    subdomains: 'abcd',
                     maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap &copy; CARTO'
+                    attribution: '&copy; Esri, OpenStreetMap contributors'
                 }
             ).addTo(map);
 
@@ -1323,12 +1536,36 @@
                 hasFitted: false,
                 casingLine: null,
                 routeLine: null,
-                markers: []
+                markers: [],
+                markerByIndex: {}
             };
 
             renderMarkersForRoute(routeKey);
             await drawRouteOnMap(routeKey);
-            setTimeout(() => map.invalidateSize(), 250);
+
+            // จัดขนาดแผนที่ซ้ำหลังหน้าเว็บจัด Layout เสร็จเพื่อให้เส้นทางอยู่กึ่งกลางพอดี
+            setTimeout(() => fitFullRouteBounds(routeKey), 350);
+            window.addEventListener('resize', () => fitFullRouteBounds(routeKey));
+        }
+
+        function resetRouteView(routeKey) {
+            const state = mapInstances[routeKey];
+            if (!state) return;
+            state.map.closePopup();
+            fitFullRouteBounds(routeKey);
+        }
+
+        function focusRoutePoint(routeKey, pointIndex) {
+            const state = mapInstances[routeKey];
+            const cfg = RACE_ROUTES_DATA[routeKey];
+            if (!state || !cfg || !cfg.points[pointIndex]) return;
+
+            const pt = cfg.points[pointIndex];
+            state.map.setView([pt.lat, pt.lng], 16, { animate: true });
+            const marker = state.markerByIndex[pointIndex];
+            if (marker) {
+                marker.openPopup();
+            }
         }
 
         function toggleLeafletLayer(routeKey) {
