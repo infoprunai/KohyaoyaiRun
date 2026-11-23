@@ -70,8 +70,9 @@
                 <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600; margin-bottom:0.4rem;">
                     พร้อมตรวจสอบสถานะการลงทะเบียน
                 </div>
-                <p style="font-size:0.92rem; max-width:520px; margin:0 auto; line-height:1.8;">
+                <p style="font-size:0.92rem; max-width:560px; margin:0 auto; line-height:1.8;">
                     ระบุเลขประจำตัวประชาชน 13 หลักในช่องด้านบน เพื่อตรวจสอบสถานะสลิป หมายเลข BIB และดาวน์โหลดบัตร E-Bib ดิจิทัล<br>
+                    <strong>ระยะเวลาตรวจสอบ:</strong> เจ้าหน้าที่ตรวจสอบหลักฐานการโอนเงินภายในวันทำการ (ไม่เกิน 24 ชม.)<br>
                     <strong>นัดรับเสื้อ:</strong> 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล
                 </p>
             </div>
@@ -289,7 +290,7 @@
             const isPending = runner.status === window.KohYaoStore.STATUS.PENDING;
             const isRejected = runner.status === window.KohYaoStore.STATUS.REJECTED;
             const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
-            const startTimeLabel = runner.category === '10K' ? 'ปล่อยตัว 06.00 น. (เช็คบิบ 05.00 น.)' : 'ปล่อยตัว 05.30 น. (เช็คบิบ 05.00 น.)';
+            const startTimeLabel = runner.category === '10K' ? 'ปล่อยตัว 05.30 น. (เช็คบิบ 05.00 น.)' : 'ปล่อยตัว 06.00 น. (เช็คบิบ 05.00 น.)';
 
             let badgeHtml = '';
             let statusBannerHtml = '';
@@ -308,9 +309,12 @@
                 badgeHtml = '<span class="status-pill pending">รอตรวจสอบสลิป (PENDING)</span>';
                 statusBannerHtml = `
                     <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
-                        <h4 style="color:#92400E; font-size:1.1rem; margin-bottom:0.25rem;">อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิปการโอนเงิน</h4>
-                        <p style="color:#B45309; font-size:0.9rem;">
-                            ระบบจะออกหมายเลข BIB ต่อเนื่องให้ทันทีเมื่อเจ้าหน้าที่กดอนุมัติ
+                        <h4 style="color:#92400E; font-size:1.1rem; margin-bottom:0.35rem;">อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิปการโอนเงิน</h4>
+                        <p style="color:#B45309; font-size:0.92rem; line-height:1.65; margin:0 0 0.55rem 0;">
+                            เจ้าหน้าที่จะดำเนินการตรวจสอบหลักฐานการโอนเงินและยืนยันสิทธิ์ <strong>ภายในวันทำการ (ไม่เกิน 24 ชั่วโมง)</strong> หลังจากลงทะเบียน เนื่องจากเป็นการตรวจสอบโดยเจ้าหน้าที่ตามรอบเวลาทำการ
+                        </p>
+                        <p style="color:#92400E; font-size:0.85rem; line-height:1.6; margin:0; padding-top:0.55rem; border-top:1px dashed #FCD34D;">
+                            ระบบจะออกหมายเลข BIB ต่อเนื่องให้ทันทีและส่งอีเมลแจ้งเตือนเมื่อเจ้าหน้าที่กดอนุมัติ (หากเกิน 24 ชั่วโมงในวันทำการ สามารถติดต่อกองอำนวยการฯ โทร. 076-597-504)
                         </p>
                     </div>
                 `;
@@ -348,7 +352,7 @@
 
                     ${statusBannerHtml}
 
-                    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.25rem; margin-bottom:1.5rem; font-size:0.92rem;">
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:1.25rem; margin-bottom:1.5rem; font-size:0.92rem;">
                         <div>
                             <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ระยะการแข่งขัน</span>
                             <strong>${runner.category} (${startTimeLabel})</strong>
@@ -508,7 +512,7 @@
                 const regId = document.getElementById('resubmitRegId').value;
                 await window.KohYaoStore.resubmitSlip(regId, compressedNewSlip.dataUrl, compressedNewSlip.hash);
                 closeResubmitModal();
-                alert('ส่งสลิปใหม่เรียบร้อยแล้ว รอเจ้าหน้าที่ตรวจสอบสถานะ');
+                alert('ส่งสลิปใหม่เรียบร้อยแล้ว เจ้าหน้าที่จะตรวจสอบภายในวันทำการ (ไม่เกิน 24 ชม.)');
                 doSearch();
             } finally {
                 btn.disabled = false;

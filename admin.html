@@ -237,6 +237,15 @@
             window.KohYaoStore.CATEGORIES['10K'].maxQuota = 200;
         }
 
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function checkAdminAuth() {
             const isAuth = sessionStorage.getItem('KOHYAO_ADMIN_AUTH');
             if (isAuth === 'true') {
@@ -368,10 +377,15 @@
 
             container.innerHTML = pendingList.map(runner => {
                 const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
+                const hasEmail = runner.email && String(runner.email).includes('@');
+                const emailStatusHtml = hasEmail
+                    ? `<strong style="color:var(--teal-andaman);">${escapeHtml(runner.email)}</strong>`
+                    : `<span style="color:#B45309; font-weight:600;">ไม่ได้ระบุอีเมล</span>`;
+
                 const duplicate = window.KohYaoStore.checkDuplicateSlip(runner.slipHash, runner.id);
                 const hasDupAlert = duplicate ? `
                     <div style="background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.8rem; margin-top:6px;">
-                        <strong>เตือนสลิปซ้ำ:</strong> พบสลิปนี้ตรงกับรหัส ${duplicate.id} (${duplicate.firstName})
+                        <strong>เตือนสลิปซ้ำ:</strong> พบสลิปนี้ตรงกับรหัส ${escapeHtml(duplicate.id)} (${escapeHtml(duplicate.firstName)})
                     </div>
                 ` : '';
 
@@ -386,24 +400,24 @@
 
                         <div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">${runner.id}</span>
+                                <span style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">${escapeHtml(runner.id)}</span>
                                 <span class="status-pill pending">รออนุมัติ</span>
                             </div>
-                            <h4 style="margin:0.25rem 0; font-size:1.2rem; color:var(--navy-marine);">${runner.firstName} ${runner.lastName}</h4>
+                            <h4 style="margin:0.25rem 0; font-size:1.2rem; color:var(--navy-marine);">${escapeHtml(runner.firstName)} ${escapeHtml(runner.lastName)}</h4>
                             <div style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.7;">
-                                ระยะแข่งขัน: <strong>${runner.category} (${runner.category === '10K' ? 'ปล่อยตัว 06.00 น.' : 'ปล่อยตัว 05.30 น.'})</strong><br>
+                                ระยะแข่งขัน: <strong>${runner.category} (${runner.category === '10K' ? 'ปล่อยตัว 05.30 น.' : 'ปล่อยตัว 06.00 น.'})</strong><br>
                                 ยอดชำระ: <strong style="color:var(--teal-andaman); font-size:1.2rem; font-family:var(--font-heading);">฿${runner.amount}.00</strong><br>
-                                ขนาดเสื้อ: <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong> | เบอร์โทร: <strong>${runner.phone}</strong><br>
-                                วันที่ลงทะเบียน: ${new Date(runner.createdAt).toLocaleString('th-TH')}
+                                ขนาดเสื้อ: <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong> | เบอร์โทร: <strong>${escapeHtml(runner.phone)}</strong><br>
+                                อีเมลแจ้งผล: ${emailStatusHtml} | ลงทะเบียน: ${new Date(runner.createdAt).toLocaleString('th-TH')}
                             </div>
                             ${hasDupAlert}
                         </div>
 
                         <div style="display:flex; flex-direction:column; gap:0.6rem;">
-                            <button class="btn btn-sm btn-success" style="width:100%;" onclick="approveSlip('${runner.id}')">
+                            <button class="btn btn-sm btn-success" id="btnApprove_${runner.id}" style="width:100%;" onclick="approveSlip('${runner.id}')">
                                 อนุมัติ & ออกบิบ
                             </button>
-                            <button class="btn btn-sm btn-danger" style="width:100%;" onclick="promptRejectSlip('${runner.id}')">
+                            <button class="btn btn-sm btn-danger" id="btnReject_${runner.id}" style="width:100%;" onclick="promptRejectSlip('${runner.id}')">
                                 ปฏิเสธสลิป
                             </button>
                         </div>
@@ -431,11 +445,11 @@
                 return `
                     <tr>
                         <td><strong style="color:var(--teal-andaman); font-family:var(--font-heading);">${r.bibNumber || '-'}</strong></td>
-                        <td style="font-family:var(--font-mono); font-size:0.85rem;">${r.id}</td>
-                        <td><strong>${r.firstName} ${r.lastName}</strong></td>
+                        <td style="font-family:var(--font-mono); font-size:0.85rem;">${escapeHtml(r.id)}</td>
+                        <td><strong>${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}</strong></td>
                         <td>${r.category}</td>
                         <td>${r.shirtSize} (${shirtTypeLabel})</td>
-                        <td>${r.phone}</td>
+                        <td>${escapeHtml(r.phone)}</td>
                         <td>฿${r.amount}</td>
                         <td>${statusBadge}</td>
                         <td>
@@ -469,16 +483,35 @@
         }
 
         async function approveSlip(regId) {
+            const runner = cachedRunners.find(r => r.id === regId);
+            const btn = document.getElementById(`btnApprove_${regId}`);
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'กำลังอนุมัติ...';
+            }
+
             try {
                 const reg = await window.KohYaoStore.approveRegistration(regId, 'เจ้าหน้าที่ตรวจสอบยอดเงินตรงและออกบิบเรียบร้อย');
-                alert(`อนุมัติสำเร็จ!\n\nออกหมายเลข BIB: ${reg.bibNumber || 'ออกบิบเรียบร้อย'}`);
+                let emailNotice = '';
+                if (reg.emailSent === true) {
+                    emailNotice = `\n\nการแจ้งเตือน: ส่งอีเมลยืนยันและเลข BIB ไปยัง ${runner?.email || 'ผู้สมัคร'} เรียบร้อยแล้ว`;
+                } else {
+                    emailNotice = `\n\nหมายเหตุ: ${reg.emailMessage || 'ผู้สมัครไม่ได้ระบุอีเมล'} (ผู้สมัครสามารถตรวจผลและดาวน์โหลด E-Bib ผ่านหน้าเว็บไซต์ได้ทันที)`;
+                }
+
+                alert(`อนุมัติสำเร็จ!\n\nออกหมายเลข BIB: ${reg.bibNumber || 'ออกบิบเรียบร้อย'}${emailNotice}`);
                 loadDashboard();
             } catch (e) {
                 alert('เกิดข้อผิดพลาด: ' + e.message);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = 'อนุมัติ & ออกบิบ';
+                }
             }
         }
 
         async function promptRejectSlip(regId) {
+            const runner = cachedRunners.find(r => r.id === regId);
             const reasons = [
                 'ยอดเงินที่โอนไม่ตรงกับค่าสมัคร (กรุณาตรวจสอบค่าเสื้อแขนสั้น/แขนยาว)',
                 'สลิปการโอนเงินภาพเบลอ ไม่สามารถอ่านข้อความได้',
@@ -487,9 +520,31 @@
             ];
             const reason = prompt('ระบุเหตุผลการปฏิเสธสลิป:\n1. ' + reasons.join('\n2. '), reasons[0]);
             if (reason) {
-                await window.KohYaoStore.rejectRegistration(regId, reason);
-                alert('ปฏิเสธสลิปเรียบร้อยแล้ว');
-                loadDashboard();
+                const btn = document.getElementById(`btnReject_${regId}`);
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = 'กำลังบันทึก...';
+                }
+
+                try {
+                    const res = await window.KohYaoStore.rejectRegistration(regId, reason);
+                    let emailNotice = '';
+                    if (res && res.emailSent === true) {
+                        emailNotice = `\n\nการแจ้งเตือน: ส่งอีเมลแจ้งเหตุผลไปยัง ${runner?.email || 'ผู้สมัคร'} เรียบร้อยแล้ว`;
+                    } else {
+                        const phoneText = runner?.phone ? ` (${runner.phone})` : '';
+                        emailNotice = `\n\nคำแนะนำเจ้าหน้าที่: ผู้สมัครไม่ได้ระบุอีเมลไว้ในระบบ แนะนำให้โทรแจ้งตามเบอร์โทรศัพท์ในระบบ${phoneText} เพื่อให้ส่งสลิปใหม่ได้ทันเวลา`;
+                    }
+
+                    alert(`ปฏิเสธสลิปเรียบร้อยแล้ว${emailNotice}`);
+                    loadDashboard();
+                } catch (e) {
+                    alert('เกิดข้อผิดพลาด: ' + e.message);
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.textContent = 'ปฏิเสธสลิป';
+                    }
+                }
             }
         }
 
@@ -510,14 +565,15 @@
                   `ยอดชำระ: ฿${runner.amount}\n` +
                   `เลขบัตร ปชช.: ${runner.idCard}\n` +
                   `เบอร์โทร: ${runner.phone}\n` +
+                  `อีเมล: ${runner.email || 'ไม่ได้ระบุ'}\n` +
                   `ติดต่อฉุกเฉิน: ${runner.emergencyContact} (${runner.emergencyPhone})\n` +
                   `สถานะ: ${runner.status}\n` +
                   `หมายเหตุเจ้าหน้าที่: ${runner.adminNotes || '-'}`);
         }
 
-        function exportData() {
+        async function exportData() {
             try {
-                const csv = window.KohYaoStore.exportCSV(true);
+                const csv = await window.KohYaoStore.exportCSV(true);
                 const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');

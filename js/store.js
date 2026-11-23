@@ -55,6 +55,16 @@ const KohYaoStore = (function () {
         REJECTED: 'REJECTED'
     };
 
+    function getSiteBaseUrl() {
+        try {
+            if (window.location && window.location.origin && window.location.origin !== 'null') {
+                const dirPath = window.location.pathname.replace(/\/[^/]*$/, '');
+                return window.location.origin + dirPath;
+            }
+        } catch (e) {}
+        return '';
+    }
+
     function getInitialData() {
         return {
             registrations: [],
@@ -255,7 +265,6 @@ const KohYaoStore = (function () {
         // 1. CREATE REGISTRATION
         async createRegistration(data) {
             const { age, group } = calculateAge(data.birthDate);
-            const categoryInfo = CATEGORIES[data.category] || CATEGORIES['5K'];
             const shirtType = data.shirtType || 'แขนสั้น';
             const totalAmount = Number(data.amount) || calculateFee(data.category, shirtType);
 
@@ -334,8 +343,17 @@ const KohYaoStore = (function () {
         // 2. APPROVE SLIP & ISSUE BIB
         async approveRegistration(regId, adminNotes = '') {
             if (GOOGLE_SCRIPT_URL) {
-                const res = await callGoogleScript('approve', { id: regId, adminNotes }, 'POST');
-                if (res && res.success) return res.data || res;
+                const res = await callGoogleScript('approve', {
+                    id: regId,
+                    adminNotes,
+                    siteUrl: getSiteBaseUrl()
+                }, 'POST');
+                if (res && res.success) {
+                    const merged = Object.assign({}, res.data || res);
+                    if (res.emailSent !== undefined) merged.emailSent = res.emailSent;
+                    if (res.emailMessage !== undefined) merged.emailMessage = res.emailMessage;
+                    return merged;
+                }
                 throw new Error((res && res.message) || 'อนุมัติไม่สำเร็จ');
             }
 
@@ -358,13 +376,20 @@ const KohYaoStore = (function () {
             reg.adminNotes = adminNotes || 'ตรวจสอบยอดเงินและสลิปเรียบร้อย';
 
             saveDB(db);
-            return reg;
+            return Object.assign({}, reg, {
+                emailSent: false,
+                emailMessage: 'โหมดจำลอง LocalStorage (ไม่ได้ส่งอีเมลจริง)'
+            });
         },
 
         // 3. REJECT SLIP
         async rejectRegistration(regId, reason) {
             if (GOOGLE_SCRIPT_URL) {
-                const res = await callGoogleScript('reject', { id: regId, reason }, 'POST');
+                const res = await callGoogleScript('reject', {
+                    id: regId,
+                    reason,
+                    siteUrl: getSiteBaseUrl()
+                }, 'POST');
                 if (res && res.success) return res;
                 throw new Error((res && res.message) || 'ปฏิเสธไม่สำเร็จ');
             }
@@ -379,7 +404,12 @@ const KohYaoStore = (function () {
             reg.approvedAt = null;
 
             saveDB(db);
-            return reg;
+            return {
+                success: true,
+                data: reg,
+                emailSent: false,
+                emailMessage: 'โหมดจำลอง LocalStorage (ไม่ได้ส่งอีเมลจริง)'
+            };
         },
 
         // 4. RESUBMIT SLIP
@@ -474,7 +504,6 @@ const KohYaoStore = (function () {
         // 8. GET SUMMARY STATS
         async getStats() {
             if (GOOGLE_SCRIPT_URL) {
-                // อัปเดตแคชรายชื่อในพื้นหลังเพื่อให้หน้าสมัครเช็กสลิปซ้ำได้ทันที
                 callGoogleScript('getAll', {}, 'GET').then(r => {
                     if (r && r.success && r.runners) _cachedRegistrations = r.runners;
                 }).catch(() => {});
@@ -637,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentPage === 'admin.html') {
             bottomBar.innerHTML = `
-                <a href="#pendingQueueSection" class="mobile-quick-item">
+                <a href="#fastReview" class="mobile-quick-item">
                     คิวตรวจสลิป
                     <span class="quick-sub">รอตรวจสอบ</span>
                 </a>

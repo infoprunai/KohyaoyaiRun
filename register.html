@@ -81,11 +81,11 @@
                                 <input type="radio" name="raceCategory" value="5K" checked>
                                 <div style="display:flex; justify-content:space-between; align-items:center;">
                                     <span style="font-size:2.2rem; font-weight:900; color:var(--teal-andaman); letter-spacing:-0.03em;">5 KM.</span>
-                                    <span class="status-pill approved">ปล่อยตัว 05.30 น.</span>
+                                    <span class="status-pill approved">ปล่อยตัว 06.00 น.</span>
                                 </div>
                                 <h4 style="margin:0.75rem 0 0.25rem 0; font-size:1.15rem; color:var(--navy-marine);">ประเภทระยะทาง 5 กิโลเมตร</h4>
                                 <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.25rem;">
-                                    เช็คบิบ 05.00 น. • ปล่อยตัว 05.30 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 2 จุด • เหรียญรางวัล 100 คนแรก)
+                                    เช็คบิบได้ตั้งเเต่เวลา 05.00 น. • ปล่อยตัว 06.00 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 2 จุด • เหรียญรางวัล 100 คนแรก)
                                 </p>
                                 <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--border-subtle); padding-top:0.75rem;">
                                     <span style="font-size:0.85rem; color:var(--ink-muted);" id="quotaText5k">กำลังตรวจโควตา...</span>
@@ -100,11 +100,11 @@
                                 <input type="radio" name="raceCategory" value="10K">
                                 <div style="display:flex; justify-content:space-between; align-items:center;">
                                     <span style="font-size:2.2rem; font-weight:900; color:var(--gold-dark); letter-spacing:-0.03em;">10 KM.</span>
-                                    <span class="status-pill pending">ปล่อยตัว 06.00 น.</span>
+                                    <span class="status-pill pending">ปล่อยตัว 05.30 น.</span>
                                 </div>
                                 <h4 style="margin:0.75rem 0 0.25rem 0; font-size:1.15rem; color:var(--navy-marine);">ประเภทระยะทาง 10 กิโลเมตร</h4>
                                 <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.25rem;">
-                                    เช็คบิบ 05.00 น. • ปล่อยตัว 06.00 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 4 จุด • เหรียญรางวัล 100 คนแรก)
+                                    เช็คบิบได้ตั้งเเต่ 05.00 น. • ปล่อยตัว 05.30 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 4 จุด • เหรียญรางวัล 100 คนแรก)
                                 </p>
                                 <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--border-subtle); padding-top:0.75rem;">
                                     <span style="font-size:0.85rem; color:var(--ink-muted);" id="quotaText10k">กำลังตรวจโควตา...</span>
@@ -178,8 +178,13 @@
                                 <input type="tel" inputmode="numeric" class="form-input-control" id="phone" placeholder="เช่น 0812345678" maxlength="10" required>
                             </div>
                             <div class="form-field-group">
-                                <label class="field-label">อีเมล</label>
+                                <label class="field-label">
+                                    อีเมล <span style="font-weight:400; font-size:0.82rem; color:var(--ink-muted);">(ไม่บังคับ)</span>
+                                </label>
                                 <input type="email" class="form-input-control" id="email" placeholder="example@email.com">
+                                <small style="color:var(--teal-andaman); font-size:0.78rem; display:block; margin-top:4px; line-height:1.45;">
+                                    * หากระบุอีเมล ระบบจะส่งแจ้งเตือนผลการตรวจสอบสลิปและเลข BIB ให้อัตโนมัติ (หากไม่มีอีเมล สามารถเช็กผลผ่านเลขบัตรประชาชนที่หน้าตรวจสอบสถานะได้)
+                                </small>
                             </div>
                         </div>
 
@@ -696,8 +701,11 @@
                 };
 
                 const newReg = await window.KohYaoStore.createRegistration(payload);
+                const notifyNote = payload.email
+                    ? `\nระบบจะส่งอีเมลแจ้งผลไปยัง ${payload.email} เมื่อเจ้าหน้าที่ตรวจสอบเสร็จ (ภายในวันทำการ ไม่เกิน 24 ชม.)`
+                    : `\nเจ้าหน้าที่จะตรวจสอบภายในวันทำการ (ไม่เกิน 24 ชม.) สามารถเช็กผลด้วยเลขบัตรประชาชนได้ที่หน้าตรวจสอบสถานะ`;
 
-                alert(`บันทึกข้อมูลเรียบร้อยแล้ว!\n\nรหัสการลงทะเบียน: ${newReg.id}\nประเภท: ${fee.cat} | เสื้อ${fee.shirtType} ไซส์ ${selectedSize}\nยอดชำระ: ฿${fee.total}\nสถานะ: อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิป`);
+                alert(`บันทึกข้อมูลเรียบร้อยแล้ว!\n\nรหัสการลงทะเบียน: ${newReg.id}\nประเภท: ${fee.cat} | เสื้อ${fee.shirtType} ไซส์ ${selectedSize}\nยอดชำระ: ฿${fee.total}\nสถานะ: อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิป${notifyNote}`);
                 window.location.href = `status.html?search=${encodeURIComponent(payload.idCard)}`;
 
             } catch (e) {
