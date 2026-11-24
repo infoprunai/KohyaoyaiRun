@@ -11,8 +11,112 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- Google Model Viewer for 3D .glb Shirts -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css?v=3.0">
+
+    <style>
+        /* ================= 3D SHIRT PREVIEW IN REGISTRATION ================= */
+        .reg-shirt-preview-box {
+            margin-top: 1.75rem;
+            padding: 1.35rem;
+            background: linear-gradient(165deg, #F8FAFC 0%, #EEF6F8 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .reg-shirt-stage {
+            position: relative;
+            width: 100%;
+            height: 290px;
+            border-radius: var(--radius-md);
+            background: radial-gradient(circle at 50% 42%, #FFFFFF 0%, #E6F2F5 100%);
+            overflow: hidden;
+        }
+
+        .reg-shirt-stage model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+        }
+
+        .reg-shirt-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+
+        .btn-viewer-mini {
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 0.28rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: #FFFFFF;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .btn-viewer-mini:hover {
+            border-color: var(--navy-marine);
+            color: var(--navy-marine);
+        }
+
+        .reg-step2-shirt-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .reg-step2-viewer-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0.9rem;
+            text-align: center;
+        }
+
+        .reg-step2-viewer-card .reg-shirt-stage {
+            height: 245px;
+        }
+
+        .reg-shirt-spec-chip {
+            display: inline-block;
+            margin-top: 0.65rem;
+            padding: 0.32rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: #ECFEFF;
+            color: #0E7490;
+        }
+
+        .reg-shirt-spec-chip.theme-10k {
+            background: #FFFBEB;
+            color: #B45309;
+        }
+
+        @media (max-width: 768px) {
+            .reg-shirt-preview-box,
+            .reg-step2-shirt-grid {
+                grid-template-columns: 1fr;
+                gap: 1.15rem;
+            }
+            .reg-shirt-stage {
+                height: 250px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -116,7 +220,46 @@
                             </label>
                         </div>
 
-                        <div style="text-align:right; margin-top:2.5rem;">
+                        <!-- Live 3D Shirt Preview for Step 1 -->
+                        <div class="reg-shirt-preview-box">
+                            <div>
+                                <div class="reg-shirt-stage">
+                                    <model-viewer
+                                        id="regStep1ShirtViewer"
+                                        src="Photo/modelshirt2.glb"
+                                        poster="Photo/50764.jpg"
+                                        alt="ตัวอย่างเสื้อแข่งขัน 3 มิติ"
+                                        camera-controls
+                                        auto-rotate
+                                        rotation-per-second="20deg"
+                                        camera-orbit="0deg 82deg auto"
+                                        shadow-intensity="0.8"
+                                        exposure="1.05"
+                                        environment-image="neutral"
+                                        interaction-prompt="none">
+                                    </model-viewer>
+                                </div>
+                                <div class="reg-shirt-controls">
+                                    <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep1ShirtViewer', '0deg 82deg auto')">ด้านหน้า</button>
+                                    <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep1ShirtViewer', '180deg 82deg auto')">ด้านหลัง</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <span id="step1ShirtTag" class="status-pill approved" style="margin-bottom:0.5rem;">แบบเสื้อระยะ 5 KM.</span>
+                                <h4 id="step1ShirtTitle" style="font-size:1.2rem; color:var(--navy-marine); margin:0.25rem 0 0.5rem 0;">
+                                    เสื้อแข่งขันลายเกาะไข่ (สีเขียวมรกต-ฟ้า)
+                                </h4>
+                                <p id="step1ShirtDesc" style="font-size:0.88rem; color:var(--ink-secondary); line-height:1.65; margin-bottom:0.85rem;">
+                                    ผู้สมัครระยะ 5 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายเกาะไข่ สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา
+                                </p>
+                                <div style="font-size:0.82rem; color:var(--ink-muted); background:#FFFFFF; padding:0.65rem 0.85rem; border-radius:8px; border:1px solid var(--border-subtle);">
+                                    * ในขั้นตอนถัดไปสามารถเลือก <strong>รุ่นแขนสั้น (ราคาปกติ)</strong> หรือ <strong>รุ่นแขนยาว (+50 บาท)</strong> และเลือกไซส์ XS–3XL ได้
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align:right; margin-top:2rem;">
                             <button type="button" class="btn btn-primary" onclick="goToStep(2)">
                                 ถัดไป: กรอกข้อมูลนักวิ่ง →
                             </button>
@@ -215,109 +358,147 @@
                             <input type="text" class="form-input-control" id="medicalConditions" placeholder="ระบุ เช่น โรคหัวใจ, หอบหืด, แพ้ยาเพนิซิลลิน (หากไม่มีใส่ 'ไม่มี')">
                         </div>
 
-                        <!-- Sizing Guide & Sleeve Type Selection -->
+                        <!-- Sizing Guide & Sleeve Type Selection with Live 3D Shirt Preview -->
                         <div style="margin:2.25rem 0; padding:1.75rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
-                            <div style="margin-bottom:1.5rem;">
-                                <label class="field-label" style="margin-bottom:0.65rem;">
-                                    1. เลือกประเภทแขนเสื้อแข่งขัน <span class="required-dot">*</span>
-                                </label>
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                                    <label class="cat-select-card selected" id="sleeveCardShort" style="padding:1rem 1.25rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนสั้น')">
-                                        <input type="radio" name="shirtType" value="แขนสั้น" checked style="display:none;">
-                                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                                            <strong style="color:var(--navy-marine); font-size:1.05rem;">เสื้อแขนสั้น</strong>
-                                            <span class="status-pill approved">ราคาปกติ</span>
-                                        </div>
-                                        <div style="font-size:0.83rem; color:var(--ink-muted); margin-top:4px;">
-                                            รวมอยู่ในค่าสมัครมาตรฐาน (ไม่มีค่าใช้จ่ายเพิ่ม)
-                                        </div>
-                                    </label>
+                            <div class="reg-step2-shirt-grid">
+                                <!-- Left Column: 3D Shirt Model Preview -->
+                                <div class="reg-step2-viewer-card">
+                                    <div style="font-size:0.8rem; font-weight:700; color:var(--navy-marine); margin-bottom:0.5rem;">
+                                        ตัวอย่างเสื้อแข่งขันของคุณ (3D)
+                                    </div>
+                                    <div class="reg-shirt-stage">
+                                        <model-viewer
+                                            id="regStep2ShirtViewer"
+                                            src="Photo/modelshirt2.glb"
+                                            poster="Photo/50764.jpg"
+                                            alt="โมเดล 3 มิติ เสื้อที่จะได้รับ"
+                                            camera-controls
+                                            auto-rotate
+                                            rotation-per-second="18deg"
+                                            camera-orbit="0deg 82deg auto"
+                                            shadow-intensity="0.8"
+                                            exposure="1.05"
+                                            environment-image="neutral"
+                                            interaction-prompt="none">
+                                        </model-viewer>
+                                    </div>
+                                    <div class="reg-shirt-controls">
+                                        <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep2ShirtViewer', '0deg 82deg auto')">หน้า</button>
+                                        <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep2ShirtViewer', '180deg 82deg auto')">หลัง</button>
+                                    </div>
+                                    <div id="step2ShirtLiveChip" class="reg-shirt-spec-chip">
+                                        5 กม. • ลายเกาะไข่ • แขนสั้น • ไซส์ M
+                                    </div>
+                                    <div id="step2LongSleeveNote" style="display:none; font-size:0.75rem; color:#B45309; margin-top:0.45rem; line-height:1.45;">
+                                        * เลือกรุ่นแขนยาว (ลวดลายเดียวกับแบบ 3D แต่ตัดเย็บเป็นแขนยาว)
+                                    </div>
+                                </div>
 
-                                    <label class="cat-select-card" id="sleeveCardLong" style="padding:1rem 1.25rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนยาว')">
-                                        <input type="radio" name="shirtType" value="แขนยาว" style="display:none;">
-                                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                                            <strong style="color:var(--navy-marine); font-size:1.05rem;">เสื้อแขนยาว</strong>
-                                            <span class="status-pill pending">+50 บาท</span>
+                                <!-- Right Column: Sleeve & Size Selection -->
+                                <div>
+                                    <div style="margin-bottom:1.35rem;">
+                                        <label class="field-label" style="margin-bottom:0.65rem;">
+                                            1. เลือกประเภทแขนเสื้อแข่งขัน <span class="required-dot">*</span>
+                                        </label>
+                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.85rem;">
+                                            <label class="cat-select-card selected" id="sleeveCardShort" style="padding:0.9rem 1rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนสั้น')">
+                                                <input type="radio" name="shirtType" value="แขนสั้น" checked style="display:none;">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
+                                                    <strong style="color:var(--navy-marine); font-size:1rem;">เสื้อแขนสั้น</strong>
+                                                    <span class="status-pill approved">ราคาปกติ</span>
+                                                </div>
+                                                <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:4px;">
+                                                    รวมในค่าสมัครมาตรฐาน
+                                                </div>
+                                            </label>
+
+                                            <label class="cat-select-card" id="sleeveCardLong" style="padding:0.9rem 1rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนยาว')">
+                                                <input type="radio" name="shirtType" value="แขนยาว" style="display:none;">
+                                                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
+                                                    <strong style="color:var(--navy-marine); font-size:1rem;">เสื้อแขนยาว</strong>
+                                                    <span class="status-pill pending">+50 บาท</span>
+                                                </div>
+                                                <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:4px;">
+                                                    เพิ่มเงิน 50 บาทจากค่าสมัครปกติ
+                                                </div>
+                                            </label>
                                         </div>
-                                        <div style="font-size:0.83rem; color:var(--ink-muted); margin-top:4px;">
-                                            เพิ่มเงิน 50 บาทจากค่าสมัครปกติ
+                                    </div>
+
+                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.75rem; flex-wrap:wrap; gap:4px;">
+                                        <label class="field-label" style="margin-bottom:0;">
+                                            2. ตารางเทียบขนาดเสื้อแข่งขัน (Dry-Fit) <span class="required-dot">*</span>
+                                        </label>
+                                        <span style="font-size:0.78rem; color:var(--ink-muted);">* หน่วยวัดเป็นนิ้ว (Inches)</span>
+                                    </div>
+
+                                    <table class="size-matrix-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ไซส์</th>
+                                                <th>XS</th>
+                                                <th>S</th>
+                                                <th>M</th>
+                                                <th>L</th>
+                                                <th>XL</th>
+                                                <th>2XL</th>
+                                                <th>3XL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>รอบอก</strong></td>
+                                                <td>34"</td>
+                                                <td>36"</td>
+                                                <td>38"</td>
+                                                <td>40"</td>
+                                                <td>42"</td>
+                                                <td>44"</td>
+                                                <td>46"</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>ความยาว</strong></td>
+                                                <td>25"</td>
+                                                <td>26"</td>
+                                                <td>27"</td>
+                                                <td>28"</td>
+                                                <td>29"</td>
+                                                <td>30"</td>
+                                                <td>31"</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="size-picker-row">
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="sizeXS" value="XS" onchange="refreshLivePriceUI()">
+                                            <label for="sizeXS">XS</label>
                                         </div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:1rem; flex-wrap:wrap; gap:4px;">
-                                <label class="field-label" style="margin-bottom:0;">
-                                    2. ตารางเทียบขนาดเสื้อแข่งขัน (Dry-Fit) <span class="required-dot">*</span>
-                                </label>
-                                <span style="font-size:0.8rem; color:var(--ink-muted);">* หน่วยวัดเป็นนิ้ว (Inches)</span>
-                            </div>
-
-                            <table class="size-matrix-table">
-                                <thead>
-                                    <tr>
-                                        <th>ไซส์</th>
-                                        <th>XS</th>
-                                        <th>S</th>
-                                        <th>M</th>
-                                        <th>L</th>
-                                        <th>XL</th>
-                                        <th>2XL</th>
-                                        <th>3XL</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><strong>รอบอก</strong></td>
-                                        <td>34"</td>
-                                        <td>36"</td>
-                                        <td>38"</td>
-                                        <td>40"</td>
-                                        <td>42"</td>
-                                        <td>44"</td>
-                                        <td>46"</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>ความยาว</strong></td>
-                                        <td>25"</td>
-                                        <td>26"</td>
-                                        <td>27"</td>
-                                        <td>28"</td>
-                                        <td>29"</td>
-                                        <td>30"</td>
-                                        <td>31"</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="size-picker-row">
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="sizeXS" value="XS">
-                                    <label for="sizeXS">XS</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="sizeS" value="S">
-                                    <label for="sizeS">S</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="sizeM" value="M" checked>
-                                    <label for="sizeM">M</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="sizeL" value="L">
-                                    <label for="sizeL">L</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="sizeXL" value="XL">
-                                    <label for="sizeXL">XL</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="size2XL" value="2XL">
-                                    <label for="size2XL">2XL</label>
-                                </div>
-                                <div class="size-pill-option">
-                                    <input type="radio" name="shirtSize" id="size3XL" value="3XL">
-                                    <label for="size3XL">3XL</label>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="sizeS" value="S" onchange="refreshLivePriceUI()">
+                                            <label for="sizeS">S</label>
+                                        </div>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="sizeM" value="M" checked onchange="refreshLivePriceUI()">
+                                            <label for="sizeM">M</label>
+                                        </div>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="sizeL" value="L" onchange="refreshLivePriceUI()">
+                                            <label for="sizeL">L</label>
+                                        </div>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="sizeXL" value="XL" onchange="refreshLivePriceUI()">
+                                            <label for="sizeXL">XL</label>
+                                        </div>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="size2XL" value="2XL" onchange="refreshLivePriceUI()">
+                                            <label for="size2XL">2XL</label>
+                                        </div>
+                                        <div class="size-pill-option">
+                                            <input type="radio" name="shirtSize" id="size3XL" value="3XL" onchange="refreshLivePriceUI()">
+                                            <label for="size3XL">3XL</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -440,8 +621,26 @@
         let compressedSlipData = null;
 
         const RACE_PRICING = {
-            '5K': { name: 'ประเภทระยะทาง 5 KM.', distance: '5 กิโลเมตร', basePrice: 350, maxQuota: 200 },
-            '10K': { name: 'ประเภทระยะทาง 10 KM.', distance: '10 กิโลเมตร', basePrice: 450, maxQuota: 200 }
+            '5K': {
+                name: 'ประเภทระยะทาง 5 KM.',
+                distance: '5 กิโลเมตร',
+                basePrice: 350,
+                maxQuota: 200,
+                modelSrc: 'Photo/modelshirt2.glb',
+                shirtThemeShort: 'ลายเกาะไข่',
+                shirtTitle: 'เสื้อแข่งขันลายเกาะไข่ (สีเขียวมรกต-ฟ้า)',
+                shirtDesc: 'ผู้สมัครระยะ 5 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายเกาะไข่ สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา'
+            },
+            '10K': {
+                name: 'ประเภทระยะทาง 10 KM.',
+                distance: '10 กิโลเมตร',
+                basePrice: 450,
+                maxQuota: 200,
+                modelSrc: 'Photo/modelshirt.glb',
+                shirtThemeShort: 'ลายสะพานอัสดง',
+                shirtTitle: 'เสื้อแข่งขันลายสะพานท่าเรืออัสดง (สีส้ม-กรมท่า)',
+                shirtDesc: 'ผู้สมัครระยะ 10 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายสะพานท่าเรืออัสดง สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา'
+            }
         };
         const LONG_SLEEVE_SURCHARGE = 50;
 
@@ -460,14 +659,24 @@
             });
         }
 
+        function rotateRegViewer(viewerId, orbit) {
+            const viewer = document.getElementById(viewerId);
+            if (!viewer) return;
+            viewer.autoRotate = false;
+            viewer.cameraOrbit = orbit;
+        }
+
         function calculateTotalFee() {
             const cat = document.querySelector('input[name="raceCategory"]:checked').value;
             const shirtType = document.querySelector('input[name="shirtType"]:checked').value;
+            const sizeEl = document.querySelector('input[name="shirtSize"]:checked');
+            const shirtSize = sizeEl ? sizeEl.value : 'M';
             const basePrice = RACE_PRICING[cat].basePrice;
             const extra = (shirtType === 'แขนยาว') ? LONG_SLEEVE_SURCHARGE : 0;
             return {
                 cat,
                 shirtType,
+                shirtSize,
                 basePrice,
                 extra,
                 total: basePrice + extra
@@ -476,11 +685,44 @@
 
         function refreshLivePriceUI() {
             const fee = calculateTotalFee();
+            const cfg = RACE_PRICING[fee.cat];
+
+            // อัปเดตแถบสรุปราคา
             const breakdownEl = document.getElementById('livePriceBreakdown');
             const totalBadgeEl = document.getElementById('liveTotalPriceBadge');
             if (breakdownEl && totalBadgeEl) {
-                breakdownEl.textContent = `สรุปค่าสมัคร: ${RACE_PRICING[fee.cat].name} (฿${fee.basePrice}) + เสื้อ${fee.shirtType} (฿${fee.extra})`;
+                breakdownEl.textContent = `สรุปค่าสมัคร: ${cfg.name} (฿${fee.basePrice}) + เสื้อ${fee.shirtType} (฿${fee.extra})`;
                 totalBadgeEl.textContent = `ยอดชำระรวม ฿${fee.total}`;
+            }
+
+            // อัปเดตโมเดล 3D และข้อความในขั้นตอนที่ 1
+            const v1 = document.getElementById('regStep1ShirtViewer');
+            if (v1 && v1.getAttribute('src') !== cfg.modelSrc) {
+                v1.setAttribute('src', cfg.modelSrc);
+            }
+            const tag1 = document.getElementById('step1ShirtTag');
+            const title1 = document.getElementById('step1ShirtTitle');
+            const desc1 = document.getElementById('step1ShirtDesc');
+            if (tag1) {
+                tag1.textContent = `แบบเสื้อระยะ ${fee.cat === '10K' ? '10 KM.' : '5 KM.'}`;
+                tag1.className = fee.cat === '10K' ? 'status-pill pending' : 'status-pill approved';
+            }
+            if (title1) title1.textContent = cfg.shirtTitle;
+            if (desc1) desc1.textContent = cfg.shirtDesc;
+
+            // อัปเดตโมเดล 3D และป้ายสถานะในขั้นตอนที่ 2
+            const v2 = document.getElementById('regStep2ShirtViewer');
+            if (v2 && v2.getAttribute('src') !== cfg.modelSrc) {
+                v2.setAttribute('src', cfg.modelSrc);
+            }
+            const chip2 = document.getElementById('step2ShirtLiveChip');
+            if (chip2) {
+                chip2.textContent = `${fee.cat === '10K' ? '10 กม.' : '5 กม.'} • ${cfg.shirtThemeShort} • ${fee.shirtType} • ไซส์ ${fee.shirtSize}`;
+                chip2.classList.toggle('theme-10k', fee.cat === '10K');
+            }
+            const longNote = document.getElementById('step2LongSleeveNote');
+            if (longNote) {
+                longNote.style.display = (fee.shirtType === 'แขนยาว') ? 'block' : 'none';
             }
         }
 
@@ -557,6 +799,7 @@
                 else if (i < stepNumber) ind.classList.add('completed');
             }
 
+            refreshLivePriceUI();
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
@@ -609,11 +852,11 @@
             }
 
             const fee = calculateTotalFee();
-            const selectedSize = document.querySelector('input[name="shirtSize"]:checked').value;
+            const selectedSize = fee.shirtSize;
 
             document.getElementById('payAmountDisplay').textContent = `฿${fee.total}.00`;
             document.getElementById('payCategoryName').textContent = `${RACE_PRICING[fee.cat].name} (${RACE_PRICING[fee.cat].distance})`;
-            document.getElementById('payShirtDetail').textContent = `ไซส์ ${selectedSize} • เสื้อ${fee.shirtType}`;
+            document.getElementById('payShirtDetail').textContent = `ไซส์ ${selectedSize} • เสื้อ${fee.shirtType} (${RACE_PRICING[fee.cat].shirtThemeShort})`;
             document.getElementById('payPriceFormula').textContent = fee.extra > 0
                 ? `ค่าสมัคร ${fee.basePrice} บาท + เสื้อแขนยาว ${fee.extra} บาท = ${fee.total} บาท`
                 : `ค่าสมัคร ${fee.basePrice} บาท (เสื้อแขนสั้น)`;
@@ -678,7 +921,7 @@
 
             try {
                 const fee = calculateTotalFee();
-                const selectedSize = document.querySelector('input[name="shirtSize"]:checked').value;
+                const selectedSize = fee.shirtSize;
 
                 const payload = {
                     category: fee.cat,

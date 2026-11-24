@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
+    <!-- Google Model Viewer for 3D .glb Shirts -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="css/style.css?v=3.1">
 
@@ -352,6 +355,120 @@
             font-size: 0.84rem;
             line-height: 1.5;
         }
+
+        /* ================= 3D JERSEY SHOWCASE (MINIMALIST) ================= */
+        .kit-3d-showcase-panel {
+            background: linear-gradient(165deg, #F8FAFC 0%, #EEF6F8 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .kit-3d-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            background: #E2E8F0;
+            padding: 0.3rem;
+            border-radius: 999px;
+        }
+
+        .kit-3d-tab {
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 600;
+            padding: 0.55rem 0.85rem;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .kit-3d-tab.active-5k {
+            background: #FFFFFF;
+            color: #0E7490;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .kit-3d-tab.active-10k {
+            background: #FFFFFF;
+            color: #B45309;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .kit-3d-stage {
+            position: relative;
+            width: 100%;
+            height: 410px;
+            border-radius: var(--radius-md);
+            background: radial-gradient(circle at 50% 42%, #FFFFFF 0%, #E6F2F5 100%);
+            overflow: hidden;
+        }
+
+        .kit-3d-stage model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: transparent;
+        }
+
+        .kit-3d-badge-overlay {
+            position: absolute;
+            top: 0.85rem;
+            left: 0.85rem;
+            z-index: 2;
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--navy-marine);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+            pointer-events: none;
+        }
+
+        .kit-3d-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+        }
+
+        .kit-3d-actions {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .kit-feature-pill {
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .kit-feature-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+        }
+
+        @media (max-width: 768px) {
+            .kit-3d-stage {
+                height: 330px;
+            }
+            .kit-3d-tab {
+                font-size: 0.78rem;
+                padding: 0.5rem 0.5rem;
+            }
+        }
     </style>
 </head>
 
@@ -554,7 +671,7 @@
 
                         <ul class="pass-specs-list">
                             <li><span><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</span></li>
-                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</span></li>
+                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit <strong>ลายเกาะไข่ (สีเขียวมรกต)</strong> เลือกได้ทั้งแขนสั้นและแขนยาว +50 บ.</span></li>
                             <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
                             <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 (ไม่แยกชาย-หญิง)</strong> (2,000 / 1,500 / 800 บาท)</span></li>
                             <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 5K-0001 ถึง 5K-0200)</span></li>
@@ -590,7 +707,7 @@
 
                         <ul class="pass-specs-list">
                             <li><span><strong>รับจำนวนจำกัด 200 คน</strong> (เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570)</span></li>
-                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit (เลือกได้ทั้ง <strong>แขนสั้น</strong> และ <strong>แขนยาว +50 บ.</strong>)</span></li>
+                            <li><span>เสื้อแข่งขันเนื้อผ้า Dry-Fit <strong>ลายสะพานท่าเรืออัสดง (สีส้ม-กรมท่า)</strong> เลือกได้ทั้งแขนสั้นและแขนยาว +50 บ.</span></li>
                             <li><span><strong>เหรียญรางวัล 100 เหรียญ</strong> สำหรับผู้เข้าเส้นชัย 100 คนแรก (ไม่แยกชาย-หญิง)</span></li>
                             <li><span><strong>ชิงเงินรางวัลอันดับ 1–3 (ไม่แยกชาย-หญิง)</strong> (3,000 / 2,000 / 1,000 บาท)</span></li>
                             <li><span>หมายเลขประจำตัวนักวิ่ง (ระบบ Sequence BIB 10K-0001 ถึง 10K-0200)</span></li>
@@ -970,19 +1087,59 @@
         </div>
     </section>
 
-    <!-- ================= OFFICIAL KIT LOOKBOOK ================= -->
+    <!-- ================= OFFICIAL KIT LOOKBOOK (3D INTERACTIVE) ================= -->
     <section class="section" id="kit" style="background:#FFFFFF;">
         <div class="container">
             <div class="section-header">
-                <div class="badge-tag"><span class="dot"></span> ชุดแข่งขันที่ระลึก</div>
-                <h3 class="section-title">ดีไซน์สะท้อนธรรมชาติอันดามัน (เลือกได้ทั้งแขนสั้น & แขนยาว)</h3>
-                <p class="section-desc">ออกแบบลวดลายสะท้อนเสน่ห์ "สะพานท่าเรืออัสดง และ ผืนน้ำมรกตเกาะไข่"
-                    สวมใส่สบายด้วยเทคโนโลยีผ้า QuickDry (เสื้อแขนยาวเพิ่ม 50 บาท)</p>
+                <div class="badge-tag"><span class="dot"></span> ชุดแข่งขันที่ระลึก 3D</div>
+                <h3 class="section-title">ดีไซน์สะท้อนธรรมชาติอันดามัน (หมุนดูรอบตัว 360°)</h3>
+                <p class="section-desc">ออกแบบลวดลายเฉพาะตามระยะทาง "ผืนน้ำมรกตเกาะไข่ (5 กม.) และ สะพานท่าเรืออัสดง (10 กม.)"
+                    สวมใส่สบายด้วยเทคโนโลยีผ้า QuickDry (เลือกแขนยาวเพิ่ม 50 บาท)</p>
             </div>
 
             <div class="editorial-kit-showcase">
-                <div class="kit-imagery-panel">
-                    <img src="Photo/50764.jpg" alt="ชุดแข่งขันเปิดโลกทะเล เกาะยาวใหญ่">
+                <!-- Interactive 3D Jersey Viewer -->
+                <div class="kit-3d-showcase-panel">
+                    <div class="kit-3d-tabs">
+                        <button type="button" class="kit-3d-tab active-5k" id="tabHomeShirt5k" onclick="switchHomeShirt3D('5K')">
+                            เสื้อระยะ 5 กม. (ลายเกาะไข่)
+                        </button>
+                        <button type="button" class="kit-3d-tab" id="tabHomeShirt10k" onclick="switchHomeShirt3D('10K')">
+                            เสื้อระยะ 10 กม. (ลายสะพานอัสดง)
+                        </button>
+                    </div>
+
+                    <div class="kit-3d-stage">
+                        <span class="kit-3d-badge-overlay" id="homeShirtBadge">
+                            แบบเสื้อ 5 กม. • ลายเกาะไข่ (สีเขียวมรกต)
+                        </span>
+
+                        <model-viewer
+                            id="homeShirtViewer"
+                            src="Photo/modelshirt2.glb"
+                            poster="Photo/50764.jpg"
+                            alt="โมเดล 3 มิติ เสื้อวิ่งเปิดโลกทะเล ประจำปี 2570"
+                            camera-controls
+                            auto-rotate
+                            rotation-per-second="18deg"
+                            camera-orbit="0deg 82deg auto"
+                            shadow-intensity="0.85"
+                            shadow-softness="0.8"
+                            exposure="1.05"
+                            environment-image="neutral"
+                            interaction-prompt="none"
+                            loading="eager">
+                        </model-viewer>
+                    </div>
+
+                    <div class="kit-3d-toolbar">
+                        <span>ลากเมาส์หรือใช้นิ้วหมุนดู 360° • ซูมดูลวดลายได้</span>
+                        <div class="kit-3d-actions">
+                            <button type="button" class="btn-map-mode" onclick="setHomeShirtView('0deg 82deg auto')">ด้านหน้า</button>
+                            <button type="button" class="btn-map-mode" onclick="setHomeShirtView('180deg 82deg auto')">ด้านหลัง</button>
+                            <button type="button" class="btn-map-mode active" id="btnHomeAutoRotate" onclick="toggleHomeAutoRotate()">หมุนอัตโนมัติ</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="kit-spec-panel">
@@ -997,26 +1154,29 @@
                         <strong>นักวิ่งสามารถเลือกรุ่นแขนยาวได้โดยเพิ่มค่าบริการ 50 บาท</strong> (นัดรับเสื้อวันที่ 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล)
                     </p>
 
-                    <div class="kit-feature-pill sunset">
+                    <div class="kit-feature-pill emerald" onclick="switchHomeShirt3D('5K')" title="คลิกเพื่อดูโมเดล 3D เสื้อระยะ 5 กม.">
                         <div>
-                            <strong style="color:#92400E; display:block; font-size:0.95rem;">รุ่นแขนสั้น (รวมในค่าสมัครปกติ: 5 กม. ฿350 / 10 กม. ฿450)</strong>
+                            <strong style="color:#155E75; display:block; font-size:0.95rem;">แบบเสื้อระยะ 5 กม. — ลายเกาะไข่ (฿350 / แขนยาว ฿400)</strong>
+                            <span
+                                style="font-size:0.85rem; color:#0E7490;">สื่อถึงความบริสุทธิ์ของผืนน้ำทะเลมรกตและหาดทรายขาวละเอียดของเกาะไข่ ปกป้องแดดและลมทะเลได้ดีเยี่ยม (คลิกดูโมเดล 3D)</span>
+                        </div>
+                    </div>
+
+                    <div class="kit-feature-pill sunset" onclick="switchHomeShirt3D('10K')" title="คลิกเพื่อดูโมเดล 3D เสื้อระยะ 10 กม.">
+                        <div>
+                            <strong style="color:#92400E; display:block; font-size:0.95rem;">แบบเสื้อระยะ 10 กม. — ลายสะพานท่าเรืออัสดง (฿450 / แขนยาว ฿500)</strong>
                             <span
                                 style="font-size:0.85rem; color:#B45309;">แรงบันดาลใจจากแสงอาทิตย์อัสดงสาดส่องสะพานท่าเรือเกาะยาวใหญ่
-                                สัญลักษณ์แห่งมิตรภาพและพลัง</span>
+                                สัญลักษณ์แห่งมิตรภาพและพลัง (คลิกดูโมเดล 3D)</span>
                         </div>
                     </div>
 
-                    <div class="kit-feature-pill emerald">
-                        <div>
-                            <strong style="color:#155E75; display:block; font-size:0.95rem;">รุ่นแขนยาว (+50 บาท: 5 กม. ฿400 / 10 กม. ฿500)</strong>
-                            <span
-                                style="font-size:0.85rem; color:#0E7490;">สื่อถึงความบริสุทธิ์ของผืนน้ำทะเลมรกตและหาดทรายขาวละเอียดของเกาะไข่ ปกป้องแดดและลมทะเลได้ดีเยี่ยม</span>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:1.5rem;">
-                        <a href="register.html" class="btn btn-primary">
-                            เลือกขนาดเสื้อและลงทะเบียน
+                    <div style="margin-top:1.5rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+                        <a href="register.html?category=5K" class="btn btn-primary">
+                            สมัคร 5 กม. (รับเสื้อเกาะไข่)
+                        </a>
+                        <a href="register.html?category=10K" class="btn btn-accent">
+                            สมัคร 10 กม. (รับเสื้อสะพานอัสดง)
                         </a>
                     </div>
                 </div>
@@ -1190,6 +1350,52 @@
     <!-- Scripts -->
     <script src="js/store.js?v=3.1"></script>
     <script>
+        // ================= 3D SHIRT SHOWCASE CONTROLS =================
+        const HOME_SHIRT_MODELS = {
+            '5K': {
+                src: 'Photo/modelshirt2.glb',
+                badge: 'แบบเสื้อ 5 กม. • ลายเกาะไข่ (สีเขียวมรกต)'
+            },
+            '10K': {
+                src: 'Photo/modelshirt.glb',
+                badge: 'แบบเสื้อ 10 กม. • ลายสะพานท่าเรืออัสดง (สีส้ม-กรมท่า)'
+            }
+        };
+
+        function switchHomeShirt3D(cat) {
+            const viewer = document.getElementById('homeShirtViewer');
+            const badge = document.getElementById('homeShirtBadge');
+            const tab5k = document.getElementById('tabHomeShirt5k');
+            const tab10k = document.getElementById('tabHomeShirt10k');
+            const cfg = HOME_SHIRT_MODELS[cat];
+            if (!viewer || !cfg) return;
+
+            viewer.src = cfg.src;
+            if (badge) badge.textContent = cfg.badge;
+
+            if (tab5k && tab10k) {
+                tab5k.classList.toggle('active-5k', cat === '5K');
+                tab10k.classList.toggle('active-10k', cat === '10K');
+            }
+        }
+
+        function setHomeShirtView(orbit) {
+            const viewer = document.getElementById('homeShirtViewer');
+            if (!viewer) return;
+            viewer.autoRotate = false;
+            const rotBtn = document.getElementById('btnHomeAutoRotate');
+            if (rotBtn) rotBtn.classList.remove('active');
+            viewer.cameraOrbit = orbit;
+        }
+
+        function toggleHomeAutoRotate() {
+            const viewer = document.getElementById('homeShirtViewer');
+            const rotBtn = document.getElementById('btnHomeAutoRotate');
+            if (!viewer) return;
+            viewer.autoRotate = !viewer.autoRotate;
+            if (rotBtn) rotBtn.classList.toggle('active', viewer.autoRotate);
+        }
+
         // ================= INTERACTIVE DRAWN RACE ROUTES (5K & 10K) =================
         const RACE_ROUTES_DATA = {
             '5k': {
@@ -1404,7 +1610,6 @@
                 const data = await res.json();
                 if (data.routes && data.routes[0] && data.routes[0].geometry) {
                     const snapped = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-                    // เชื่อมหัวและท้ายเส้นทางให้แตะหมุด START/FINISH พอดี
                     const firstPt = [points[0].lat, points[0].lng];
                     const lastPt = [points[points.length - 1].lat, points[points.length - 1].lng];
                     return [firstPt, ...snapped, lastPt];
@@ -1510,7 +1715,6 @@
                 scrollWheelZoom: false
             }).setView(cfg.center, cfg.zoom);
 
-            // ใช้ Esri World Street Map เป็นพื้นหลังหลักเพื่อไม่ให้ติดบล็อก Referer (403) เมื่อเปิดไฟล์ในเครื่องหรือบนเว็บ
             const streetLayer = L.tileLayer(
                 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
                 {
@@ -1543,7 +1747,6 @@
             renderMarkersForRoute(routeKey);
             await drawRouteOnMap(routeKey);
 
-            // จัดขนาดแผนที่ซ้ำหลังหน้าเว็บจัด Layout เสร็จเพื่อให้เส้นทางอยู่กึ่งกลางพอดี
             setTimeout(() => fitFullRouteBounds(routeKey), 350);
             window.addEventListener('resize', () => fitFullRouteBounds(routeKey));
         }
