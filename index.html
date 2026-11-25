@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="css/style.css?v=3.1">
 
     <style>
-        /* ปรับการจัดวางการ์ดประเภทการวิ่งและรายการรายละเอียดให้เป็นระเบียบทุกขนาดหน้าจอ */
         .pass-specs-list li {
             display: flex !important;
             align-items: flex-start !important;
@@ -85,7 +84,6 @@
             }
         }
 
-        /* สไตล์สำหรับแผนที่วาดเส้นทางการวิ่งแยก 2 ระยะทาง */
         .route-card-map-box {
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md);
@@ -289,7 +287,6 @@
             background: #FEF3C7;
         }
 
-        /* Custom Leaflet Pin Badges */
         .race-pin-badge {
             display: flex;
             align-items: center;
@@ -356,7 +353,6 @@
             line-height: 1.5;
         }
 
-        /* ================= 3D JERSEY SHOWCASE (MINIMALIST) ================= */
         .kit-3d-showcase-panel {
             background: linear-gradient(165deg, #F8FAFC 0%, #EEF6F8 100%);
             border-radius: var(--radius-lg);
@@ -474,7 +470,6 @@
 
 <body>
 
-    <!-- ================= SITE NAVIGATION ================= -->
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="index.html" class="brand-wrapper">
@@ -504,7 +499,6 @@
         </div>
     </nav>
 
-    <!-- ================= HERO BANNER ================= -->
     <header class="hero-banner"
         style="background-image: linear-gradient(180deg, rgba(2, 14, 20, 0.28) 0%, rgba(2, 14, 20, 0.08) 45%, rgba(2, 14, 20, 0.25) 100%), url('Photo/โล๊ะจาก5.png'), url('Photo/lohjak5.png');">
         <div class="container">
@@ -533,7 +527,6 @@
                     </div>
                 </div>
 
-                <!-- Modern Accreditation Countdown -->
                 <div class="countdown-box-card">
                     <div class="countdown-header-tag">
                         <span style="display:inline-flex; align-items:center; gap:6px;">
@@ -562,7 +555,6 @@
                         </div>
                     </div>
 
-                    <!-- Live Quota Tracker -->
                     <div class="quota-tracker-panel">
                         <div class="quota-meta-row">
                             <span style="color:#CFFAFE; font-weight:600;">ระยะ 5 กม.</span>
@@ -591,7 +583,6 @@
         </div>
     </header>
 
-    <!-- ================= EVENT SCHEDULE & KEY FACTS BAR ================= -->
     <section id="schedule" style="background:#FFFFFF; border-bottom:1px solid var(--border-subtle); padding:2.25rem 0;">
         <div class="container">
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1.25rem;">
@@ -637,7 +628,6 @@
         </div>
     </section>
 
-    <!-- ================= RACE CATEGORIES ================= -->
     <section class="section" id="about">
         <div class="container">
             <div class="section-header">
@@ -648,7 +638,6 @@
             </div>
 
             <div class="category-grid">
-                <!-- 5K Pass -->
                 <div class="race-pass-card">
                     <div class="pass-header accent-5k">
                         <div>
@@ -684,7 +673,6 @@
                     </div>
                 </div>
 
-                <!-- 10K Pass -->
                 <div class="race-pass-card">
                     <div class="pass-header accent-10k">
                         <div>
@@ -723,7 +711,6 @@
         </div>
     </section>
 
-    <!-- ================= PRIZE MONEY & MEDALS ================= -->
     <section class="section" id="prizes"
         style="background:#FFFFFF; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle);">
         <div class="container">
@@ -736,7 +723,6 @@
 
             <div
                 style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap:2rem; margin-bottom:2rem;">
-                <!-- 5K Prizes -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; gap:0.5rem; flex-wrap:wrap;">
@@ -777,7 +763,6 @@
                     </table>
                 </div>
 
-                <!-- 10K Prizes -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; gap:0.5rem; flex-wrap:wrap;">
@@ -819,7 +804,6 @@
                 </div>
             </div>
 
-            <!-- Finisher Medal Rule Banner -->
             <div
                 style="background:linear-gradient(135deg, #072B38, #0E7490); color:#FFFFFF; border-radius:var(--radius-lg); padding:1.75rem 2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.25rem; box-shadow:var(--shadow-card);">
                 <div style="max-width:720px;">
@@ -852,7 +836,6 @@
         </div>
     </section>
 
-    <!-- ================= OFFICIAL RACE ROUTES ================= -->
     <section class="section" id="routes">
         <div class="container">
             <div class="section-header">
@@ -863,7 +846,7 @@
             </div>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap:2rem;">
-                <!-- 5K Route Card + Interactive Drawn Route Map 1 -->
+                <!-- 5K Route Card -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
                     <div
@@ -878,25 +861,15 @@
                         <span class="status-pill approved">จุดบริการน้ำ 2 จุด</span>
                     </div>
 
-                    <!-- แผนที่เส้นทางที่ 1: ระยะ 5 กม. -->
                     <div class="route-card-map-box">
                         <div class="route-card-map-bar">
                             <span class="route-card-map-label">
                                 <span class="map-dot-5k"></span> แผนที่เส้นทาง 5 กม.
                             </span>
                             <div class="map-bar-controls">
-                                <button type="button" class="btn-map-mode" onclick="resetRouteView('5k')"
-                                    title="จัดกึ่งกลางเส้นทางทั้งหมด">
-                                    จัดกึ่งกลาง
-                                </button>
-                                <button type="button" class="btn-map-mode" id="editBtn5k"
-                                    onclick="toggleEditRoute('5k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
-                                    ปรับจุด
-                                </button>
-                                <button type="button" class="btn-map-mode" id="satBtn5k"
-                                    onclick="toggleLeafletLayer('5k')">
-                                    ภาพถ่ายดาวเทียม
-                                </button>
+                                <button type="button" class="btn-map-mode" onclick="resetRouteView('5k')">จัดกึ่งกลาง</button>
+                                <button type="button" class="btn-map-mode" id="editBtn5k" onclick="toggleEditRoute('5k')">ปรับจุด</button>
+                                <button type="button" class="btn-map-mode" id="satBtn5k" onclick="toggleLeafletLayer('5k')">ภาพถ่ายดาวเทียม</button>
                             </div>
                         </div>
 
@@ -911,9 +884,7 @@
 
                         <div class="route-edit-helper" id="editHelper5k">
                             <span>ลากหมุดบนแผนที่เพื่อขยับแนวเส้นทางให้ตรงซอย</span>
-                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('5k')">
-                                คัดลอกพิกัด 5 กม.
-                            </button>
+                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('5k')">คัดลอกพิกัด 5 กม.</button>
                         </div>
 
                         <div class="route-card-map-footer">
@@ -968,7 +939,7 @@
                     </ol>
                 </div>
 
-                <!-- 10K Route Card + Interactive Drawn Route Map 2 -->
+                <!-- 10K Route Card -->
                 <div class="form-envelope-card"
                     style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
                     <div
@@ -983,25 +954,15 @@
                         <span class="status-pill pending">จุดบริการน้ำ 4 จุด</span>
                     </div>
 
-                    <!-- แผนที่เส้นทางที่ 2: ระยะ 10 กม. -->
                     <div class="route-card-map-box">
                         <div class="route-card-map-bar">
                             <span class="route-card-map-label">
                                 <span class="map-dot-10k"></span> แผนที่เส้นทาง 10 กม.
                             </span>
                             <div class="map-bar-controls">
-                                <button type="button" class="btn-map-mode" onclick="resetRouteView('10k')"
-                                    title="จัดกึ่งกลางเส้นทางทั้งหมด">
-                                    จัดกึ่งกลาง
-                                </button>
-                                <button type="button" class="btn-map-mode" id="editBtn10k"
-                                    onclick="toggleEditRoute('10k')" title="ลากหมุดเพื่อปรับแนวเส้นทาง">
-                                    ปรับจุด
-                                </button>
-                                <button type="button" class="btn-map-mode" id="satBtn10k"
-                                    onclick="toggleLeafletLayer('10k')">
-                                    ภาพถ่ายดาวเทียม
-                                </button>
+                                <button type="button" class="btn-map-mode" onclick="resetRouteView('10k')">จัดกึ่งกลาง</button>
+                                <button type="button" class="btn-map-mode" id="editBtn10k" onclick="toggleEditRoute('10k')">ปรับจุด</button>
+                                <button type="button" class="btn-map-mode" id="satBtn10k" onclick="toggleLeafletLayer('10k')">ภาพถ่ายดาวเทียม</button>
                             </div>
                         </div>
 
@@ -1016,9 +977,7 @@
 
                         <div class="route-edit-helper" id="editHelper10k">
                             <span>ลากหมุดบนแผนที่เพื่อขยับแนวเส้นทางให้ตรงซอย</span>
-                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('10k')">
-                                คัดลอกพิกัด 10 กม.
-                            </button>
+                            <button type="button" class="btn-map-mode active" onclick="copyRouteCoords('10k')">คัดลอกพิกัด 10 กม.</button>
                         </div>
 
                         <div class="route-card-map-footer">
@@ -1087,7 +1046,6 @@
         </div>
     </section>
 
-    <!-- ================= OFFICIAL KIT LOOKBOOK (3D INTERACTIVE) ================= -->
     <section class="section" id="kit" style="background:#FFFFFF;">
         <div class="container">
             <div class="section-header">
@@ -1098,7 +1056,6 @@
             </div>
 
             <div class="editorial-kit-showcase">
-                <!-- Interactive 3D Jersey Viewer -->
                 <div class="kit-3d-showcase-panel">
                     <div class="kit-3d-tabs">
                         <button type="button" class="kit-3d-tab active-5k" id="tabHomeShirt5k" onclick="switchHomeShirt3D('5K')">
@@ -1117,16 +1074,13 @@
                         <model-viewer
                             id="homeShirtViewer"
                             src="Photo/modelshirt2.glb"
-                            poster="Photo/50764.jpg"
                             alt="โมเดล 3 มิติ เสื้อวิ่งเปิดโลกทะเล ประจำปี 2570"
                             camera-controls
                             auto-rotate
                             rotation-per-second="18deg"
                             camera-orbit="0deg 82deg auto"
-                            shadow-intensity="0.85"
-                            shadow-softness="0.8"
+                            shadow-intensity="0.7"
                             exposure="1.05"
-                            environment-image="neutral"
                             interaction-prompt="none"
                             loading="eager">
                         </model-viewer>
@@ -1154,7 +1108,7 @@
                         <strong>นักวิ่งสามารถเลือกรุ่นแขนยาวได้โดยเพิ่มค่าบริการ 50 บาท</strong> (นัดรับเสื้อวันที่ 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล)
                     </p>
 
-                    <div class="kit-feature-pill emerald" onclick="switchHomeShirt3D('5K')" title="คลิกเพื่อดูโมเดล 3D เสื้อระยะ 5 กม.">
+                    <div class="kit-feature-pill emerald" onclick="switchHomeShirt3D('5K')">
                         <div>
                             <strong style="color:#155E75; display:block; font-size:0.95rem;">แบบเสื้อระยะ 5 กม. — ลายเกาะไข่ (฿350 / แขนยาว ฿400)</strong>
                             <span
@@ -1162,7 +1116,7 @@
                         </div>
                     </div>
 
-                    <div class="kit-feature-pill sunset" onclick="switchHomeShirt3D('10K')" title="คลิกเพื่อดูโมเดล 3D เสื้อระยะ 10 กม.">
+                    <div class="kit-feature-pill sunset" onclick="switchHomeShirt3D('10K')">
                         <div>
                             <strong style="color:#92400E; display:block; font-size:0.95rem;">แบบเสื้อระยะ 10 กม. — ลายสะพานท่าเรืออัสดง (฿450 / แขนยาว ฿500)</strong>
                             <span
@@ -1184,7 +1138,6 @@
         </div>
     </section>
 
-    <!-- ================= COURSE HIGHLIGHTS ================= -->
     <section class="section">
         <div class="container">
             <div class="section-header">
@@ -1195,11 +1148,10 @@
             </div>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.75rem;">
-                <!-- 1. หาดโล๊ะจาก (สถานที่จัดงานจริง) -->
                 <div
                     style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
                     <div style="height:220px; overflow:hidden;">
-                        <img src="Photo/โล๊ะจาก5.png" onerror="this.src='Photo/lohjak5.png'"
+                        <img src="Photo/โล๊ะจาก5.png" onerror="this.src='Photo/lohjak5.png'" loading="lazy"
                             alt="อ่าวโละจาก เกาะยาวใหญ่"
                             style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
                             onmouseover="this.style.transform='scale(1.05)'"
@@ -1219,11 +1171,10 @@
                     </div>
                 </div>
 
-                <!-- 2. สะพานท่าเรือโล๊ะจาก ยามเย็น -->
                 <div
                     style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
                     <div style="height:220px; overflow:hidden;">
-                        <img src="Photo/โล๊ะจาก2.jpg" onerror="this.src='Photo/lohjak2.jpg'"
+                        <img src="Photo/โล๊ะจาก2.jpg" onerror="this.src='Photo/lohjak2.jpg'" loading="lazy"
                             alt="สะพานท่าเรือโละจากยามเย็น"
                             style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
                             onmouseover="this.style.transform='scale(1.05)'"
@@ -1242,11 +1193,10 @@
                     </div>
                 </div>
 
-                <!-- 3. เกาะไข่ (หมู่เกาะไข่ ต.พรุใน) -->
                 <div
                     style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
                     <div style="height:220px; overflow:hidden;">
-                        <img src="Photo/50769_0.jpg" alt="เกาะไข่ เกาะยาวใหญ่ พังงา"
+                        <img src="Photo/50769_0.jpg" loading="lazy" alt="เกาะไข่ เกาะยาวใหญ่ พังงา"
                             style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
                             onmouseover="this.style.transform='scale(1.05)'"
                             onmouseout="this.style.transform='scale(1)'">
@@ -1264,11 +1214,10 @@
                     </div>
                 </div>
 
-                <!-- 4. วิถีประมงพื้นบ้านเกาะยาว -->
                 <div
                     style="background:#FFFFFF; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border-subtle); box-shadow:var(--shadow-card); display:flex; flex-direction:column;">
                     <div style="height:220px; overflow:hidden;">
-                        <img src="Photo/เรือปลา.jpg" onerror="this.src='Photo/rueapla.jpg'"
+                        <img src="Photo/เรือปลา.jpg" onerror="this.src='Photo/rueapla.jpg'" loading="lazy"
                             alt="วิถีประมงพื้นบ้านเกาะยาวใหญ่"
                             style="height:100%; width:100%; object-fit:cover; transition:transform 0.4s ease;"
                             onmouseover="this.style.transform='scale(1.05)'"
@@ -1290,7 +1239,6 @@
         </div>
     </section>
 
-    <!-- ================= FOOTER ================= -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
@@ -1343,14 +1291,11 @@
         </div>
     </footer>
 
-    <!-- Leaflet Interactive Map JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Scripts -->
     <script src="js/store.js?v=3.1"></script>
     <script>
-        // ================= 3D SHIRT SHOWCASE CONTROLS =================
         const HOME_SHIRT_MODELS = {
             '5K': {
                 src: 'Photo/modelshirt2.glb',
@@ -1370,7 +1315,9 @@
             const cfg = HOME_SHIRT_MODELS[cat];
             if (!viewer || !cfg) return;
 
-            viewer.src = cfg.src;
+            if (viewer.getAttribute('src') !== cfg.src) {
+                viewer.setAttribute('src', cfg.src);
+            }
             if (badge) badge.textContent = cfg.badge;
 
             if (tab5k && tab10k) {
@@ -1396,7 +1343,6 @@
             if (rotBtn) rotBtn.classList.toggle('active', viewer.autoRotate);
         }
 
-        // ================= INTERACTIVE DRAWN RACE ROUTES (5K & 10K) =================
         const RACE_ROUTES_DATA = {
             '5k': {
                 containerId: 'routeMap5k',
@@ -1407,62 +1353,13 @@
                 center: [7.9390, 98.5840],
                 zoom: 15,
                 points: [
-                    {
-                        "lat": 7.932883,
-                        "lng": 98.574954,
-                        "type": "start",
-                        "code": "START",
-                        "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)",
-                        "desc": "จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 5 กม."
-                    },
-                    {
-                        "lat": 7.940194,
-                        "lng": 98.585171,
-                        "type": "turn",
-                        "code": "1",
-                        "title": "สามแยก รร.อ่าวกะพ้อ",
-                        "desc": "เลี้ยวขวาเข้าสู่ถนนสายหลัก"
-                    },
-                    {
-                        "lat": 7.945719,
-                        "lng": 98.589441,
-                        "type": "stamp",
-                        "code": "น้ำ 1 + ตรา",
-                        "title": "สี่แยกบ้านชามเลาะ",
-                        "desc": "จุดบริการน้ำที่ 1 + จุดประทับตราตรวจสอบเส้นทาง"
-                    },
-                    {
-                        "lat": 7.936198,
-                        "lng": 98.593221,
-                        "type": "turn",
-                        "code": "2",
-                        "title": "ซอยอิสาน – สามแยกท่ายาง",
-                        "desc": "เลี้ยวขวาเข้าซอยอิสานและเลี้ยวขวาที่สามแยกท่ายาง"
-                    },
-                    {
-                        "lat": 7.939343,
-                        "lng": 98.584524,
-                        "type": "water",
-                        "code": "น้ำ 2",
-                        "title": "สามแยกบ้านออก",
-                        "desc": "จุดบริการน้ำที่ 2 ก่อนมุ่งหน้ากลับอ่าวโละจาก"
-                    },
-                    {
-                        "lat": 7.936453,
-                        "lng": 98.590107,
-                        "type": "turn",
-                        "code": "3",
-                        "title": "สามแยกโละจาก",
-                        "desc": "ผ่านสามแยกโละจากมุ่งหน้าเข้าสู่เส้นชัย ณ อ่าวโละจาก"
-                    },
-                    {
-                        "lat": 7.932883,
-                        "lng": 98.574954,
-                        "type": "finish",
-                        "code": "FINISH",
-                        "title": "เส้นชัย (อ่าวโละจาก)",
-                        "desc": "เข้าเส้นชัยระยะ 5 กม."
-                    }
+                    { "lat": 7.932883, "lng": 98.574954, "type": "start", "code": "START", "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)", "desc": "จุดรวมพล ปล่อยตัว 06.00 น. และเข้าเส้นชัยระยะ 5 กม." },
+                    { "lat": 7.940194, "lng": 98.585171, "type": "turn", "code": "1", "title": "สามแยก รร.อ่าวกะพ้อ", "desc": "เลี้ยวขวาเข้าสู่ถนนสายหลัก" },
+                    { "lat": 7.945719, "lng": 98.589441, "type": "stamp", "code": "น้ำ 1 + ตรา", "title": "สี่แยกบ้านชามเลาะ", "desc": "จุดบริการน้ำที่ 1 + จุดประทับตราตรวจสอบเส้นทาง" },
+                    { "lat": 7.936198, "lng": 98.593221, "type": "turn", "code": "2", "title": "ซอยอิสาน – สามแยกท่ายาง", "desc": "เลี้ยวขวาเข้าซอยอิสานและเลี้ยวขวาที่สามแยกท่ายาง" },
+                    { "lat": 7.939343, "lng": 98.584524, "type": "water", "code": "น้ำ 2", "title": "สามแยกบ้านออก", "desc": "จุดบริการน้ำที่ 2 ก่อนมุ่งหน้ากลับอ่าวโละจาก" },
+                    { "lat": 7.936453, "lng": 98.590107, "type": "turn", "code": "3", "title": "สามแยกโละจาก", "desc": "ผ่านสามแยกโละจากมุ่งหน้าเข้าสู่เส้นชัย ณ อ่าวโละจาก" },
+                    { "lat": 7.932883, "lng": 98.574954, "type": "finish", "code": "FINISH", "title": "เส้นชัย (อ่าวโละจาก)", "desc": "เข้าเส้นชัยระยะ 5 กม." }
                 ]
             },
             '10k': {
@@ -1474,94 +1371,17 @@
                 center: [7.9490, 98.5825],
                 zoom: 14,
                 points: [
-                    {
-                        "lat": 7.93318,
-                        "lng": 98.574657,
-                        "type": "start",
-                        "code": "START",
-                        "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)",
-                        "desc": "จุดรวมพล ปล่อยตัว 05.30 น. และเข้าเส้นชัยระยะ 10 กม."
-                    },
-                    {
-                        "lat": 7.938451,
-                        "lng": 98.58088,
-                        "type": "turn",
-                        "code": "1",
-                        "title": "ผ่าน รร.อ่าวกะพ้อ",
-                        "desc": "มุ่งหน้าไปตามถนนนาถ้ำ–นาบน"
-                    },
-                    {
-                        "lat": 7.939301,
-                        "lng": 98.584528,
-                        "type": "water",
-                        "code": "น้ำ 1",
-                        "title": "สามแยกโรงน้ำ",
-                        "desc": "จุดบริการน้ำที่ 1"
-                    },
-                    {
-                        "lat": 7.946697,
-                        "lng": 98.590451,
-                        "type": "turn",
-                        "code": "2",
-                        "title": "สามแยกแหลมใต้",
-                        "desc": "เลี้ยวขวาที่สามแยกแหลมใต้"
-                    },
-                    {
-                        "lat": 7.956982,
-                        "lng": 98.577447,
-                        "type": "turn",
-                        "code": "3",
-                        "title": "สามแยกมัสยิดนาบน",
-                        "desc": "เลี้ยวซ้ายที่สามแยกมัสยิดนาบน"
-                    },
-                    {
-                        "lat": 7.964718,
-                        "lng": 98.581306,
-                        "type": "stamp",
-                        "code": "น้ำ 2 + ตรา",
-                        "title": "สามแยกบ่อหลวง ม.4",
-                        "desc": "จุดบริการน้ำที่ 2 + จุดประทับตราตรวจสอบเส้นทาง"
-                    },
-                    {
-                        "lat": 7.952647,
-                        "lng": 98.576712,
-                        "type": "turn",
-                        "code": "4",
-                        "title": "สามแยกควนต้นท้อน",
-                        "desc": "วิ่งตรงไปทางเทศบาลตำบลพรุใน"
-                    },
-                    {
-                        "lat": 7.955495,
-                        "lng": 98.589465,
-                        "type": "water",
-                        "code": "น้ำ 3",
-                        "title": "หน้าเทศบาลตำบลพรุใน",
-                        "desc": "จุดบริการน้ำที่ 3"
-                    },
-                    {
-                        "lat": 7.943424,
-                        "lng": 98.587063,
-                        "type": "water",
-                        "code": "น้ำ 4",
-                        "title": "สามแยกบ้านออก",
-                        "desc": "จุดบริการน้ำที่ 4"
-                    },
-                    {
-                        "lat": 7.938026,
-                        "lng": 98.576799,
-                        "type": "turn",
-                        "code": "5",
-                        "title": "สี่แยกโละจาก",
-                        "desc": "เลี้ยวขวาสู่เส้นชัย ณ อ่าวโละจาก"
-                    },
-                    {
-                        "lat": 7.93318,
-                        "lng": 98.574657,
-                        "type": "finish",
-                        "code": "FINISH",
-                        "title": "เส้นชัย (อ่าวโละจาก)",
-                        "desc": "เข้าเส้นชัยระยะ 10 กม."
-                    }
+                    { "lat": 7.93318, "lng": 98.574657, "type": "start", "code": "START", "title": "จุดปล่อยตัว & เส้นชัย (อ่าวโละจาก)", "desc": "จุดรวมพล ปล่อยตัว 05.30 น. และเข้าเส้นชัยระยะ 10 กม." },
+                    { "lat": 7.938451, "lng": 98.58088, "type": "turn", "code": "1", "title": "ผ่าน รร.อ่าวกะพ้อ", "desc": "มุ่งหน้าไปตามถนนนาถ้ำ–นาบน" },
+                    { "lat": 7.939301, "lng": 98.584528, "type": "water", "code": "น้ำ 1", "title": "สามแยกโรงน้ำ", "desc": "จุดบริการน้ำที่ 1" },
+                    { "lat": 7.946697, "lng": 98.590451, "type": "turn", "code": "2", "title": "สามแยกแหลมใต้", "desc": "เลี้ยวขวาที่สามแยกแหลมใต้" },
+                    { "lat": 7.956982, "lng": 98.577447, "type": "turn", "code": "3", "title": "สามแยกมัสยิดนาบน", "desc": "เลี้ยวซ้ายที่สามแยกมัสยิดนาบน" },
+                    { "lat": 7.964718, "lng": 98.581306, "type": "stamp", "code": "น้ำ 2 + ตรา", "title": "สามแยกบ่อหลวง ม.4", "desc": "จุดบริการน้ำที่ 2 + จุดประทับตราตรวจสอบเส้นทาง" },
+                    { "lat": 7.952647, "lng": 98.576712, "type": "turn", "code": "4", "title": "สามแยกควนต้นท้อน", "desc": "วิ่งตรงไปทางเทศบาลตำบลพรุใน" },
+                    { "lat": 7.955495, "lng": 98.589465, "type": "water", "code": "น้ำ 3", "title": "หน้าเทศบาลตำบลพรุใน", "desc": "จุดบริการน้ำที่ 3" },
+                    { "lat": 7.943424, "lng": 98.587063, "type": "water", "code": "น้ำ 4", "title": "สามแยกบ้านออก", "desc": "จุดบริการน้ำที่ 4" },
+                    { "lat": 7.938026, "lng": 98.576799, "type": "turn", "code": "5", "title": "สี่แยกโละจาก", "desc": "เลี้ยวขวาสู่เส้นชัย ณ อ่าวโละจาก" },
+                    { "lat": 7.93318, "lng": 98.574657, "type": "finish", "code": "FINISH", "title": "เส้นชัย (อ่าวโละจาก)", "desc": "เข้าเส้นชัยระยะ 10 กม." }
                 ]
             }
         };
@@ -1604,18 +1424,19 @@
         async function fetchSnappedRoadRoute(points) {
             const coordStr = points.map(p => `${p.lng.toFixed(6)},${p.lat.toFixed(6)}`).join(';');
             const url = `https://router.project-osrm.org/route/v1/foot/${coordStr}?overview=full&geometries=geojson`;
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), 4000);
             try {
-                const res = await fetch(url);
+                const res = await fetch(url, { signal: controller.signal });
+                clearTimeout(timer);
                 if (!res.ok) throw new Error('OSRM response error');
                 const data = await res.json();
                 if (data.routes && data.routes[0] && data.routes[0].geometry) {
                     const snapped = data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
-                    const firstPt = [points[0].lat, points[0].lng];
-                    const lastPt = [points[points.length - 1].lat, points[points.length - 1].lng];
-                    return [firstPt, ...snapped, lastPt];
+                    return [[points[0].lat, points[0].lng], ...snapped, [points[points.length - 1].lat, points[points.length - 1].lng]];
                 }
             } catch (err) {
-                // Fallback ใช้เส้นเชื่อมจุดตามลำดับหากเครือข่ายไม่สามารถเรียก OSRM ได้
+                clearTimeout(timer);
             }
             return points.map(p => [p.lat, p.lng]);
         }
@@ -1631,8 +1452,7 @@
                 ...(state.routeLine ? state.routeLine.getLatLngs() : [])
             ];
             if (allCoords.length > 0) {
-                const bounds = L.latLngBounds(allCoords);
-                state.map.fitBounds(bounds, { padding: [36, 36] });
+                state.map.fitBounds(L.latLngBounds(allCoords), { padding: [36, 36] });
             }
         }
 
@@ -1662,10 +1482,7 @@
                 lineCap: 'round'
             }).addTo(state.map);
 
-            if (!state.hasFitted) {
-                fitFullRouteBounds(routeKey);
-                state.hasFitted = true;
-            }
+            fitFullRouteBounds(routeKey);
         }
 
         function renderMarkersForRoute(routeKey) {
@@ -1707,6 +1524,7 @@
         }
 
         async function initSingleRouteMap(routeKey) {
+            if (mapInstances[routeKey]) return;
             const cfg = RACE_ROUTES_DATA[routeKey];
             const el = document.getElementById(cfg.containerId);
             if (!el || typeof L === 'undefined') return;
@@ -1737,7 +1555,6 @@
                 satelliteLayer,
                 isSatellite: false,
                 isEditing: false,
-                hasFitted: false,
                 casingLine: null,
                 routeLine: null,
                 markers: [],
@@ -1746,9 +1563,6 @@
 
             renderMarkersForRoute(routeKey);
             await drawRouteOnMap(routeKey);
-
-            setTimeout(() => fitFullRouteBounds(routeKey), 350);
-            window.addEventListener('resize', () => fitFullRouteBounds(routeKey));
         }
 
         function resetRouteView(routeKey) {
@@ -1889,10 +1703,25 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            initSingleRouteMap('5k');
-            initSingleRouteMap('10k');
             updateHeroStats();
             runCountdown();
+
+            const routesSection = document.getElementById('routes');
+            if ('IntersectionObserver' in window && routesSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            initSingleRouteMap('5k');
+                            initSingleRouteMap('10k');
+                            observer.disconnect();
+                        }
+                    });
+                }, { rootMargin: '300px' });
+                observer.observe(routesSection);
+            } else {
+                initSingleRouteMap('5k');
+                initSingleRouteMap('10k');
+            }
         });
     </script>
 </body>
