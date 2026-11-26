@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ตรวจสอบสถานะ & บัตรประจำตัว E-Bib | กิจกรรมวิ่งเปิดโลกการท่องเที่ยว ๒๕๗๐</title>
+    <title>ตรวจสอบสถานะ & บัตรประจำตัว E-Bib | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐</title>
     <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
 
     <!-- Fonts -->
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <link rel="stylesheet" href="css/style.css?v=3.4">
 </head>
 <body>
 
@@ -20,42 +20,65 @@
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="index.html" class="brand-wrapper">
-                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-logos-group">
+                    <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo-dual">
+                    <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" class="brand-logo-dual community-logo">
+                </div>
                 <div class="brand-text">
-                    <h1>เปิดโลกทะเล 2570</h1>
-                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
+                    <h1 data-i18n="brandTitle">เปิดโลกทะเล 2570</h1>
+                    <span data-i18n="brandSub">เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
                 </div>
             </a>
 
-            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="nav-right-actions">
+                <div class="lang-switch-group" role="group" aria-label="Language Switcher">
+                    <button type="button" class="lang-switch-btn active" id="langBtnTh" onclick="setStatusLang('th')">TH</button>
+                    <button type="button" class="lang-switch-btn" id="langBtnEn" onclick="setStatusLang('en')">EN</button>
+                </div>
+
+                <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง" aria-expanded="false" aria-controls="navMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
-                <li><a href="guide.html" class="nav-link">คู่มือเดินทาง & ท่องเที่ยว</a></li>
-                <li><a href="status.html" class="nav-link active">ตรวจสถานะ & E-Bib</a></li>
-                <li><a href="admin.html" class="nav-admin-badge">ระบบเจ้าหน้าที่</a></li>
-                <li><a href="register.html" class="nav-btn-register">สมัครแข่งขัน</a></li>
+                <li class="nav-dropdown">
+                    <a href="index.html" class="nav-link nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        <span data-i18n="navHome">หน้าแรก</span>
+                        <span class="nav-caret" aria-hidden="true">▾</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="index.html" class="nav-dropdown-item" data-i18n="navHomeMain">ภาพรวมหน้าแรก</a></li>
+                        <li><a href="index.html#schedule" class="nav-dropdown-item" data-i18n="navSchedule">กำหนดการ</a></li>
+                        <li><a href="index.html#about" class="nav-dropdown-item" data-i18n="navCategories">ประเภท & ค่าสมัคร</a></li>
+                        <li><a href="index.html#prizes" class="nav-dropdown-item" data-i18n="navPrizes">เงินรางวัล & เหรียญ</a></li>
+                        <li><a href="index.html#routes" class="nav-dropdown-item" data-i18n="navRoutes">เส้นทางวิ่ง</a></li>
+                        <li><a href="index.html#kit" class="nav-dropdown-item" data-i18n="navKit">เสื้อแข่งขัน</a></li>
+                    </ul>
+                </li>
+                <li><a href="guide.html" class="nav-link" data-i18n="navGuide">คู่มือเดินทาง</a></li>
+                <li><a href="status.html" class="nav-link active" data-i18n="navStatus">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge" data-i18n="navAdmin">เจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register" data-i18n="navRegister">สมัครแข่งขัน</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- ================= STATUS SEARCH SECTION ================= -->
-    <div class="section" style="padding-top:3.5rem;">
+    <div class="section" style="padding-top:3.5rem; min-height:72vh;">
         <div class="container">
             <div class="section-header" style="margin-bottom:2.5rem;">
-                <div class="badge-tag"><span class="dot"></span> พอร์ทัลตรวจสอบตนเอง</div>
-                <h2 class="section-title">ตรวจสอบสถานะการสมัคร & ดาวน์โหลด E-Bib</h2>
-                <p class="section-desc">กรอกเลขบัตรประจำตัวประชาชน 13 หลัก หรือ เบอร์โทรศัพท์ที่ใช้ลงทะเบียน</p>
+                <div class="badge-tag"><span class="dot"></span> <span data-i18n="portalBadge">พอร์ทัลตรวจสอบตนเอง</span></div>
+                <h2 class="section-title" data-i18n="portalTitle">ตรวจสอบสถานะการสมัคร & ดาวน์โหลด E-Bib</h2>
+                <p class="section-desc" data-i18n="portalDesc">กรอกเลขบัตรประจำตัวประชาชน 13 หลัก หมายเลขพาสปอร์ต รหัสการสมัคร หรือเบอร์โทรศัพท์ที่ใช้ลงทะเบียน</p>
             </div>
 
             <!-- Search Console Card -->
             <div class="form-envelope-card" style="max-width:680px; padding:2rem; margin-bottom:2.5rem;">
                 <form id="searchForm" onsubmit="event.preventDefault(); doSearch();">
-                    <div style="display:flex; gap:0.75rem;">
-                        <input type="text" inputmode="numeric" class="form-input-control" id="searchKeyword" placeholder="ระบุเลขบัตร ปชช. 13 หลัก หรือเบอร์โทรศัพท์..." style="font-size:1.02rem;" required>
-                        <button type="submit" class="btn btn-primary" style="white-space:nowrap; padding:0.75rem 1.75rem;">
+                    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                        <input type="text" class="form-input-control" id="searchKeyword" placeholder="ระบุเลขบัตร ปชช. 13 หลัก, พาสปอร์ต, รหัสสมัคร หรือเบอร์โทร..." style="font-size:1.02rem; flex:1; min-width:220px;" required>
+                        <button type="submit" class="btn btn-primary" style="white-space:nowrap; padding:0.75rem 1.75rem;" data-i18n="searchBtn">
                             ค้นหาข้อมูล
                         </button>
                     </div>
@@ -67,11 +90,11 @@
 
             <!-- Initial State Hint -->
             <div id="initialHint" style="text-align:center; padding:3rem 1rem; color:var(--ink-muted);">
-                <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600; margin-bottom:0.4rem;">
+                <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600; margin-bottom:0.4rem;" data-i18n="hintTitle">
                     พร้อมตรวจสอบสถานะการลงทะเบียน
                 </div>
-                <p style="font-size:0.92rem; max-width:560px; margin:0 auto; line-height:1.8;">
-                    ระบุเลขประจำตัวประชาชน 13 หลักในช่องด้านบน เพื่อตรวจสอบสถานะสลิป หมายเลข BIB และดาวน์โหลดบัตร E-Bib ดิจิทัล<br>
+                <p style="font-size:0.92rem; max-width:600px; margin:0 auto; line-height:1.8;" data-i18n="hintDesc">
+                    ระบุเลขประจำตัวประชาชน 13 หลัก หรือหมายเลขพาสปอร์ตในช่องด้านบน เพื่อตรวจสอบสถานะสลิป หมายเลข BIB และดาวน์โหลดบัตร E-Bib ดิจิทัล<br>
                     <strong>ระยะเวลาตรวจสอบ:</strong> เจ้าหน้าที่ตรวจสอบหลักฐานการโอนเงินภายในวันทำการ (ไม่เกิน 24 ชม.)<br>
                     <strong>นัดรับเสื้อ:</strong> 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล
                 </p>
@@ -83,11 +106,11 @@
     <div id="editModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.75); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1.5rem;">
         <div style="background:#fff; border-radius:var(--radius-lg); max-width:620px; width:100%; max-height:90vh; overflow-y:auto; padding:2.5rem; box-shadow:var(--shadow-floating); position:relative;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
-                <h3 style="color:var(--navy-marine); font-size:1.3rem;">แก้ไขข้อมูลส่วนบุคคล</h3>
+                <h3 style="color:var(--navy-marine); font-size:1.3rem;" data-i18n="editModalTitle">แก้ไขข้อมูลส่วนบุคคล</h3>
                 <button type="button" onclick="closeEditModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
             </div>
 
-            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.5rem;">
+            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.5rem;" data-i18n="editModalNote">
                 * อนุญาตให้แก้ไขข้อมูลติดต่อและขนาดเสื้อก่อนวันปิดรับสมัคร 10 มกราคม 2570 (ระยะทางและหมายเลข BIB ไม่สามารถแก้ไขได้)
             </p>
 
@@ -95,8 +118,12 @@
                 <input type="hidden" id="editRegId">
 
                 <div class="form-field-group">
-                    <label class="field-label">ขนาดเสื้อแข่งขันที่ระลึก</label>
+                    <label class="field-label" data-i18n="editSizeLabel">ขนาดเสื้อแข่งขันที่ระลึก</label>
                     <div class="size-picker-row">
+                        <div class="size-pill-option">
+                            <input type="radio" name="editShirtSize" id="eSize2XS" value="2XS">
+                            <label for="eSize2XS">2XS</label>
+                        </div>
                         <div class="size-pill-option">
                             <input type="radio" name="editShirtSize" id="eSizeXS" value="XS">
                             <label for="eSizeXS">XS</label>
@@ -121,43 +148,39 @@
                             <input type="radio" name="editShirtSize" id="eSize2XL" value="2XL">
                             <label for="eSize2XL">2XL</label>
                         </div>
-                        <div class="size-pill-option">
-                            <input type="radio" name="editShirtSize" id="eSize3XL" value="3XL">
-                            <label for="eSize3XL">3XL</label>
-                        </div>
                     </div>
                 </div>
 
                 <div class="form-grid-2col">
                     <div class="form-field-group">
-                        <label class="field-label">เบอร์โทรศัพท์</label>
-                        <input type="tel" inputmode="numeric" class="form-input-control" id="editPhone" maxlength="10" required>
+                        <label class="field-label" data-i18n="editPhoneLabel">เบอร์โทรศัพท์</label>
+                        <input type="tel" inputmode="numeric" class="form-input-control" id="editPhone" maxlength="15" required>
                     </div>
                     <div class="form-field-group">
-                        <label class="field-label">อีเมล</label>
+                        <label class="field-label" data-i18n="editEmailLabel">อีเมล</label>
                         <input type="email" class="form-input-control" id="editEmail">
                     </div>
                 </div>
 
                 <div class="form-grid-2col">
                     <div class="form-field-group">
-                        <label class="field-label">ผู้ติดต่อฉุกเฉิน</label>
+                        <label class="field-label" data-i18n="editEmergContactLabel">ผู้ติดต่อฉุกเฉิน</label>
                         <input type="text" class="form-input-control" id="editEmergContact" required>
                     </div>
                     <div class="form-field-group">
-                        <label class="field-label">เบอร์โทรฉุกเฉิน</label>
-                        <input type="tel" inputmode="numeric" class="form-input-control" id="editEmergPhone" maxlength="10" required>
+                        <label class="field-label" data-i18n="editEmergPhoneLabel">เบอร์โทรฉุกเฉิน</label>
+                        <input type="tel" inputmode="numeric" class="form-input-control" id="editEmergPhone" maxlength="15" required>
                     </div>
                 </div>
 
                 <div class="form-field-group">
-                    <label class="field-label">โรคประจำตัว / ประวัติแพ้ยา</label>
+                    <label class="field-label" data-i18n="editMedicalLabel">โรคประจำตัว / ประวัติแพ้ยา</label>
                     <input type="text" class="form-input-control" id="editMedical">
                 </div>
 
                 <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:2rem;">
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
-                    <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()" data-i18n="btnCancel">ยกเลิก</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="btnSaveChanges">บันทึกการเปลี่ยนแปลง</button>
                 </div>
             </form>
         </div>
@@ -167,11 +190,11 @@
     <div id="resubmitModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.75); backdrop-filter:blur(8px); z-index:2000; align-items:center; justify-content:center; padding:1.5rem;">
         <div style="background:#fff; border-radius:var(--radius-lg); max-width:540px; width:100%; padding:2.5rem; box-shadow:var(--shadow-floating); position:relative;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1rem;">
-                <h3 style="color:var(--navy-marine); font-size:1.3rem;">อัปโหลดสลิปการโอนเงินใหม่</h3>
+                <h3 style="color:var(--navy-marine); font-size:1.3rem;" data-i18n="resubmitModalTitle">อัปโหลดสลิปการโอนเงินใหม่</h3>
                 <button type="button" onclick="closeResubmitModal()" style="border:none; background:none; font-size:1.5rem; cursor:pointer; color:var(--ink-muted);">✕</button>
             </div>
 
-            <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem;">
+            <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.5rem;" data-i18n="resubmitModalDesc">
                 กรุณาแนบภาพสลิปที่โอนเงินถูกต้อง ภาพคมชัด เพื่อส่งให้เจ้าหน้าที่ตรวจสอบใหม่อีกครั้ง
             </p>
 
@@ -179,7 +202,7 @@
             <div class="slip-dropzone-box" onclick="document.getElementById('newSlipInput').click()">
                 <input type="file" id="newSlipInput" accept="image/*" style="display:none;" onchange="handleNewSlipSelected(this)">
                 <div id="newSlipPlaceholder">
-                    <strong>คลิกเพื่อเลือกไฟล์สลิปใหม่</strong>
+                    <strong data-i18n="resubmitDropText">คลิกเพื่อเลือกไฟล์สลิปใหม่</strong>
                 </div>
                 <div id="newSlipPreviewContainer" style="display:none;">
                     <img id="newSlipPreviewImg" src="" alt="สลิปใหม่" style="max-height:200px; margin:0 auto; border-radius:8px;">
@@ -191,36 +214,273 @@
             </div>
 
             <div style="display:flex; justify-content:flex-end; gap:1rem; margin-top:2rem;">
-                <button type="button" class="btn btn-secondary" onclick="closeResubmitModal()">ยกเลิก</button>
-                <button type="button" class="btn btn-accent" id="saveNewSlipBtn" onclick="saveNewSlip()">ส่งตรวจสอบใหม่</button>
+                <button type="button" class="btn btn-secondary" onclick="closeResubmitModal()" data-i18n="btnCancel2">ยกเลิก</button>
+                <button type="button" class="btn btn-accent" id="saveNewSlipBtn" onclick="saveNewSlip()" data-i18n="btnSubmitNewSlip">ส่งตรวจสอบใหม่</button>
             </div>
         </div>
     </div>
 
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.25rem;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                            <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                            <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                        </div>
+                        <div>
+                            <div class="footer-brand-title" data-i18n="footerBrandTitle">เปิดโลกทะเล 2570</div>
+                            <span style="font-size:0.82rem; color:#94A3B8;" data-i18n="footerBrandSub">เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;" data-i18n="footerDesc">
+                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
+                    </p>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerMenuTitle">
+                        เมนูนำทาง
+                    </h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html" data-i18n="fNavHome">หน้าแรก</a></li>
+                        <li><a href="register.html" data-i18n="fNavReg">สมัครแข่งขันออนไลน์</a></li>
+                        <li><a href="status.html" data-i18n="fNavStatus">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
+                        <li><a href="guide.html" data-i18n="fNavGuide">คู่มือเดินทาง & ตารางเรือ</a></li>
+                        <li><a href="admin.html" data-i18n="fNavAdmin">ระบบเจ้าหน้าที่ (Admin)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerContactTitle">
+                        กองอำนวยการจัดการแข่งขัน
+                    </h5>
+                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;" data-i18n="footerContactDesc">
+                        สำนักงานเทศบาลตำบลพรุใน<br>
+                        อำเภอเกาะยาว จังหวัดพังงา 82160<br>
+                        โทรศัพท์: 076-597-504<br>
+                        อีเมล: contact@phrunai.go.th
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar" data-i18n="footerCopy">
+                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.
+            </div>
+        </div>
+    </footer>
+
     <!-- Scripts -->
-    <script src="js/store.js"></script>
+    <script src="js/store.js?v=3.5"></script>
     <script src="js/ebib.js"></script>
     <script>
         let currentRunner = null;
         let compressedNewSlip = null;
+        let statusLang = 'th';
+        let lastSearchResults = null;
+        let lastIsJustRegistered = false;
 
-        const mobileToggleBtn = document.getElementById('mobileToggle');
-        const navMenuEl = document.getElementById('navMenu');
-
-        if (mobileToggleBtn && navMenuEl) {
-            mobileToggleBtn.addEventListener('click', function() {
-                navMenuEl.classList.toggle('open');
-            });
-
-            navMenuEl.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenuEl.classList.remove('open');
-                });
-            });
-        }
+        const STATUS_I18N = {
+            th: {
+                pageTitle: 'ตรวจสอบสถานะ & บัตรประจำตัว E-Bib | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐',
+                brandTitle: 'เปิดโลกทะเล 2570',
+                brandSub: 'เทศบาลตำบลพรุใน • เกาะยาวใหญ่',
+                navHome: 'หน้าแรก',
+                navHomeMain: 'ภาพรวมหน้าแรก',
+                navSchedule: 'กำหนดการ',
+                navCategories: 'ประเภท & ค่าสมัคร',
+                navPrizes: 'เงินรางวัล & เหรียญ',
+                navRoutes: 'เส้นทางวิ่ง',
+                navKit: 'เสื้อแข่งขัน',
+                navGuide: 'คู่มือเดินทาง',
+                navStatus: 'ตรวจสถานะ & E-Bib',
+                navAdmin: 'เจ้าหน้าที่',
+                navRegister: 'สมัครแข่งขัน',
+                portalBadge: 'พอร์ทัลตรวจสอบตนเอง',
+                portalTitle: 'ตรวจสอบสถานะการสมัคร & ดาวน์โหลด E-Bib',
+                portalDesc: 'กรอกเลขบัตรประจำตัวประชาชน 13 หลัก หมายเลขพาสปอร์ต รหัสการสมัคร หรือเบอร์โทรศัพท์ที่ใช้ลงทะเบียน',
+                searchPlaceholder: 'ระบุเลขบัตร ปชช. 13 หลัก, พาสปอร์ต, รหัสสมัคร หรือเบอร์โทร...',
+                searchBtn: 'ค้นหาข้อมูล',
+                hintTitle: 'พร้อมตรวจสอบสถานะการลงทะเบียน',
+                hintDesc: 'ระบุเลขประจำตัวประชาชน 13 หลัก หรือหมายเลขพาสปอร์ตในช่องด้านบน เพื่อตรวจสอบสถานะสลิป หมายเลข BIB และดาวน์โหลดบัตร E-Bib ดิจิทัล<br><strong>ระยะเวลาตรวจสอบ:</strong> เจ้าหน้าที่ตรวจสอบหลักฐานการโอนเงินภายในวันทำการ (ไม่เกิน 24 ชม.)<br><strong>นัดรับเสื้อ:</strong> 30 ม.ค. 2570 เวลา 10.00–18.00 น. ณ เต็นท์อำนวยการงานเปิดโลกทะเล',
+                loadingText: 'กำลังตรวจสอบข้อมูลในระบบ...',
+                notFoundTitle: 'ไม่พบข้อมูลการลงทะเบียน',
+                notFoundDesc: (kw) => `ไม่พบข้อมูลที่ตรงกับ "${kw}" กรุณาตรวจสอบเลขบัตรประชาชน หมายเลขพาสปอร์ต หรือเบอร์โทรศัพท์อีกครั้ง`,
+                notFoundBtn: 'สมัครเข้าร่วมการแข่งขัน →',
+                justRegTitle: 'บันทึกข้อมูลการสมัครเข้าสู่ระบบเรียบร้อยแล้ว!',
+                justRegIdLabel: 'รหัสการสมัคร:',
+                justRegSub: 'คุณสามารถตรวจสอบรายละเอียดและสถานะการอนุมัติได้จากข้อมูลด้านล่างนี้',
+                regDateLabel: 'วันที่ลงทะเบียน:',
+                pillApproved: 'อนุมัติแล้ว (APPROVED)',
+                pillPending: 'รอตรวจสอบสลิป (PENDING)',
+                pillRejected: 'สลิปไม่ถูกต้อง (REJECTED)',
+                bannerApprovedTitle: 'การสมัครได้รับการอนุมัติเรียบร้อยแล้ว',
+                bannerApprovedDesc: (bib) => `หมายเลข BIB ของคุณคือ <strong>${bib}</strong> สามารถบันทึกบัตร E-Bib ด้านล่างเพื่อใช้รับเสื้อแข่งขันในวันที่ <strong>30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล`,
+                bannerPendingTitle: 'อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิปการโอนเงิน',
+                bannerPendingDesc1: 'เจ้าหน้าที่จะดำเนินการตรวจสอบหลักฐานการโอนเงินและยืนยันสิทธิ์ <strong>ภายในวันทำการ (ไม่เกิน 24 ชั่วโมง)</strong> หลังจากลงทะเบียน เนื่องจากเป็นการตรวจสอบโดยเจ้าหน้าที่ตามรอบเวลาทำการ',
+                bannerPendingDesc2: 'ระบบจะออกหมายเลข BIB ต่อเนื่องให้ทันทีและส่งอีเมลแจ้งเตือนเมื่อเจ้าหน้าที่กดอนุมัติ (หากเกิน 24 ชั่วโมงในวันทำการ สามารถติดต่อกองอำนวยการฯ โทร. 076-597-504)',
+                bannerRejectedTitle: 'แจ้งเตือน: สลิปไม่ผ่านการอนุมัติ',
+                bannerRejectedReasonLabel: 'สาเหตุ:',
+                bannerRejectedDefaultReason: 'สลิปไม่ชัดเจน หรือยอดเงินไม่ตรงกับระยะวิ่ง',
+                btnResubmitNow: 'อัปโหลดสลิปใหม่ทันที →',
+                lblCategory: 'ระยะการแข่งขัน',
+                start10K: 'ปล่อยตัว 05.30 น. (เช็คบิบ 05.00 น.)',
+                start5K: 'ปล่อยตัว 06.00 น. (เช็คบิบ 05.00 น.)',
+                lblBib: 'หมายเลข BIB',
+                bibPending: 'รออนุมัติ',
+                lblShirt: 'ขนาด & รูปแบบเสื้อ',
+                sizePrefix: 'ไซส์',
+                shirtShort: 'แขนสั้น',
+                shirtLong: 'แขนยาว',
+                lblAmount: 'ยอดชำระเงิน',
+                lblTransfer: 'วันและเวลาที่โอนเงิน',
+                transferTimeAt: 'เวลา',
+                transferTimeSuffix: 'น.',
+                lblAgeGender: 'อายุ / เพศ',
+                ageUnit: 'ปี',
+                lblEmerg: 'ผู้ติดต่อฉุกเฉิน',
+                btnEditProfile: 'แก้ไขข้อมูลส่วนตัว / เปลี่ยนไซส์เสื้อ',
+                btnDownloadBib: 'ดาวน์โหลดบัตร E-Bib (รูปภาพ PNG) →',
+                bibCardHeading: 'บัตรประจำตัวนักวิ่งดิจิทัล (Digital Race Bib)',
+                bibCardNote: '* แสดงบัตรนี้ผ่านหน้าจอมือถือเพื่อรับเสื้อวันที่ 30 ม.ค. 2570 (10.00–18.00 น.) ณ เต็นท์อำนวยการงานเปิดโลกทะเล',
+                editModalTitle: 'แก้ไขข้อมูลส่วนบุคคล',
+                editModalNote: '* อนุญาตให้แก้ไขข้อมูลติดต่อและขนาดเสื้อก่อนวันปิดรับสมัคร 10 มกราคม 2570 (ระยะทางและหมายเลข BIB ไม่สามารถแก้ไขได้)',
+                editSizeLabel: 'ขนาดเสื้อแข่งขันที่ระลึก',
+                editPhoneLabel: 'เบอร์โทรศัพท์',
+                editEmailLabel: 'อีเมล',
+                editEmergContactLabel: 'ผู้ติดต่อฉุกเฉิน',
+                editEmergPhoneLabel: 'เบอร์โทรฉุกเฉิน',
+                editMedicalLabel: 'โรคประจำตัว / ประวัติแพ้ยา',
+                btnCancel: 'ยกเลิก',
+                btnCancel2: 'ยกเลิก',
+                btnSaveChanges: 'บันทึกการเปลี่ยนแปลง',
+                resubmitModalTitle: 'อัปโหลดสลิปการโอนเงินใหม่',
+                resubmitModalDesc: 'กรุณาแนบภาพสลิปที่โอนเงินถูกต้อง ภาพคมชัด เพื่อส่งให้เจ้าหน้าที่ตรวจสอบใหม่อีกครั้ง',
+                resubmitDropText: 'คลิกเพื่อเลือกไฟล์สลิปใหม่',
+                btnSubmitNewSlip: 'ส่งตรวจสอบใหม่',
+                btnSubmittingSlip: 'กำลังส่งสลิป...',
+                alertDbNotReady: 'ระบบฐานข้อมูลยังไม่พร้อมใช้งาน กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง',
+                alertProfileSaved: 'บันทึกข้อมูลส่วนบุคคลเรียบร้อยแล้ว',
+                alertImgError: 'เกิดข้อผิดพลาดในการอ่านรูป: ',
+                alertSelectSlip: 'กรุณาเลือกรูปภาพสลิป',
+                alertSlipResubmitted: 'ส่งสลิปใหม่เรียบร้อยแล้ว เจ้าหน้าที่จะตรวจสอบภายในวันทำการ (ไม่เกิน 24 ชม.)',
+                compressDoneText: (o, c) => `ปรับขนาดเรียบร้อย: ${o} KB → ${c} KB`,
+                footerBrandTitle: 'เปิดโลกทะเล 2570',
+                footerBrandSub: 'เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา',
+                footerDesc: 'กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่',
+                footerMenuTitle: 'เมนูนำทาง',
+                fNavHome: 'หน้าแรก',
+                fNavReg: 'สมัครแข่งขันออนไลน์',
+                fNavStatus: 'ตรวจสถานะ & พิมพ์ E-Bib',
+                fNavGuide: 'คู่มือเดินทาง & ตารางเรือ',
+                fNavAdmin: 'ระบบเจ้าหน้าที่ (Admin)',
+                footerContactTitle: 'กองอำนวยการจัดการแข่งขัน',
+                footerContactDesc: 'สำนักงานเทศบาลตำบลพรุใน<br>อำเภอเกาะยาว จังหวัดพังงา 82160<br>โทรศัพท์: 076-597-504<br>อีเมล: contact@phrunai.go.th',
+                footerCopy: '© 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.'
+            },
+            en: {
+                pageTitle: 'Check Status & Download E-Bib | Koh Yao Yai Open Sea Run 2027',
+                brandTitle: 'Open Sea Run 2027',
+                brandSub: 'Phru Nai Municipality • Koh Yao Yai',
+                navHome: 'Home',
+                navHomeMain: 'Home Overview',
+                navSchedule: 'Schedule',
+                navCategories: 'Categories & Fees',
+                navPrizes: 'Prizes & Medals',
+                navRoutes: 'Race Routes',
+                navKit: 'Race Shirt',
+                navGuide: 'Travel Guide',
+                navStatus: 'Status & E-Bib',
+                navAdmin: 'Staff',
+                navRegister: 'Register Now',
+                portalBadge: 'SELF-SERVICE RUNNER PORTAL',
+                portalTitle: 'Check Registration Status & Download E-Bib',
+                portalDesc: 'Enter your 13-digit Thai National ID, Passport Number, Registration ID, or registered phone number',
+                searchPlaceholder: 'Enter National ID, Passport No., Registration ID, or Phone...',
+                searchBtn: 'Search',
+                hintTitle: 'Ready to Check Your Registration Status',
+                hintDesc: 'Enter your National ID, Passport Number, or Registration ID above to verify your payment slip status, view your BIB number, and download your Digital E-Bib.<br><strong>Verification Time:</strong> Staff verify transfer slips within 1 business day (within 24 hours).<br><strong>Race Pack Pickup:</strong> Jan 30, 2027 (10:00–18:00) at the Race Command Tent, Ao Loh Jak.',
+                loadingText: 'Searching registration records...',
+                notFoundTitle: 'No Registration Record Found',
+                notFoundDesc: (kw) => `No registration matched "${kw}". Please verify your National ID, Passport Number, or phone number and try again.`,
+                notFoundBtn: 'Register for the Race →',
+                justRegTitle: 'Your registration has been successfully recorded!',
+                justRegIdLabel: 'Registration ID:',
+                justRegSub: 'You can review your registration details and verification status below.',
+                regDateLabel: 'Registered on:',
+                pillApproved: 'APPROVED',
+                pillPending: 'PENDING VERIFICATION',
+                pillRejected: 'SLIP REJECTED',
+                bannerApprovedTitle: 'Your Registration Has Been Approved!',
+                bannerApprovedDesc: (bib) => `Your official BIB number is <strong>${bib}</strong>. Please save your Digital E-Bib below to collect your race shirt on <strong>January 30, 2027 (10:00–18:00)</strong> at the Race Command Tent, Ao Loh Jak.`,
+                bannerPendingTitle: 'Payment Slip Under Staff Verification',
+                bannerPendingDesc1: 'Our race officials will verify your transfer slip and confirm your slot <strong>within 1 business day (under 24 hours)</strong> after submission during operating hours.',
+                bannerPendingDesc2: 'Your sequential BIB number will be issued immediately upon approval along with an email notification (if over 24 business hours, please contact Race HQ at +66 76-597-504).',
+                bannerRejectedTitle: 'Action Required: Transfer Slip Not Approved',
+                bannerRejectedReasonLabel: 'Reason:',
+                bannerRejectedDefaultReason: 'Slip image is unclear or transfer amount does not match the selected category.',
+                btnResubmitNow: 'Upload New Slip Now →',
+                lblCategory: 'RACE CATEGORY',
+                start10K: 'Flag-off 05:30 hrs (Check-in 05:00)',
+                start5K: 'Flag-off 06:00 hrs (Check-in 05:00)',
+                lblBib: 'BIB NUMBER',
+                bibPending: 'Pending Approval',
+                lblShirt: 'SHIRT SIZE & SLEEVE',
+                sizePrefix: 'Size',
+                shirtShort: 'Short Sleeve',
+                shirtLong: 'Long Sleeve',
+                lblAmount: 'AMOUNT PAID',
+                lblTransfer: 'TRANSFER DATE & TIME',
+                transferTimeAt: 'at',
+                transferTimeSuffix: 'hrs',
+                lblAgeGender: 'AGE / GENDER',
+                ageUnit: 'yrs',
+                lblEmerg: 'EMERGENCY CONTACT',
+                btnEditProfile: 'Edit Profile / Change Shirt Size',
+                btnDownloadBib: 'Download E-Bib (PNG Image) →',
+                bibCardHeading: 'Digital Race Bib Accreditation',
+                bibCardNote: '* Present this Digital E-Bib on your mobile screen to collect your race kit on Jan 30, 2027 (10:00–18:00) at Ao Loh Jak.',
+                editModalTitle: 'Edit Runner Profile',
+                editModalNote: '* Contact details and shirt size can be updated prior to registration closing on January 10, 2027 (race distance and BIB number cannot be changed).',
+                editSizeLabel: 'Souvenir Race Shirt Size',
+                editPhoneLabel: 'Phone Number',
+                editEmailLabel: 'Email Address',
+                editEmergContactLabel: 'Emergency Contact Name',
+                editEmergPhoneLabel: 'Emergency Phone Number',
+                editMedicalLabel: 'Medical Conditions / Allergies',
+                btnCancel: 'Cancel',
+                btnCancel2: 'Cancel',
+                btnSaveChanges: 'Save Changes',
+                resubmitModalTitle: 'Re-upload Payment Slip',
+                resubmitModalDesc: 'Please attach a clear image of your valid transfer slip for staff re-verification.',
+                resubmitDropText: 'Click to select a new slip image',
+                btnSubmitNewSlip: 'Submit for Verification',
+                btnSubmittingSlip: 'Uploading slip...',
+                alertDbNotReady: 'Database system is not ready yet. Please refresh the page and try again.',
+                alertProfileSaved: 'Your profile details have been updated.',
+                alertImgError: 'Error reading image file: ',
+                alertSelectSlip: 'Please select a payment slip image.',
+                alertSlipResubmitted: 'New payment slip submitted. Staff will verify it within 1 business day (under 24 hours).',
+                compressDoneText: (o, c) => `Image optimized: ${o} KB → ${c} KB`,
+                footerBrandTitle: 'Open Sea Run 2027',
+                footerBrandSub: 'Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province',
+                footerDesc: 'Koh Yao Yai Open Sea Run 2027 is organized by Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group to promote public health, local economy, and sustainable ecotourism.',
+                footerMenuTitle: 'NAVIGATION',
+                fNavHome: 'Home',
+                fNavReg: 'Online Registration',
+                fNavStatus: 'Check Status & E-Bib',
+                fNavGuide: 'Travel Guide & Ferry',
+                fNavAdmin: 'Staff Portal (Admin)',
+                footerContactTitle: 'RACE OPERATIONS HEADQUARTERS',
+                footerContactDesc: 'Phru Nai Subdistrict Municipal Office<br>Ko Yao District, Phang Nga 82160, Thailand<br>Tel: +66 76-597-504<br>Email: contact@phrunai.go.th',
+                footerCopy: '© 2027 Koh Yao Yai Open Sea Run 2027. All rights reserved by Phru Nai Subdistrict Municipality, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group.'
+            }
+        };
 
         function escapeHtml(str) {
-            return String(str)
+            return String(str ?? '')
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
@@ -228,55 +488,62 @@
                 .replace(/'/g, '&#39;');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const search = params.get('search');
-            if (search) {
-                document.getElementById('searchKeyword').value = search;
-                doSearch();
-            }
-        });
+        function formatShirtTypeDisplay(rawType, dict) {
+            const val = String(rawType || '').trim();
+            if (val === 'แขนยาว' || val.toUpperCase() === 'LONG') return dict.shirtLong;
+            return dict.shirtShort;
+        }
 
-        async function doSearch() {
-            const keyword = document.getElementById('searchKeyword').value.trim();
-            if (!keyword) return;
-
-            if (!window.KohYaoStore || !window.KohYaoStore.searchRunner) {
-                alert('ระบบฐานข้อมูลยังไม่พร้อมใช้งาน กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง');
-                return;
+        function formatGenderDisplay(rawGender) {
+            const g = String(rawGender || '').trim();
+            if (statusLang === 'en') {
+                if (g === 'ชาย') return 'Male';
+                if (g === 'หญิง') return 'Female';
             }
+            return g || '-';
+        }
+
+        function setStatusLang(lang) {
+            statusLang = (lang === 'en') ? 'en' : 'th';
+            const dict = STATUS_I18N[statusLang];
+            if (!dict) return;
+
+            document.documentElement.lang = statusLang;
+            document.title = dict.pageTitle;
+            localStorage.setItem('KOHYAO_LANG', statusLang);
+
+            document.getElementById('langBtnTh').classList.toggle('active', statusLang === 'th');
+            document.getElementById('langBtnEn').classList.toggle('active', statusLang === 'en');
+
+            const searchInput = document.getElementById('searchKeyword');
+            if (searchInput) searchInput.placeholder = dict.searchPlaceholder;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined && typeof dict[key] === 'string') {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            if (Array.isArray(lastSearchResults) && lastSearchResults.length > 0) {
+                renderResultsList(lastSearchResults, lastIsJustRegistered);
+            }
+        }
+
+        function renderResultsList(results, isJustRegistered = false) {
+            lastSearchResults = results;
+            lastIsJustRegistered = isJustRegistered;
 
             const container = document.getElementById('searchResultArea');
             const hint = document.getElementById('initialHint');
 
             hint.style.display = 'none';
             container.style.display = 'block';
-            container.innerHTML = `
-                <div class="form-envelope-card" style="text-align:center; padding:3rem;">
-                    <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600;">กำลังตรวจสอบข้อมูลในระบบ...</div>
-                </div>
-            `;
-
-            const results = await window.KohYaoStore.searchRunner(keyword);
-
-            if (results.length === 0) {
-                container.innerHTML = `
-                    <div class="form-envelope-card" style="text-align:center; padding:3rem;">
-                        <h3 style="color:var(--navy-marine); margin-bottom:0.5rem;">ไม่พบข้อมูลการลงทะเบียน</h3>
-                        <p style="color:var(--ink-muted); margin-bottom:1.5rem;">
-                            ไม่พบข้อมูลที่ตรงกับ "${escapeHtml(keyword)}" กรุณาตรวจสอบเลขบัตรประชาชน หรือเบอร์โทรศัพท์อีกครั้ง
-                        </p>
-                        <a href="register.html" class="btn btn-accent">สมัครเข้าร่วมการแข่งขัน →</a>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = results.map(runner => renderRunnerCard(runner)).join('');
+            container.innerHTML = results.map(runner => renderRunnerCard(runner, isJustRegistered)).join('');
 
             const bibGen = window.EBigGenerator || window.EBibGenerator;
             results.forEach(runner => {
-                if (runner.status === window.KohYaoStore.STATUS.APPROVED) {
+                if (window.KohYaoStore && runner.status === window.KohYaoStore.STATUS.APPROVED) {
                     const canvas = document.getElementById(`ebibCanvas_${runner.id}`);
                     if (canvas && bibGen && bibGen.renderBibToCanvas) {
                         bibGen.renderBibToCanvas(canvas, runner);
@@ -285,49 +552,148 @@
             });
         }
 
-        function renderRunnerCard(runner) {
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            const initialLang = urlLang || localStorage.getItem('KOHYAO_LANG') || localStorage.getItem('KOHYAO_SITE_LANG') || 'th';
+            setStatusLang(initialLang);
+
+            const isJustRegistered = params.get('registered') === '1';
+            const urlKeyword = params.get('search') || params.get('id') || params.get('keyword') || params.get('regId') || '';
+            const savedId = sessionStorage.getItem('LAST_REGISTERED_ID') || sessionStorage.getItem('LAST_REGISTERED_REG_ID') || '';
+            const autoKeyword = (urlKeyword || savedId).trim();
+
+            if (window.location.search && window.history && window.history.replaceState) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            if (autoKeyword) {
+                document.getElementById('searchKeyword').value = autoKeyword;
+
+                let hasPreRendered = false;
+                try {
+                    const rawSaved = sessionStorage.getItem('LAST_REGISTERED_DATA');
+                    if (rawSaved) {
+                        const parsed = JSON.parse(rawSaved);
+                        if (parsed && (parsed.idCard === autoKeyword || parsed.nationalId === autoKeyword || parsed.id === autoKeyword)) {
+                            renderResultsList([parsed], isJustRegistered);
+                            hasPreRendered = true;
+                        }
+                    }
+                } catch (e) {}
+
+                await doSearch(isJustRegistered, hasPreRendered);
+            }
+        });
+
+        async function doSearch(isJustRegistered = false, silentBackground = false) {
+            const dict = STATUS_I18N[statusLang];
+            const keyword = document.getElementById('searchKeyword').value.trim();
+            if (!keyword) return;
+
+            if (!window.KohYaoStore || !window.KohYaoStore.searchRunner) {
+                if (!silentBackground) {
+                    alert(dict.alertDbNotReady);
+                }
+                return;
+            }
+
+            const container = document.getElementById('searchResultArea');
+            const hint = document.getElementById('initialHint');
+
+            if (!silentBackground) {
+                lastSearchResults = null;
+                hint.style.display = 'none';
+                container.style.display = 'block';
+                container.innerHTML = `
+                    <div class="form-envelope-card" style="text-align:center; padding:3rem;">
+                        <div style="font-size:1.1rem; color:var(--navy-marine); font-weight:600;">${dict.loadingText}</div>
+                    </div>
+                `;
+            }
+
+            const results = await window.KohYaoStore.searchRunner(keyword);
+
+            if (results.length === 0) {
+                if (!silentBackground) {
+                    container.innerHTML = `
+                        <div class="form-envelope-card" style="text-align:center; padding:3rem;">
+                            <h3 style="color:var(--navy-marine); margin-bottom:0.5rem;">${dict.notFoundTitle}</h3>
+                            <p style="color:var(--ink-muted); margin-bottom:1.5rem;">
+                                ${dict.notFoundDesc(escapeHtml(keyword))}
+                            </p>
+                            <a href="register.html" class="btn btn-accent">${dict.notFoundBtn}</a>
+                        </div>
+                    `;
+                }
+                return;
+            }
+
+            renderResultsList(results, isJustRegistered);
+        }
+
+        function renderRunnerCard(runner, isJustRegistered = false) {
+            const dict = STATUS_I18N[statusLang];
             const isApproved = runner.status === window.KohYaoStore.STATUS.APPROVED;
             const isPending = runner.status === window.KohYaoStore.STATUS.PENDING;
             const isRejected = runner.status === window.KohYaoStore.STATUS.REJECTED;
-            const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
-            const startTimeLabel = runner.category === '10K' ? 'ปล่อยตัว 05.30 น. (เช็คบิบ 05.00 น.)' : 'ปล่อยตัว 06.00 น. (เช็คบิบ 05.00 น.)';
+            const shirtTypeLabel = formatShirtTypeDisplay(runner.shirtType, dict);
+            const startTimeLabel = runner.category === '10K' ? dict.start10K : dict.start5K;
+            const fullNameDisplay = `${runner.firstName || ''} ${runner.lastName || ''}`.trim() || runner.fullName || '-';
+            const localeCode = statusLang === 'en' ? 'en-GB' : 'th-TH';
+            const regDateDisplay = runner.createdAt
+                ? new Date(runner.createdAt).toLocaleDateString(localeCode)
+                : new Date().toLocaleDateString(localeCode);
+            const transferInfoDisplay = (runner.transferDate || runner.transferTime)
+                ? `${runner.transferDate || '-'} ${dict.transferTimeAt} ${runner.transferTime || '-'} ${dict.transferTimeSuffix}`
+                : '-';
+
+            const justRegisteredBanner = isJustRegistered ? `
+                <div style="background:#ECFDF5; border:1.5px solid #6EE7B7; padding:1rem 1.25rem; border-radius:var(--radius-md); margin-bottom:1.25rem; display:flex; align-items:center; gap:0.75rem;">
+                    <span style="display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:#059669; color:#FFFFFF; font-weight:800; flex-shrink:0;">✓</span>
+                    <div style="color:#065F46; font-size:0.94rem; line-height:1.55;">
+                        <strong>${dict.justRegTitle}</strong> (${dict.justRegIdLabel} <strong>${escapeHtml(runner.id)}</strong>)<br>
+                        <span style="font-size:0.85rem; color:#047857;">${dict.justRegSub}</span>
+                    </div>
+                </div>
+            ` : '';
 
             let badgeHtml = '';
             let statusBannerHtml = '';
 
             if (isApproved) {
-                badgeHtml = '<span class="status-pill approved">อนุมัติแล้ว (APPROVED)</span>';
+                badgeHtml = `<span class="status-pill approved">${dict.pillApproved}</span>`;
                 statusBannerHtml = `
                     <div style="background:#ECFDF5; border:1px solid #A7F3D0; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
-                        <h4 style="color:#065F46; font-size:1.1rem; margin-bottom:0.25rem;">การสมัครได้รับการอนุมัติเรียบร้อยแล้ว</h4>
+                        <h4 style="color:#065F46; font-size:1.1rem; margin-bottom:0.25rem;">${dict.bannerApprovedTitle}</h4>
                         <p style="color:#047857; font-size:0.9rem; line-height:1.7;">
-                            หมายเลข BIB ของคุณคือ <strong>${runner.bibNumber}</strong> สามารถบันทึกบัตร E-Bib ด้านล่างเพื่อใช้รับเสื้อแข่งขันในวันที่ <strong>30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล
+                            ${dict.bannerApprovedDesc(escapeHtml(runner.bibNumber))}
                         </p>
                     </div>
                 `;
             } else if (isPending) {
-                badgeHtml = '<span class="status-pill pending">รอตรวจสอบสลิป (PENDING)</span>';
+                badgeHtml = `<span class="status-pill pending">${dict.pillPending}</span>`;
                 statusBannerHtml = `
                     <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
-                        <h4 style="color:#92400E; font-size:1.1rem; margin-bottom:0.35rem;">อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิปการโอนเงิน</h4>
+                        <h4 style="color:#92400E; font-size:1.1rem; margin-bottom:0.35rem;">${dict.bannerPendingTitle}</h4>
                         <p style="color:#B45309; font-size:0.92rem; line-height:1.65; margin:0 0 0.55rem 0;">
-                            เจ้าหน้าที่จะดำเนินการตรวจสอบหลักฐานการโอนเงินและยืนยันสิทธิ์ <strong>ภายในวันทำการ (ไม่เกิน 24 ชั่วโมง)</strong> หลังจากลงทะเบียน เนื่องจากเป็นการตรวจสอบโดยเจ้าหน้าที่ตามรอบเวลาทำการ
+                            ${dict.bannerPendingDesc1}
                         </p>
                         <p style="color:#92400E; font-size:0.85rem; line-height:1.6; margin:0; padding-top:0.55rem; border-top:1px dashed #FCD34D;">
-                            ระบบจะออกหมายเลข BIB ต่อเนื่องให้ทันทีและส่งอีเมลแจ้งเตือนเมื่อเจ้าหน้าที่กดอนุมัติ (หากเกิน 24 ชั่วโมงในวันทำการ สามารถติดต่อกองอำนวยการฯ โทร. 076-597-504)
+                            ${dict.bannerPendingDesc2}
                         </p>
                     </div>
                 `;
             } else if (isRejected) {
-                badgeHtml = '<span class="status-pill rejected">สลิปไม่ถูกต้อง (REJECTED)</span>';
+                badgeHtml = `<span class="status-pill rejected">${dict.pillRejected}</span>`;
                 statusBannerHtml = `
                     <div style="background:#FEF2F2; border:1px solid #FECACA; padding:1.25rem; border-radius:var(--radius-md); margin-bottom:1.5rem;">
-                        <h4 style="color:#991B1B; font-size:1.1rem; margin-bottom:0.25rem;">แจ้งเตือน: สลิปไม่ผ่านการอนุมัติ</h4>
+                        <h4 style="color:#991B1B; font-size:1.1rem; margin-bottom:0.25rem;">${dict.bannerRejectedTitle}</h4>
                         <p style="color:#B91C1C; font-size:0.9rem; margin-bottom:0.75rem;">
-                            สาเหตุ: <strong>${escapeHtml(runner.adminNotes || 'สลิปไม่ชัดเจน หรือยอดเงินไม่ตรงกับระยะวิ่ง')}</strong>
+                            ${dict.bannerRejectedReasonLabel} <strong>${escapeHtml(runner.adminNotes || dict.bannerRejectedDefaultReason)}</strong>
                         </p>
-                        <button class="btn btn-sm btn-accent" onclick="openResubmitModal('${runner.id}')">
-                            อัปโหลดสลิปใหม่ทันที →
+                        <button class="btn btn-sm btn-accent" onclick="openResubmitModal('${escapeHtml(runner.id)}')">
+                            ${dict.btnResubmitNow}
                         </button>
                     </div>
                 `;
@@ -335,17 +701,19 @@
 
             return `
                 <div class="form-envelope-card" style="margin-bottom:2.5rem; padding:2.5rem;">
+                    ${justRegisteredBanner}
+
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; border-bottom:1px solid var(--border-subtle); padding-bottom:1.25rem; flex-wrap:wrap; gap:10px;">
                         <div>
-                            <div style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">REGISTRATION ID: ${runner.id}</div>
+                            <div style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">REGISTRATION ID: ${escapeHtml(runner.id)}</div>
                             <h3 style="font-size:1.6rem; color:var(--navy-marine); margin-top:2px;">
-                                ${escapeHtml(runner.firstName)} ${escapeHtml(runner.lastName)}
+                                ${escapeHtml(fullNameDisplay)}
                             </h3>
                         </div>
                         <div style="text-align:right;">
                             ${badgeHtml}
                             <div style="font-size:0.78rem; color:var(--ink-muted); margin-top:4px;">
-                                วันที่ลงทะเบียน: ${new Date(runner.createdAt).toLocaleDateString('th-TH')}
+                                ${dict.regDateLabel} ${regDateDisplay}
                             </div>
                         </div>
                     </div>
@@ -354,40 +722,43 @@
 
                     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:1.25rem; margin-bottom:1.5rem; font-size:0.92rem;">
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ระยะการแข่งขัน</span>
-                            <strong>${runner.category} (${startTimeLabel})</strong>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblCategory}</span>
+                            <strong>${escapeHtml(runner.category)} (${startTimeLabel})</strong>
                         </div>
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">หมายเลข BIB</span>
-                            <strong style="font-size:1.2rem; color:var(--teal-andaman); font-family:var(--font-heading);">${runner.bibNumber || 'รออนุมัติ'}</strong>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblBib}</span>
+                            <strong style="font-size:1.2rem; color:var(--teal-andaman); font-family:var(--font-heading);">${escapeHtml(runner.bibNumber || dict.bibPending)}</strong>
                         </div>
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ขนาด & รูปแบบเสื้อ</span>
-                            <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblShirt}</span>
+                            <strong>${dict.sizePrefix} ${escapeHtml(runner.shirtSize)} (${escapeHtml(shirtTypeLabel)})</strong>
                         </div>
-
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ยอดชำระเงิน</span>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblAmount}</span>
                             <strong>฿${runner.amount || '-'}</strong>
                         </div>
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">รุ่นอายุ / เพศ</span>
-                            <strong>${runner.ageGroup} (${runner.gender})</strong>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblTransfer}</span>
+                            <strong>${escapeHtml(transferInfoDisplay)}</strong>
                         </div>
                         <div>
-                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">ผู้ติดต่อฉุกเฉิน</span>
-                            <strong>${escapeHtml(runner.emergencyContact)} (${escapeHtml(runner.emergencyPhone)})</strong>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblAgeGender}</span>
+                            <strong>${runner.age ? runner.age + ' ' + dict.ageUnit : '-'} (${escapeHtml(formatGenderDisplay(runner.gender))})</strong>
+                        </div>
+                        <div>
+                            <span style="color:var(--ink-muted); display:block; font-size:0.8rem; text-transform:uppercase;">${dict.lblEmerg}</span>
+                            <strong>${escapeHtml(runner.emergencyContact || '-')} (${escapeHtml(runner.emergencyPhone || '-')})</strong>
                         </div>
                     </div>
 
                     <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-subtle); padding-top:1.25rem; margin-top:1.5rem; flex-wrap:wrap; gap:10px;">
-                        <button class="btn btn-sm btn-secondary" onclick="openEditModal('${runner.id}')">
-                            แก้ไขข้อมูลส่วนตัว / เปลี่ยนไซส์เสื้อ
+                        <button class="btn btn-sm btn-secondary" onclick="openEditModal('${escapeHtml(runner.id)}')">
+                            ${dict.btnEditProfile}
                         </button>
 
                         ${isApproved ? `
-                            <button class="btn btn-sm btn-accent" onclick="downloadBib('${runner.id}', '${runner.bibNumber}')">
-                                ดาวน์โหลดบัตร E-Bib (รูปภาพ PNG) →
+                            <button class="btn btn-sm btn-accent" onclick="downloadBib('${escapeHtml(runner.id)}', '${escapeHtml(runner.bibNumber)}')">
+                                ${dict.btnDownloadBib}
                             </button>
                         ` : ''}
                     </div>
@@ -397,14 +768,14 @@
                             <div style="text-align:center; margin-bottom:1rem;">
                                 <span style="font-size:0.82rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">OFFICIAL DIGITAL ACCREDITATION</span>
                                 <h4 style="color:var(--navy-marine); font-size:1.2rem; margin-top:2px;">
-                                    บัตรประจำตัวนักวิ่งดิจิทัล (Digital Race Bib)
+                                    ${dict.bibCardHeading}
                                 </h4>
                             </div>
                             <div class="ebib-stage-wrapper">
-                                <canvas id="ebibCanvas_${runner.id}"></canvas>
+                                <canvas id="ebibCanvas_${escapeHtml(runner.id)}"></canvas>
                             </div>
                             <p style="text-align:center; font-size:0.82rem; color:var(--ink-muted); margin-top:0.75rem;">
-                                * แสดงบัตรนี้ผ่านหน้าจอมือถือเพื่อรับเสื้อวันที่ 30 ม.ค. 2570 (10.00–18.00 น.) ณ เต็นท์อำนวยการงานเปิดโลกทะเล
+                                ${dict.bibCardNote}
                             </p>
                         </div>
                     ` : ''}
@@ -445,6 +816,7 @@
         }
 
         async function saveProfileChanges() {
+            const dict = STATUS_I18N[statusLang];
             const regId = document.getElementById('editRegId').value;
             const newSize = document.querySelector('input[name="editShirtSize"]:checked').value;
             const updates = {
@@ -458,7 +830,7 @@
 
             await window.KohYaoStore.updateRunnerProfile(regId, updates);
             closeEditModal();
-            alert('บันทึกข้อมูลส่วนบุคคลเรียบร้อยแล้ว');
+            alert(dict.alertProfileSaved);
             doSearch();
         }
 
@@ -477,6 +849,7 @@
         }
 
         async function handleNewSlipSelected(input) {
+            const dict = STATUS_I18N[statusLang];
             const file = input.files[0];
             if (!file) return;
 
@@ -491,32 +864,32 @@
                 const origKb = Math.round(result.originalSize / 1024);
                 const compKb = Math.round(result.compressedSize / 1024);
                 document.getElementById('newSlipCompressionInfo').style.display = 'flex';
-                document.getElementById('newSlipCompressionText').textContent = 
-                    `ปรับขนาดเรียบร้อย: ${origKb} KB → ${compKb} KB`;
+                document.getElementById('newSlipCompressionText').textContent = dict.compressDoneText(origKb, compKb);
             } catch (err) {
-                alert('เกิดข้อผิดพลาดในการอ่านรูป: ' + err.message);
+                alert(dict.alertImgError + err.message);
             }
         }
 
         async function saveNewSlip() {
+            const dict = STATUS_I18N[statusLang];
             if (!compressedNewSlip || !compressedNewSlip.dataUrl) {
-                alert('กรุณาเลือกรูปภาพสลิป');
+                alert(dict.alertSelectSlip);
                 return;
             }
 
             const btn = document.getElementById('saveNewSlipBtn');
             btn.disabled = true;
-            btn.textContent = 'กำลังส่งสลิป...';
+            btn.textContent = dict.btnSubmittingSlip;
 
             try {
                 const regId = document.getElementById('resubmitRegId').value;
                 await window.KohYaoStore.resubmitSlip(regId, compressedNewSlip.dataUrl, compressedNewSlip.hash);
                 closeResubmitModal();
-                alert('ส่งสลิปใหม่เรียบร้อยแล้ว เจ้าหน้าที่จะตรวจสอบภายในวันทำการ (ไม่เกิน 24 ชม.)');
+                alert(dict.alertSlipResubmitted);
                 doSearch();
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'ส่งตรวจสอบใหม่';
+                btn.textContent = dict.btnSubmitNewSlip;
             }
         }
     </script>

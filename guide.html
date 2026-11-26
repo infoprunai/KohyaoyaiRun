@@ -13,7 +13,174 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3.1">
+    <link rel="stylesheet" href="css/style.css?v=3.4">
+    <style>
+        .guide-ferry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+        .guide-stay-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Ferry Schedule Filter & Cards */
+        .ferry-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.55rem;
+            margin-bottom: 2rem;
+        }
+        .ferry-filter-btn {
+            font-family: var(--font-heading);
+            font-size: 0.86rem;
+            font-weight: 600;
+            padding: 0.5rem 1.15rem;
+            border-radius: 999px;
+            border: 1.5px solid var(--border-card);
+            background: #FFFFFF;
+            color: var(--ink-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .ferry-filter-btn:hover {
+            border-color: var(--teal-andaman);
+            color: var(--teal-andaman);
+        }
+        .ferry-filter-btn.active {
+            background: linear-gradient(135deg, var(--teal-andaman), var(--navy-marine));
+            border-color: var(--teal-andaman);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(14, 116, 144, 0.28);
+        }
+        .ferry-card-full {
+            grid-column: 1 / -1;
+        }
+        .ferry-subgrid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+        .ferry-col-box {
+            background: #F8FAFC;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.1rem;
+        }
+        .ferry-col-heading {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--navy-marine);
+            margin-bottom: 0.65rem;
+            padding-bottom: 0.45rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+        .ferry-mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+        }
+        .ferry-mini-table th {
+            text-align: left;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--ink-muted);
+            padding: 0.35rem 0.4rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .ferry-mini-table td {
+            padding: 0.38rem 0.4rem;
+            border-bottom: 1px dashed #E2E8F0;
+            color: var(--ink-primary);
+            vertical-align: middle;
+        }
+        .ferry-mini-table tr:last-child td {
+            border-bottom: none;
+        }
+        .ferry-time-chip {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.84rem;
+            color: var(--navy-marine);
+            background: #E0F2FE;
+            padding: 0.15rem 0.55rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .ferry-time-chip.gold {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        .ferry-chain-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .ferry-chain-row {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .ferry-chain-stops {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem 0.45rem;
+            margin-top: 0.3rem;
+        }
+        .ferry-stop-pill {
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            color: var(--navy-marine);
+        }
+        .ferry-stop-pill.highlight {
+            background: #ECFEFF;
+            border-color: #67E8F9;
+            color: #0E7490;
+            font-weight: 700;
+        }
+        .ferry-contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.9rem;
+        }
+        .ferry-contact-item {
+            background: #FFFFFF;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 0.85rem 1rem;
+            font-size: 0.86rem;
+        }
+        .ferry-tel-link {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--teal-andaman);
+            margin-top: 2px;
+        }
+        .ferry-tel-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 960px) {
+            .guide-ferry-grid,
+            .guide-stay-grid,
+            .ferry-subgrid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -21,25 +188,46 @@
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="index.html" class="brand-wrapper">
-                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-logos-group">
+                    <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo-dual">
+                    <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" class="brand-logo-dual community-logo">
+                </div>
                 <div class="brand-text">
-                    <h1>เปิดโลกทะเล 2570</h1>
-                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
+                    <h1 data-i18n="brandTitle">เปิดโลกทะเล 2570</h1>
+                    <span data-i18n="brandSub">เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
                 </div>
             </a>
 
-            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="nav-right-actions">
+                <div class="lang-switch-group" role="group" aria-label="Language Switcher">
+                    <button type="button" class="lang-switch-btn active" id="langBtnTh" onclick="setGuideLang('th')">TH</button>
+                    <button type="button" class="lang-switch-btn" id="langBtnEn" onclick="setGuideLang('en')">EN</button>
+                </div>
+
+                <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง" aria-expanded="false" aria-controls="navMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
-                <li><a href="#ferry" class="nav-link">ตารางเรือ & การเดินทาง</a></li>
-                <li><a href="#stay" class="nav-link">โซนที่พัก</a></li>
-                <li><a href="#attractions" class="nav-link">แหล่งท่องเที่ยว</a></li>
-                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
-                <li><a href="admin.html" class="nav-admin-badge">ระบบเจ้าหน้าที่</a></li>
-                <li><a href="register.html" class="nav-btn-register">สมัครแข่งขัน</a></li>
+                <li class="nav-dropdown">
+                    <a href="index.html" class="nav-link nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        <span data-i18n="navHome">หน้าแรก</span>
+                        <span class="nav-caret" aria-hidden="true">▾</span>
+                    </a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="index.html" class="nav-dropdown-item" data-i18n="navHomeMain">ภาพรวมหน้าแรก</a></li>
+                        <li><a href="index.html#schedule" class="nav-dropdown-item" data-i18n="navSchedule">กำหนดการ</a></li>
+                        <li><a href="index.html#about" class="nav-dropdown-item" data-i18n="navCategories">ประเภท & ค่าสมัคร</a></li>
+                        <li><a href="index.html#prizes" class="nav-dropdown-item" data-i18n="navPrizes">เงินรางวัล & เหรียญ</a></li>
+                        <li><a href="index.html#routes" class="nav-dropdown-item" data-i18n="navRoutes">เส้นทางวิ่ง</a></li>
+                        <li><a href="index.html#kit" class="nav-dropdown-item" data-i18n="navKit">เสื้อแข่งขัน</a></li>
+                    </ul>
+                </li>
+                <li><a href="guide.html" class="nav-link active" data-i18n="navGuide">คู่มือเดินทาง</a></li>
+                <li><a href="status.html" class="nav-link" data-i18n="navStatus">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge" data-i18n="navAdmin">เจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register" data-i18n="navRegister">สมัครแข่งขัน</a></li>
             </ul>
         </div>
     </nav>
@@ -47,22 +235,21 @@
     <!-- ================= GUIDE PAGE HEADER ================= -->
     <header style="background:linear-gradient(135deg, var(--deep-abyss) 0%, var(--navy-marine) 55%, var(--teal-andaman) 100%); color:#FFFFFF; padding:4.5rem 0 3.75rem 0; border-bottom:3px solid var(--cyan-horizon);">
         <div class="container">
-            <div style="max-width:780px;">
-                <div class="hero-pill-badge" style="margin-bottom:1rem;">
+            <div style="max-width:820px;">
+                <div class="hero-pill-badge" style="margin-bottom:1rem;" data-i18n="heroBadge">
                     RUNNER TRAVEL & HOSPITALITY GUIDE • เกาะยาวใหญ่ จ.พังงา
                 </div>
                 <h2 style="font-size:clamp(1.85rem, 3.2vw, 2.75rem); font-weight:800; line-height:1.25; margin-bottom:1rem;">
-                    คู่มือการเดินทาง ตารางเรือข้ามฟาก<br>
-                    <span style="color:#FCD34D;">และแนะนำที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</span>
+                    <span data-i18n="heroTitle1">คู่มือการเดินทาง ตารางเรือข้ามฟาก</span><br>
+                    <span style="color:#FCD34D;" data-i18n="heroTitle2">และแนะนำที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</span>
                 </h2>
-                <p style="font-size:1.02rem; color:#E0F2FE; line-height:1.8; margin-bottom:1.75rem;">
-                    วางแผนการเดินทางสู่อำเภอเกาะยาว จังหวัดพังงา อย่างสะดวกและตรงเวลา สำหรับนักวิ่งและผู้ติดตามในงาน
-                    <strong>กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570</strong> วันอาทิตย์ที่ 31 มกราคม 2570
+                <p style="font-size:1.02rem; color:#E0F2FE; line-height:1.8; margin-bottom:1.75rem;" data-i18n="heroDesc">
+                    วางแผนการเดินทางสู่อำเภอเกาะยาว จังหวัดพังงา อย่างสะดวกและตรงเวลา สำหรับนักวิ่งและผู้ติดตามในงาน <strong>กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570</strong> จัดโดยเทศบาลตำบลพรุใน ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว วันอาทิตย์ที่ 31 มกราคม 2570
                 </p>
 
                 <div style="display:flex; gap:0.85rem; flex-wrap:wrap;">
-                    <a href="#ferry" class="btn btn-accent">ดูตารางเรือข้ามฟาก ↓</a>
-                    <a href="https://maps.app.goo.gl/TFD3XJPfeaFh8psh7" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                    <a href="#ferry" class="btn btn-accent" data-i18n="heroBtnFerry">ดูตารางเรือข้ามฟาก ↓</a>
+                    <a href="https://maps.app.goo.gl/TFD3XJPfeaFh8psh7" target="_blank" rel="noopener noreferrer" class="btn btn-outline" data-i18n="heroBtnMap">
                         เปิดพิกัดจุดปล่อยตัว อ่าวโล๊ะจาก ↗
                     </a>
                 </div>
@@ -74,14 +261,14 @@
     <section style="background:#FFFBEB; border-bottom:1px solid #FDE68A; padding:1.5rem 0;">
         <div class="container">
             <div style="display:flex; align-items:flex-start; gap:1rem; flex-wrap:wrap; justify-content:space-between;">
-                <div style="max-width:860px;">
-                    <span style="display:inline-block; background:#FEF3C7; color:#92400E; font-size:0.78rem; font-weight:700; padding:0.2rem 0.7rem; border-radius:999px; border:1px solid #F59E0B; margin-bottom:0.35rem;">
-                        คำแนะนำสำคัญสำหรับนักวิ่งต่างจังหวัด
+                <div style="max-width:880px;">
+                    <span style="display:inline-block; background:#FEF3C7; color:#92400E; font-size:0.78rem; font-weight:700; padding:0.2rem 0.7rem; border-radius:999px; border:1px solid #F59E0B; margin-bottom:0.35rem;" data-i18n="noticeTag">
+                        คำแนะนำสำคัญสำหรับนักวิ่งต่างจังหวัดและนักท่องเที่ยว
                     </span>
-                    <h3 style="font-size:1.12rem; color:#78350F; margin-bottom:0.25rem;">
+                    <h3 style="font-size:1.12rem; color:#78350F; margin-bottom:0.25rem;" data-i18n="noticeTitle">
                         ควรเดินทางถึงเกาะยาวใหญ่อย่างช้า วันเสาร์ที่ 30 มกราคม 2570 ก่อนเวลา 16.00 น.
                     </h3>
-                    <p style="font-size:0.92rem; color:#92400E; line-height:1.7; margin:0;">
+                    <p style="font-size:0.92rem; color:#92400E; line-height:1.7; margin:0;" data-i18n="noticeDesc">
                         เนื่องจากเรือโดยสารเที่ยวแรกจากฝั่งภูเก็ตและกระบี่เริ่มออกให้บริการเวลา 07.30 น. ซึ่งจะไม่ทันเวลาเช็คบิบ <strong>05.00 น.</strong> ของวันอาทิตย์ที่ 31 มกราคม 2570 และนักวิ่งจำเป็นต้องเข้ารับเสื้อแข่งขันและหมายเลข BIB ใน<strong>วันเสาร์ที่ 30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล อ่าวโล๊ะจาก
                     </p>
                 </div>
@@ -93,130 +280,386 @@
     <section class="section" id="ferry">
         <div class="container">
             <div class="section-header">
-                <div class="badge-tag"><span class="dot"></span> เส้นทางเดินเรือโดยสาร</div>
-                <h3 class="section-title">ตารางเรือข้ามฟากสู่เกาะยาวใหญ่</h3>
-                <p class="section-desc">สามารถเดินทางข้ามสู่เกาะยาวใหญ่ได้ทั้งจากฝั่งจังหวัดภูเก็ต จังหวัดกระบี่ และจังหวัดพังงา ใช้เวลาเดินทางเพียง 30–50 นาที</p>
+                <div class="badge-tag"><span class="dot"></span> <span data-i18n="ferryBadge">ตารางเวลาเดินเรือจริง</span></div>
+                <h3 class="section-title" data-i18n="ferryTitle">ตารางเรือโดยสาร & สปีดโบ๊ทสู่เกาะยาวใหญ่</h3>
+                <p class="section-desc" data-i18n="ferryDesc">รวบรวมตารางเวลาเดินเรือจากผู้ประกอบการจริง ครอบคลุมเส้นทางจากจังหวัดภูเก็ต กระบี่ (ท่าเลน / อ่าวนาง / ไร่เลย์) เกาะยาวน้อย เกาะพีพี และเกาะลันตา</p>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.75rem; margin-bottom:2rem;">
-                <!-- Route 1: Phuket (Bang Rong Pier) -->
-                <div class="form-envelope-card" style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+            <!-- Interactive Route Filter Tabs -->
+            <div class="ferry-filter-bar" role="tablist" aria-label="ตัวกรองเส้นทางเดินเรือ">
+                <button type="button" class="ferry-filter-btn active" onclick="filterFerryRoutes('all', this)" data-i18n="tabFerryAll">ทั้งหมดทุกเส้นทาง</button>
+                <button type="button" class="ferry-filter-btn" onclick="filterFerryRoutes('phuket', this)" data-i18n="tabFerryPhuket">ภูเก็ต ↔ เกาะยาวใหญ่</button>
+                <button type="button" class="ferry-filter-btn" onclick="filterFerryRoutes('krabi', this)" data-i18n="tabFerryKrabi">กระบี่ / อ่าวนาง / ไร่เลย์</button>
+                <button type="button" class="ferry-filter-btn" onclick="filterFerryRoutes('islands', this)" data-i18n="tabFerryIslands">เกาะยาวน้อย / พีพี / ลันตา</button>
+            </div>
+
+            <div class="guide-ferry-grid">
+                <!-- 1. PHUKET (BANG RONG) <-> KOH YAO YAI (CHONG LARD) : Solomon, Joakoh, Suwimol -->
+                <div class="form-envelope-card ferry-card-full" data-ferry-group="phuket" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid var(--teal-andaman);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
                         <div>
-                            <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ROUTE A • จ.ภูเก็ต (แนะนำ)</span>
-                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;">ท่าเรือบางโรง (ภูเก็ต) → เกาะยาวใหญ่</h4>
+                            <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;" data-i18n="c1Tag">ROUTE 1 • จ.ภูเก็ต (ท่าเรือบางโรง) ↔ เกาะยาวใหญ่ (ท่าเรือช่องหลาด)</span>
+                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c1Title">ตารางสปีดโบ๊ท บางโรง (ภูเก็ต) ↔ ช่องหลาด (เกาะยาวใหญ่)</h4>
                         </div>
-                        <span class="status-pill approved">ใช้เวลา 30–45 นาที</span>
+                        <span class="status-pill approved" data-i18n="c1Badge">วันละ 9 เที่ยว • Solomon / เจ้าเกาะ / สุวิมล</span>
                     </div>
 
-                    <p style="font-size:0.9rem; color:var(--ink-secondary); margin-bottom:1.15rem; line-height:1.7;">
-                        <strong>ท่าเรือบางโรง (อ.ถลาง จ.ภูเก็ต)</strong> อยู่ห่างจากสนามบินนานาชาติภูเก็ตประมาณ 20 นาที มีทั้งเรือสปีดโบ๊ทและเรือหางยาวโดยสารให้บริการทุกวัน ลงที่ <strong>ท่าเรือคลองเหีย</strong> หรือ <strong>ท่าเรือโล๊ะจาก</strong>
+                    <p style="font-size:0.88rem; color:var(--ink-secondary); margin-bottom:1.1rem; line-height:1.7;" data-i18n="c1Desc">
+                        <strong>เส้นทางหลักจากภูเก็ต:</strong> เรือสปีดโบ๊ทให้บริการทุกวันโดย <strong>Solomon Speed Boat</strong> (085-788-4034), <strong>เจ้าเกาะ / Joakoh</strong> (082-806-7688) และ <strong>สุวิมล / Suwimol</strong> (080-164-3103)
                     </p>
 
-                    <table class="size-matrix-table" style="text-align:left;">
-                        <thead>
-                            <tr>
-                                <th>ประเภทเรือ</th>
-                                <th>ท่าเรือปลายทาง</th>
-                                <th>รอบเรือโดยประมาณ</th>
-                                <th>อัตราค่าโดยสาร</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>สปีดโบ๊ท (Speedboat)</strong></td>
-                                <td>คลองเหีย / โล๊ะจาก</td>
-                                <td>07.30 – 17.30 น. (ออกทุก 1 ชม.)</td>
-                                <td>~300 – 400 บ./เที่ยว</td>
-                            </tr>
-                            <tr>
-                                <td><strong>เรือหางยาวโดยสาร</strong></td>
-                                <td>คลองเหีย / โล๊ะจาก</td>
-                                <td>08.00 / 10.30 / 13.00 / 16.00 น.</td>
-                                <td>~200 – 250 บ./เที่ยว</td>
-                            </tr>
-                            <tr>
-                                <td><strong>เรือเฟอร์รี่ (นำรถยนต์ข้าม)</strong></td>
-                                <td>ท่าเรือคลองเหีย</td>
-                                <td>วันละ 2–3 รอบ (ตรวจสอบล่วงหน้า)</td>
-                                <td>รถยนต์ ~600–800 บ.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="ferry-subgrid-2">
+                        <!-- Outbound Phuket -> Koh Yao Yai -->
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c1OutHead">ออกจากภูเก็ต (ท่าเรือบางโรง) → ช่องหลาด</div>
+                            <table class="ferry-mini-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="colTime">เวลาออก</th>
+                                        <th data-i18n="colBoat">ผู้ให้บริการ / เรือ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip">08:30 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip">09:30 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip">10:30 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip">11:00 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip">12:30 น.</span></td><td><strong>Suwimol</strong> <span data-i18n="lblSuwimol">(สุวิมล)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip">13:30 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip">14:30 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip">16:00 น.</span></td><td><strong>Suwimol</strong> <span data-i18n="lblSuwimol">(สุวิมล)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip">17:00 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                    <div style="margin-top:0.85rem; padding:0.75rem 1rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); font-size:0.84rem; color:#155E75; border-radius:0 6px 6px 0;">
-                        <strong>จุดเด่น:</strong> หากเลือกขึ้นเรือรอบที่เทียบท่า <strong>ท่าเรืออ่าวโล๊ะจาก</strong> จะถึงบริเวณจุดปล่อยตัวและเต็นท์รับบิบโดยตรงทันที
+                        <!-- Return Koh Yao Yai -> Phuket -->
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c1InHead">ออกจากเกาะยาวใหญ่ (ท่าเรือช่องหลาด) → บางโรง</div>
+                            <table class="ferry-mini-table">
+                                <thead>
+                                    <tr>
+                                        <th data-i18n="colTime2">เวลาออก</th>
+                                        <th data-i18n="colBoat2">ผู้ให้บริการ / เรือ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip gold">06:30 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">07:30 / 07:50 น.</span></td><td><strong>Suwimol</strong> <span data-i18n="lblSuwimol">(สุวิมล)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">09:30 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">10:30 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">11:30 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">13:00 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">14:00 น.</span></td><td><strong>Suwimol / Solomon</strong></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">15:00 น.</span></td><td><strong>Joakoh</strong> <span data-i18n="lblJoakoh">(เจ้าเกาะ)</span></td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">16:00 น.</span></td><td><strong>Solomon</strong></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.9rem; padding:0.7rem 1rem; background:#ECFEFF; border-left:3px solid var(--teal-andaman); font-size:0.83rem; color:#155E75; border-radius:0 6px 6px 0;" data-i18n="c1Note">
+                        <strong>รอบเฉพาะ Solomon Speed Boat Group:</strong> จากภูเก็ต 08:30 / 10:30 / 14:30 น. • จากเกาะยาวใหญ่ 09:30 / 11:30 / 16:00 น. (สำรองที่นั่ง โทร. 085-788-4034) • หมายเหตุ: รอบสุวิมลช่วงเช้า 07:30 น. (ป้าย Time Table) / 07:50 น. (ป้ายท่าเรือช่องหลาด)
                     </div>
                 </div>
 
-                <!-- Route 2: Krabi & Phang Nga -->
-                <div class="form-envelope-card" style="padding:2rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+                <!-- 2. KRABI (THA LEN) <-> KOH YAO YAI : Thanchanok Speedboat -->
+                <div class="form-envelope-card" data-ferry-group="krabi" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid var(--gold-sand);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
                         <div>
-                            <span style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ROUTE B • จ.กระบี่ & จ.พังงา</span>
-                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;">ท่าเรือท่าเลน (กระบี่) / ด่านศุลกากร (พังงา)</h4>
+                            <span style="font-size:0.78rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;" data-i18n="c2Tag">ROUTE 2 • จ.กระบี่ (ท่าเรือท่าเลน) ↔ เกาะยาวใหญ่</span>
+                            <h4 style="font-size:1.25rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c2Title">ธันย์ชนก สปีดโบ๊ท (เกาะยาวใหญ่ – ท่าเลน)</h4>
                         </div>
-                        <span class="status-pill pending">ใช้เวลา 30–50 นาที</span>
+                        <span class="status-pill pending" data-i18n="c2Badge">วันละ 3 เที่ยว ไป–กลับ</span>
                     </div>
 
-                    <p style="font-size:0.9rem; color:var(--ink-secondary); margin-bottom:1.15rem; line-height:1.7;">
-                        สำหรับนักวิ่งที่เดินทางมาจากฝั่งจังหวัดกระบี่ สุราษฎร์ธานี หรืออำเภอเมืองพังงา สามารถขึ้นเรือได้ที่ <strong>ท่าเรือท่าเลน (จ.กระบี่)</strong> หรือ <strong>ท่าเรือด่านศุลกากร (จ.พังงา)</strong>
-                    </p>
+                    <div class="ferry-subgrid-2" style="margin-bottom:0.85rem;">
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c2OutHead">ออกจากเกาะยาวใหญ่ → ท่าเลน</div>
+                            <table class="ferry-mini-table">
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip">06:40 น.</span></td><td data-i18n="boatSpeed">เรือสปีดโบ๊ท</td></tr>
+                                    <tr><td><span class="ferry-time-chip">08:00 น.</span></td><td data-i18n="boatLongtail">เรือหางยาว</td></tr>
+                                    <tr><td><span class="ferry-time-chip">14:00 น.</span></td><td data-i18n="boatSpeed">เรือสปีดโบ๊ท</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c2InHead">ออกจากท่าเลน (กระบี่) → เกาะยาวใหญ่</div>
+                            <table class="ferry-mini-table">
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip gold">09:30 น.</span></td><td data-i18n="boatSpeed">เรือสปีดโบ๊ท</td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">13:00 น.</span></td><td data-i18n="boatLongtail">เรือหางยาว</td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">16:00 น.</span></td><td data-i18n="boatSpeed">เรือสปีดโบ๊ท</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                    <table class="size-matrix-table" style="text-align:left;">
-                        <thead>
-                            <tr>
-                                <th>ท่าเรือต้นทาง</th>
-                                <th>ท่าเรือปลายทาง</th>
-                                <th>รอบเรือโดยประมาณ</th>
-                                <th>อัตราค่าโดยสาร</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>ท่าเรือท่าเลน (จ.กระบี่)</strong></td>
-                                <td>ท่าเรือคลองเหีย</td>
-                                <td>09.00 / 11.30 / 13.30 / 16.30 น.</td>
-                                <td>~250 – 350 บ./เที่ยว</td>
-                            </tr>
-                            <tr>
-                                <td><strong>ท่าเรือด่านศุลกากร (พังงา)</strong></td>
-                                <td>เกาะยาวน้อย → ยาวใหญ่</td>
-                                <td>09.30 / 13.00 / 15.30 น.</td>
-                                <td>~200 – 300 บ./เที่ยว</td>
-                            </tr>
-                            <tr>
-                                <td><strong>เกาะยาวน้อย → เกาะยาวใหญ่</strong></td>
-                                <td>ท่าเรือช่องหลาด</td>
-                                <td>07.00 – 17.00 น. (เรือหางยาวข้ามฟาก)</td>
-                                <td>~50 บ./เที่ยว (10 นาที)</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="padding:0.7rem 0.95rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); font-size:0.84rem; color:#92400E; border-radius:0 6px 6px 0;" data-i18n="c2Contact">
+                        <strong>ติดต่อธันย์ชนก สปีดโบ๊ท:</strong> โทร. <a href="tel:0808938954" style="font-weight:700; text-decoration:underline;">080-893-8954</a>, <a href="tel:0878921458" style="font-weight:700; text-decoration:underline;">087-892-1458</a>
+                    </div>
+                </div>
 
-                    <div style="margin-top:0.85rem; padding:0.75rem 1rem; background:#FFFBEB; border-left:3px solid var(--gold-sand); font-size:0.84rem; color:#92400E; border-radius:0 6px 6px 0;">
-                        <strong>หมายเหตุ:</strong> ตารางเวลาเรืออาจปรับเปลี่ยนตามสภาพอากาศและระดับน้ำขึ้น-น้ำลง กรุณาเผื่อเวลาเดินทางและยืนยันรอบเรือกับผู้ประกอบการล่วงหน้า 1–2 วัน
+                <!-- 3. LOHJARK <-> TIANSIN, KHLONG HIA -> BANG RONG, CHONG LARD -> AO NANG & PHI PHI -->
+                <div class="form-envelope-card" data-ferry-group="phuket krabi islands" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid var(--cyan-horizon);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:#0E7490; text-transform:uppercase;" data-i18n="c3Tag">ROUTE 3 • ท่าเรืออ่าวโล๊ะจาก / คลองเหีย / ช่องหลาด</span>
+                            <h4 style="font-size:1.25rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c3Title">โล๊ะจาก ↔ เทียนสิน, คลองเหีย & ช่องหลาด → อ่าวนาง/พีพี</h4>
+                        </div>
+                        <span class="status-pill approved" data-i18n="c3Badge">ใกล้จุดปล่อยตัวมากที่สุด</span>
+                    </div>
+
+                    <div class="ferry-chain-list">
+                        <div class="ferry-chain-row" style="background:#ECFEFF; border-color:#A5F3FC;">
+                            <strong style="color:#0E7490;" data-i18n="c3Sub1">1. จากอ่าวโล๊ะจาก (Lohjark) ↔ ท่าเรือเทียนสิน ภูเก็ต (Tiansin)</strong>
+                            <div style="margin-top:4px; color:var(--ink-primary);" data-i18n="c3Sub1Detail">
+                                • รอบ 1: ออก <strong>07:00 น.</strong> / ถึง–ขากลับ <strong>11:30 น.</strong><br>
+                                • รอบ 2: ออก <strong>09:00 น.</strong> / ถึง–ขากลับ <strong>15:00 น.</strong>
+                            </div>
+                        </div>
+
+                        <div class="ferry-chain-row">
+                            <strong style="color:var(--navy-marine);" data-i18n="c3Sub2">2. จากท่าเรือคลองเหีย (Khlong Hia) → ท่าเรือบางโรง (ภูเก็ต)</strong>
+                            <div style="margin-top:4px;" data-i18n="c3Sub2Detail">
+                                • เวลา <strong>12:00 น.</strong> — เรือ <strong>Green Planet</strong>
+                            </div>
+                        </div>
+
+                        <div class="ferry-chain-row">
+                            <strong style="color:var(--navy-marine);" data-i18n="c3Sub3">3. จากท่าเรือช่องหลาด (Chong Lard) → อ่าวนาง / เกาะพีพี</strong>
+                            <div style="margin-top:4px;" data-i18n="c3Sub3Detail">
+                                • <strong>ไปอ่าวนาง (Ao Nang):</strong> 09:00 / 11:00 / 11:30 / 13:00 น. (เรือ <strong>Sun Smile</strong>)<br>
+                                • <strong>ไปเกาะพีพี (Phi Phi):</strong> 09:00 (Sun Smile) / 11:00 (Sun Smile) / 11:40 (<strong>A.Rida</strong>) / 13:00 น. (Sun Smile)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. GREEN PLANET TRANSPORT : PHUKET <-> KOH YAO YAI <-> KOH YAO NOI <-> AO NANG <-> RAILAY -->
+                <div class="form-envelope-card ferry-card-full" data-ferry-group="phuket krabi" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid #059669;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:#059669; text-transform:uppercase;" data-i18n="c4Tag">ROUTE 4 • GREEN PLANET TRANSPORT (ภูเก็ต ↔ เกาะยาวใหญ่ ↔ เกาะยาวน้อย ↔ กระบี่)</span>
+                            <h4 style="font-size:1.3rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c4Title">ตารางสปีดโบ๊ท Green Planet (แหลมหิน/บางโรง – คลองเหีย – อ่าวนาง – ไร่เลย์)</h4>
+                        </div>
+                        <span class="status-pill approved" data-i18n="c4Badge">เทียบท่าเรือคลองเหีย เกาะยาวใหญ่</span>
+                    </div>
+
+                    <div class="ferry-subgrid-2">
+                        <!-- From Phuket -->
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c4OutHead">ออกจากภูเก็ต → เกาะยาวใหญ่ → เกาะยาวน้อย → อ่าวนาง → ไร่เลย์</div>
+                            <div class="ferry-chain-list">
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4Out1Title">เที่ยว 1 (ท่าเรือแหลมหิน):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4Out1Stops">
+                                        <span class="ferry-stop-pill">ภูเก็ต แหลมหิน <strong>13:00</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>13:40</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>13:50</strong></span> ›
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>14:30</strong></span> ›
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>15:00 น.</strong></span>
+                                    </div>
+                                </div>
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4Out2Title">เที่ยว 2 (ท่าเรือแหลมหิน):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4Out2Stops">
+                                        <span class="ferry-stop-pill">ภูเก็ต แหลมหิน <strong>14:30</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>15:10</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>15:20</strong></span> ›
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>16:00</strong></span> ›
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>16:30 น.</strong></span>
+                                    </div>
+                                </div>
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4Out3Title">เที่ยว 3 (ท่าเรือบางโรง):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4Out3Stops">
+                                        <span class="ferry-stop-pill">ภูเก็ต บางโรง <strong>15:00</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>15:30</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>15:40</strong></span> ›
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>16:20</strong></span> ›
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>16:50 น.</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- From Krabi (Railay / Ao Nang) -> Phuket -->
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c4InHead">จากไร่เลย์ / อ่าวนาง → เกาะยาวน้อย → เกาะยาวใหญ่ → ภูเก็ต</div>
+                            <div class="ferry-chain-list">
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4In1Title">เที่ยว 1 (ถึงแหลมหิน):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4In1Stops">
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>09:20</strong></span> ›
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>10:00</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>10:40</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>10:50</strong></span> ›
+                                        <span class="ferry-stop-pill">แหลมหิน <strong>11:30 น.</strong></span>
+                                    </div>
+                                </div>
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4In2Title">เที่ยว 2 (ถึงบางโรง):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4In2Stops">
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>10:40</strong></span> ›
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>11:20</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>11:50</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>12:00</strong></span> ›
+                                        <span class="ferry-stop-pill">บางโรง <strong>12:40 น.</strong></span>
+                                    </div>
+                                </div>
+                                <div class="ferry-chain-row">
+                                    <strong data-i18n="c4In3Title">เที่ยว 3 (ถึงแหลมหิน):</strong>
+                                    <div class="ferry-chain-stops" data-i18n="c4In3Stops">
+                                        <span class="ferry-stop-pill">อ่าวนาง <strong>12:30</strong></span> ›
+                                        <span class="ferry-stop-pill">ไร่เลย์ <strong>12:50</strong></span> ›
+                                        <span class="ferry-stop-pill">มาเนาะ <strong>13:20</strong></span> ›
+                                        <span class="ferry-stop-pill highlight">คลองเหีย <strong>13:30</strong></span> ›
+                                        <span class="ferry-stop-pill">แหลมหิน <strong>14:10 น.</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:0.85rem; padding:0.7rem 1rem; background:#ECFDF5; border-left:3px solid #059669; font-size:0.83rem; color:#065F46; border-radius:0 6px 6px 0;" data-i18n="c4Note">
+                        <strong>ติดต่อ Green Planet Transport:</strong> โทร. 080-526-1001, 075-637-488 • WhatsApp +66 62 851 4763 • LINE: 080 526 1001 • ท่าเรือเกาะยาวใหญ่: ท่าเรือคลองเหีย / เกาะยาวน้อย: ท่าเรือมาเนาะ / อ่าวนาง: ท่าเรือนพรัตน์ธารา / ไร่เลย์: สะพานลอยน้ำ
+                    </div>
+                </div>
+
+                <!-- 5. BUNDHAYA SPEED BOAT KOH YAO (High Season 2026-2027) -->
+                <div class="form-envelope-card" data-ferry-group="phuket krabi islands" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid var(--navy-marine);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:var(--navy-marine); text-transform:uppercase;" data-i18n="c5Tag">ROUTE 5 • BUNDHAYA SPEED BOAT (HIGH SEASON 2026–2027)</span>
+                            <h4 style="font-size:1.25rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c5Title">Bundhaya Speed Boat (เกาะยาว ↔ ภูเก็ต รัษฎา / พีพี / อ่าวนาง / ลันตา)</h4>
+                        </div>
+                        <span class="status-pill pending" data-i18n="c5Badge">Direct High Season</span>
+                    </div>
+
+                    <div class="ferry-chain-list" style="margin-bottom:0.85rem;">
+                        <div class="ferry-chain-row">
+                            <strong style="color:var(--teal-andaman);" data-i18n="c5R1Title">1. เกาะยาว – อ่าวนาง – ไร่เลย์ – เกาะจำ – เกาะลันตา</strong>
+                            <div style="margin-top:3px;" data-i18n="c5R1Time">ออกเกาะยาวใหญ่ <strong>09:20 น.</strong> • ออกเกาะยาวน้อย <strong>09:30 น.</strong></div>
+                        </div>
+                        <div class="ferry-chain-row">
+                            <strong style="color:#059669;" data-i18n="c5R2Title">2. เกาะยาว – เกาะพีพี (Direct)</strong>
+                            <div style="margin-top:3px;" data-i18n="c5R2Time">ออกเกาะยาวใหญ่ <strong>09:50 น.</strong> • ออกเกาะยาวน้อย <strong>10:00 น.</strong></div>
+                        </div>
+                        <div class="ferry-chain-row">
+                            <strong style="color:#7C3AED;" data-i18n="c5R3Title">3. เกาะยาว – ภูเก็ต ท่าเรือรัษฎา (Direct)</strong>
+                            <div style="margin-top:3px;" data-i18n="c5R3Time">ออกเกาะยาวน้อย <strong>14:50 น.</strong> • ออกเกาะยาวใหญ่ <strong>15:00 น.</strong></div>
+                        </div>
+                    </div>
+
+                    <div style="padding:0.7rem 0.95rem; background:#F8FAFC; border-left:3px solid var(--navy-marine); font-size:0.82rem; color:var(--ink-secondary); border-radius:0 6px 6px 0;" data-i18n="c5Note">
+                        <strong>หมายเหตุ & ติดต่อ:</strong> ป้ายรอบบริการเริ่ม 15–31 ต.ค. 2569 (กรุณายืนยันรอบ High Season เดือน ม.ค. 2570 กับเจ้าหน้าที่) • โทร. 090-599-7445, 082-787-4745 • LINE ID: op1aonang
+                    </div>
+                </div>
+
+                <!-- 6. PHUKET (BANG RONG) <-> KOH YAO NOI (MANOH PIER) + SHUTTLE TO KOH YAO YAI -->
+                <div class="form-envelope-card" data-ferry-group="phuket islands" style="padding:1.85rem; max-width:100%; margin:0; border-top:4px solid #7C3AED;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.85rem; flex-wrap:wrap;">
+                        <div>
+                            <span style="font-size:0.78rem; font-weight:700; color:#6D28D9; text-transform:uppercase;" data-i18n="c6Tag">ROUTE 6 • บางโรง (ภูเก็ต) ↔ ท่าเรือมาเนาะ (เกาะยาวน้อย) + เรือข้ามเกาะยาวใหญ่</span>
+                            <h4 style="font-size:1.25rem; color:var(--navy-marine); margin-top:2px;" data-i18n="c6Title">บางโรง ↔ เกาะยาวน้อย (มาเนาะ) แล้วต่อเรือข้ามมาช่องหลาด</h4>
+                        </div>
+                        <span class="status-pill approved" data-i18n="c6Badge">เริ่ม 15/4/69 • สปีดโบ๊ท 500 บ. / หางยาว 400 บ.</span>
+                    </div>
+
+                    <div class="ferry-subgrid-2" style="margin-bottom:0.85rem;">
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c6OutHead">จากภูเก็ต (บางโรง) → เกาะยาวน้อย</div>
+                            <table class="ferry-mini-table">
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip">08:40 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">10:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">11:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">12:30 น.</span></td><td data-i18n="boatLongtail">เรือหางยาว (Long tail)</td></tr>
+                                    <tr><td><span class="ferry-time-chip">13:30 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">14:30 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">16:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">17:00 น.</span></td><td>Speed boat</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="ferry-col-box">
+                            <div class="ferry-col-heading" data-i18n="c6InHead">จากเกาะยาวน้อย (มาเนาะ) → ภูเก็ต</div>
+                            <table class="ferry-mini-table">
+                                <tbody>
+                                    <tr><td><span class="ferry-time-chip">06:35 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip gold">08:00 น.</span></td><td data-i18n="boatLongtail">เรือหางยาว (Long tail)</td></tr>
+                                    <tr><td><span class="ferry-time-chip">09:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">10:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">11:30 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">13:00 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">14:30 น.</span></td><td>Speed boat</td></tr>
+                                    <tr><td><span class="ferry-time-chip">16:00 น.</span></td><td>Speed boat</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding:0.7rem 0.95rem; background:#F5F3FF; border-left:3px solid #7C3AED; font-size:0.83rem; color:#4C1D95; border-radius:0 6px 6px 0;" data-i18n="c6Note">
+                        <strong>ระยะเวลา & ค่าโดยสาร:</strong> สปีดโบ๊ท 30 นาที (500 บาท) / เรือหางยาว 1 ชม. (400 บาท) • เมื่อถึงท่าเรือมาเนาะ (เกาะยาวน้อย) มีเรือหางยาวข้ามฟากมา <strong>ท่าเรือช่องหลาด (เกาะยาวใหญ่)</strong> ใช้เวลา ~10 นาที (~50 บาท/เที่ยว)
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. OPERATOR CONTACT DIRECTORY -->
+            <div class="form-envelope-card" style="max-width:100%; padding:1.65rem 2rem; background:#FFFFFF; border:1px solid var(--border-subtle); margin-bottom:1.75rem;">
+                <h4 style="font-size:1.15rem; color:var(--navy-marine); margin-bottom:0.85rem;" data-i18n="contactDirTitle">
+                    รวมเบอร์โทรศัพท์ติดต่อสอบถามและสำรองที่นั่งเรือโดยสาร
+                </h4>
+                <div class="ferry-contacts-grid">
+                    <div class="ferry-contact-item">
+                        <strong style="color:var(--gold-dark); display:block;" data-i18n="op1Name">ธันย์ชนก สปีดโบ๊ท (ท่าเลน ↔ เกาะยาวใหญ่)</strong>
+                        <a href="tel:0808938954" class="ferry-tel-link">080-893-8954</a> • <a href="tel:0878921458" class="ferry-tel-link">087-892-1458</a>
+                    </div>
+                    <div class="ferry-contact-item">
+                        <strong style="color:var(--teal-andaman); display:block;" data-i18n="op2Name">Solomon Speed Boat (บางโรง ↔ ช่องหลาด)</strong>
+                        <a href="tel:0857884034" class="ferry-tel-link">085-788-4034</a>
+                    </div>
+                    <div class="ferry-contact-item">
+                        <strong style="color:var(--teal-andaman); display:block;" data-i18n="op3Name">เจ้าเกาะ / Joakoh (บางโรง ↔ ช่องหลาด)</strong>
+                        <a href="tel:0828067688" class="ferry-tel-link">082-806-7688</a>
+                    </div>
+                    <div class="ferry-contact-item">
+                        <strong style="color:var(--teal-andaman); display:block;" data-i18n="op4Name">สุวิมล / Suwimol (บางโรง ↔ ช่องหลาด)</strong>
+                        <a href="tel:0801643103" class="ferry-tel-link">080-164-3103</a>
+                    </div>
+                    <div class="ferry-contact-item">
+                        <strong style="color:#059669; display:block;" data-i18n="op5Name">Green Planet (ภูเก็ต ↔ เกาะยาว ↔ กระบี่)</strong>
+                        <a href="tel:0805261001" class="ferry-tel-link">080-526-1001</a> • <a href="tel:075637488" class="ferry-tel-link">075-637-488</a>
+                        <div style="font-size:0.78rem; color:var(--ink-muted);">WhatsApp: +66 62 851 4763 | LINE: 080 526 1001</div>
+                    </div>
+                    <div class="ferry-contact-item">
+                        <strong style="color:var(--navy-marine); display:block;" data-i18n="op6Name">Bundhaya Speed Boat (รัษฎา / พีพี / ลันตา)</strong>
+                        <a href="tel:0905997445" class="ferry-tel-link">090-599-7445</a> • <a href="tel:0827874745" class="ferry-tel-link">082-787-4745</a>
+                        <div style="font-size:0.78rem; color:var(--ink-muted);">WhatsApp: +66 90 599 7445 | LINE: op1aonang</div>
                     </div>
                 </div>
             </div>
 
             <!-- Local Transport on Koh Yao Yai -->
             <div class="form-envelope-card" style="max-width:100%; padding:1.75rem 2rem; background:var(--canvas-subtle); border:1px solid var(--border-subtle);">
-                <h4 style="font-size:1.15rem; color:var(--navy-marine); margin-bottom:0.65rem;">
-                    การเดินทางบนเกาะยาวใหญ่ (จากท่าเรือคลองเหีย → อ่าวโล๊ะจาก)
+                <h4 style="font-size:1.15rem; color:var(--navy-marine); margin-bottom:0.65rem;" data-i18n="localTransTitle">
+                    การเดินทางบนเกาะยาวใหญ่ (จากท่าเรือคลองเหีย / ช่องหลาด → อ่าวโล๊ะจาก)
                 </h4>
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; font-size:0.9rem; color:var(--ink-secondary);">
                     <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                        <strong style="color:var(--teal-andaman); display:block; margin-bottom:4px;">1. รถสองแถวท้องถิ่น & รถรับจ้าง</strong>
-                        มีรถสองแถวจอดให้บริการบริเวณหน้าท่าเรือคลองเหีย และท่าเรือช่องหลาด สามารถเหมาหรือแชร์ค่าโดยสารไปยังที่พักโซนตำบลพรุในและอ่าวโล๊ะจากได้สะดวก (ระยะทาง ~12 กม. ใช้เวลา 15–20 นาที)
+                        <strong style="color:var(--teal-andaman); display:block; margin-bottom:4px;" data-i18n="trans1Title">1. รถสองแถวท้องถิ่น & รถรับจ้าง</strong>
+                        <span data-i18n="trans1Desc">มีรถสองแถวจอดให้บริการบริเวณหน้าท่าเรือคลองเหีย และท่าเรือช่องหลาด สามารถเหมาหรือแชร์ค่าโดยสารไปยังที่พักโซนตำบลพรุในและอ่าวโล๊ะจากได้สะดวก (ระยะทาง ~12 กม. ใช้เวลา 15–20 นาที)</span>
                     </div>
                     <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                        <strong style="color:var(--navy-marine); display:block; margin-bottom:4px;">2. บริการเช่ารถจักรยานยนต์รายวัน</strong>
-                        มีร้านเช่ารถจักรยานยนต์บริเวณหน้าท่าเรือและที่พัก ราคาประมาณ 250–350 บาท/วัน เหมาะสำหรับเดินทางไปรับเสื้อแข่งขัน หาของรับประทาน และเที่ยวชมรอบเกาะยาวใหญ่
+                        <strong style="color:var(--navy-marine); display:block; margin-bottom:4px;" data-i18n="trans2Title">2. บริการเช่ารถจักรยานยนต์รายวัน</strong>
+                        <span data-i18n="trans2Desc">มีร้านเช่ารถจักรยานยนต์บริเวณหน้าท่าเรือและที่พัก ราคาประมาณ 250–350 บาท/วัน เหมาะสำหรับเดินทางไปรับเสื้อแข่งขัน หาของรับประทาน และเที่ยวชมรอบเกาะยาวใหญ่</span>
                     </div>
                     <div style="background:#FFFFFF; padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                        <strong style="color:var(--gold-dark); display:block; margin-bottom:4px;">3. บริการรถรับ-ส่งของที่พัก</strong>
-                        รีสอร์ทและโฮมสเตย์ส่วนใหญ่ในตำบลพรุในมีบริการรถรับ-ส่งจากท่าเรือ และจัดรถรับ-ส่งนักวิ่งมายังจุดปล่อยตัวอ่าวโล๊ะจากในช่วงเช้ามืดวันแข่งขัน (แนะนำให้แจ้งที่พักล่วงหน้าขณะจอง)
+                        <strong style="color:var(--gold-dark); display:block; margin-bottom:4px;" data-i18n="trans3Title">3. บริการรถรับ-ส่งของที่พัก</strong>
+                        <span data-i18n="trans3Desc">รีสอร์ทและโฮมสเตย์ส่วนใหญ่ในตำบลพรุในมีบริการรถรับ-ส่งจากท่าเรือ และจัดรถรับ-ส่งนักวิ่งมายังจุดปล่อยตัวอ่าวโล๊ะจากในช่วงเช้ามืดวันแข่งขัน (แนะนำให้แจ้งที่พักล่วงหน้าขณะจอง)</span>
                     </div>
                 </div>
             </div>
@@ -227,51 +670,51 @@
     <section class="section" id="stay" style="background:#FFFFFF; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle);">
         <div class="container">
             <div class="section-header">
-                <div class="badge-tag"><span class="dot"></span> ที่พักแนะนำสำหรับนักวิ่ง</div>
-                <h3 class="section-title">โซนที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</h3>
-                <p class="section-desc">เลือกโซนที่พักให้เหมาะกับสไตล์การเดินทางของคุณ ทั้งโซนใกล้จุดปล่อยตัวในตำบลพรุใน โซนริมทะเลฝั่งตะวันตก และโฮมสเตย์วิถีชุมชน</p>
+                <div class="badge-tag"><span class="dot"></span> <span data-i18n="stayBadge">ที่พักแนะนำสำหรับนักวิ่ง</span></div>
+                <h3 class="section-title" data-i18n="stayTitle">โซนที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก</h3>
+                <p class="section-desc" data-i18n="stayDesc">เลือกโซนที่พักให้เหมาะกับสไตล์การเดินทางของคุณ ทั้งโซนใกล้จุดปล่อยตัวในตำบลพรุใน โซนริมทะเลฝั่งตะวันตก และโฮมสเตย์วิถีชุมชน</p>
             </div>
 
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem;">
+            <div class="guide-stay-grid">
                 <!-- Zone 1 -->
                 <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--teal-andaman); display:flex; flex-direction:column;">
-                    <span style="font-size:0.76rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">ZONE 1 • ห่างจุดปล่อยตัว 0–3 กม.</span>
-                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนอ่าวโล๊ะจาก & บ้านพรุใน</h4>
-                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                    <span style="font-size:0.76rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;" data-i18n="zone1Tag">ZONE 1 • ห่างจุดปล่อยตัว 0–3 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;" data-i18n="zone1Title">โซนอ่าวโล๊ะจาก & บ้านพรุใน</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;" data-i18n="zone1Desc">
                         พื้นที่ใกล้จุดปล่อยตัวและเส้นชัยมากที่สุด สามารถเดินหรือนั่งรถเพียง 5 นาทีถึงบริเวณงานในเช้ามืด เหมาะสำหรับนักวิ่งที่ต้องการความสะดวกในการรับเสื้อและเช็คบิบเวลา 05.00 น.
                     </p>
                     <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
-                        <li style="margin-bottom:4px;">• รีสอร์ทขนาดเล็กและบังกะโลริมหาดอ่าวโล๊ะจาก</li>
-                        <li style="margin-bottom:4px;">• บ้านพักรับรองและห้องพักรายวันในชุมชนพรุใน</li>
-                        <li>• ใกล้ร้านอาหารพื้นบ้านและตลาดชุมชน</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone1Li1">• รีสอร์ทขนาดเล็กและบังกะโลริมหาดอ่าวโล๊ะจาก</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone1Li2">• บ้านพักรับรองและห้องพักรายวันในชุมชนพรุใน</li>
+                        <li data-i18n="zone1Li3">• ใกล้ร้านอาหารพื้นบ้านและตลาดชุมชน</li>
                     </ul>
                 </div>
 
                 <!-- Zone 2 -->
                 <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--gold-sand); display:flex; flex-direction:column;">
-                    <span style="font-size:0.76rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">ZONE 2 • ห่างจุดปล่อยตัว 4–8 กม.</span>
-                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนหาดสน – อ่าวคลองสน – หาดโล๊ะปาแรด</h4>
-                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                    <span style="font-size:0.76rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;" data-i18n="zone2Tag">ZONE 2 • ห่างจุดปล่อยตัว 4–8 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;" data-i18n="zone2Title">โซนหาดสน – อ่าวคลองสน – หาดโล๊ะปาแรด</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;" data-i18n="zone2Desc">
                         โซนรีสอร์ทริมทะเลบรรยากาศเงียบสงบทางฝั่งตะวันตกของเกาะ มีที่พักให้เลือกหลากหลายระดับ ตั้งแต่บูทีครีสอร์ทไปจนถึงพูลวิลล่าริมชายหาด ใช้เวลาเดินทางมาอ่าวโล๊ะจากประมาณ 10–15 นาที
                     </p>
                     <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
-                        <li style="margin-bottom:4px;">• เหมาะสำหรับนักวิ่งที่พาครอบครัวมาพักผ่อน</li>
-                        <li style="margin-bottom:4px;">• วิวพระอาทิตย์ตกและหมู่เกาะฝั่งภูเก็ตสวยงาม</li>
-                        <li>• มีบริการรถรับ-ส่งและรถเช่าครบครัน</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone2Li1">• เหมาะสำหรับนักวิ่งที่พาครอบครัวมาพักผ่อน</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone2Li2">• วิวพระอาทิตย์ตกและหมู่เกาะฝั่งภูเก็ตสวยงาม</li>
+                        <li data-i18n="zone2Li3">• มีบริการรถรับ-ส่งและรถเช่าครบครัน</li>
                     </ul>
                 </div>
 
                 <!-- Zone 3 -->
                 <div class="form-envelope-card" style="max-width:100%; margin:0; padding:1.75rem; border-top:4px solid var(--cyan-horizon); display:flex; flex-direction:column;">
-                    <span style="font-size:0.76rem; font-weight:700; color:#0E7490; text-transform:uppercase;">ZONE 3 • ห่างจุดปล่อยตัว 10–16 กม.</span>
-                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;">โซนคลองเหีย – อ่าวหินกอง – แหลมหาด</h4>
-                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;">
+                    <span style="font-size:0.76rem; font-weight:700; color:#0E7490; text-transform:uppercase;" data-i18n="zone3Tag">ZONE 3 • ห่างจุดปล่อยตัว 10–16 กม.</span>
+                    <h4 style="font-size:1.2rem; color:var(--navy-marine); margin:0.35rem 0 0.65rem 0;" data-i18n="zone3Title">โซนคลองเหีย – อ่าวหินกอง – แหลมหาด</h4>
+                    <p style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.75; margin-bottom:1.25rem; flex-grow:1;" data-i18n="zone3Desc">
                         โซนใกล้ท่าเรือหลัก (คลองเหีย) และจุดชมวิวสันทรายแหลมหาด เหมาะสำหรับผู้ที่เดินทางด้วยเรือรอบบ่ายแก่ ๆ และต้องการพักใกล้แหล่งท่องเที่ยวสำคัญทางตอนเหนือของเกาะ
                     </p>
                     <ul style="list-style:none; font-size:0.86rem; color:var(--ink-muted); border-top:1px dashed var(--border-subtle); padding-top:0.85rem;">
-                        <li style="margin-bottom:4px;">• เดินทางจากท่าเรือคลองเหียถึงที่พักใน 5 นาที</li>
-                        <li style="margin-bottom:4px;">• ใกล้จุดถ่ายภาพทะเลแหวกแหลมหาด</li>
-                        <li>• ใช้เวลาเดินทางไปจุดปล่อยตัว ~20 นาที</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone3Li1">• เดินทางจากท่าเรือคลองเหียถึงที่พักใน 5 นาที</li>
+                        <li style="margin-bottom:4px;" data-i18n="zone3Li2">• ใกล้จุดถ่ายภาพทะเลแหวกแหลมหาด</li>
+                        <li data-i18n="zone3Li3">• ใช้เวลาเดินทางไปจุดปล่อยตัว ~20 นาที</li>
                     </ul>
                 </div>
             </div>
@@ -282,9 +725,9 @@
     <section class="section" id="attractions">
         <div class="container">
             <div class="section-header">
-                <div class="badge-tag"><span class="dot"></span> กิน เที่ยว พักผ่อนหลังเข้าเส้นชัย</div>
-                <h3 class="section-title">สัมผัสเสน่ห์เกาะยาวใหญ่ & อาหารพื้นบ้าน</h3>
-                <p class="section-desc">หลังจบการแข่งขันในช่วงเช้า ขอเชิญร่วมลิ้มรสอาหารทะเลสดใหม่และแวะเช็กอินจุดท่องเที่ยวสำคัญของตำบลพรุใน</p>
+                <div class="badge-tag"><span class="dot"></span> <span data-i18n="attrBadge">กิน เที่ยว พักผ่อนหลังเข้าเส้นชัย</span></div>
+                <h3 class="section-title" data-i18n="attrTitle">สัมผัสเสน่ห์เกาะยาวใหญ่ & อาหารพื้นบ้าน</h3>
+                <p class="section-desc" data-i18n="attrDesc">หลังจบการแข่งขันในช่วงเช้า ขอเชิญร่วมลิ้มรสอาหารทะเลสดใหม่และแวะเช็กอินจุดท่องเที่ยวสำคัญของตำบลพรุใน โดยกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว</p>
             </div>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.5rem;">
@@ -294,8 +737,8 @@
                     </div>
                     <div style="padding:1.4rem;">
                         <span style="font-size:0.75rem; font-weight:700; color:var(--teal-andaman); text-transform:uppercase;">LANDMARK</span>
-                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">แหลมหาด (สันทรายทะเลแหวก)</h4>
-                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;" data-i18n="attr1Title">แหลมหาด (สันทรายทะเลแหวก)</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;" data-i18n="attr1Desc">
                             หาดทรายสีขาวทอดยาวกลางน้ำทะเลสีมรกต ฉากหลังเป็นเกาะยาวน้อยและอ่าวพังงา แนะนำให้ตรวจสอบเวลาน้ำลงเพื่อเดินบนสันทราย
                         </p>
                     </div>
@@ -307,8 +750,8 @@
                     </div>
                     <div style="padding:1.4rem;">
                         <span style="font-size:0.75rem; font-weight:700; color:var(--gold-dark); text-transform:uppercase;">SUNSET VIEWPOINT</span>
-                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">สะพานท่าเรืออ่าวโล๊ะจาก</h4>
-                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;" data-i18n="attr2Title">สะพานท่าเรืออ่าวโล๊ะจาก</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;" data-i18n="attr2Desc">
                             จุดชมพระอาทิตย์ตกที่งดงามที่สุดแห่งหนึ่งบนเกาะยาวใหญ่ ตั้งอยู่ติดกับบริเวณจุดปล่อยตัวและเส้นชัยของกิจกรรมวิ่งเปิดโลกทะเล
                         </p>
                     </div>
@@ -320,8 +763,8 @@
                     </div>
                     <div style="padding:1.4rem;">
                         <span style="font-size:0.75rem; font-weight:700; color:var(--navy-marine); text-transform:uppercase;">LOCAL GASTRONOMY</span>
-                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;">กระชังกุ้งมังกร & ซีฟู้ดพื้นบ้าน</h4>
-                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;">
+                        <h4 style="font-size:1.1rem; color:var(--navy-marine); margin:0.25rem 0 0.45rem 0;" data-i18n="attr3Title">กระชังกุ้งมังกร & ซีฟู้ดพื้นบ้าน</h4>
+                        <p style="font-size:0.87rem; color:var(--ink-muted); line-height:1.7; margin:0;" data-i18n="attr3Desc">
                             ลิ้มรสอาหารทะเลสดจากกระชังชาวประมงพื้นบ้านตำบลพรุใน อาทิ กุ้งมังกรเจ็ดสี ปลาเก๋านึ่งซีอิ๊ว แกงส้มปลากะพง และขนมพื้นเมืองเกาะยาว
                         </p>
                     </div>
@@ -329,7 +772,7 @@
             </div>
 
             <div style="text-align:center; margin-top:3rem;">
-                <a href="register.html" class="btn btn-accent" style="padding:0.95rem 2.25rem; font-size:1.05rem;">
+                <a href="register.html" class="btn btn-accent" style="padding:0.95rem 2.25rem; font-size:1.05rem;" data-i18n="ctaBottom">
                     พร้อมแล้วคลิก! สมัครเข้าร่วมแข่งขันวิ่งเปิดโลกทะเล 2570
                 </a>
             </div>
@@ -342,34 +785,38 @@
             <div class="footer-grid">
                 <div>
                     <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.25rem;">
-                        <img src="Photo/logo.jpeg" alt="ตราเทศบาล" style="width:48px; height:48px; border-radius:50%; background:#fff;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                            <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                            <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                        </div>
                         <div>
-                            <div class="footer-brand-title">เปิดโลกทะเล 2570</div>
-                            <span style="font-size:0.8rem; color:#94A3B8;">เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</span>
+                            <div class="footer-brand-title" data-i18n="footerBrandTitle">เปิดโลกทะเล 2570</div>
+                            <span style="font-size:0.82rem; color:#94A3B8;" data-i18n="footerBrandSub">เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</span>
                         </div>
                     </div>
-                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;">
-                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดขึ้นเพื่อส่งเสริมสุขภาพของประชาชน
-                        กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
+                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;" data-i18n="footerDesc">
+                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
                     </p>
                 </div>
 
                 <div>
-                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
-                        เมนูนำทาง</h5>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerMenuTitle">
+                        เมนูนำทาง
+                    </h5>
                     <ul class="footer-nav-list">
-                        <li><a href="index.html">หน้าแรก</a></li>
-                        <li><a href="register.html">สมัครแข่งขันออนไลน์</a></li>
-                        <li><a href="status.html">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
-                        <li><a href="guide.html">คู่มือเดินทาง & ตารางเรือ</a></li>
-                        <li><a href="admin.html">ระบบเจ้าหน้าที่ (Admin)</a></li>
+                        <li><a href="index.html" data-i18n="fNavHome">หน้าแรก</a></li>
+                        <li><a href="register.html" data-i18n="fNavReg">สมัครแข่งขันออนไลน์</a></li>
+                        <li><a href="status.html" data-i18n="fNavStatus">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
+                        <li><a href="guide.html" data-i18n="fNavGuide">คู่มือเดินทาง & ตารางเรือ</a></li>
+                        <li><a href="admin.html" data-i18n="fNavAdmin">ระบบเจ้าหน้าที่ (Admin)</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;">
-                        กองอำนวยการจัดการแข่งขัน</h5>
-                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;">
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerContactTitle">
+                        กองอำนวยการจัดการแข่งขัน
+                    </h5>
+                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;" data-i18n="footerContactDesc">
                         สำนักงานเทศบาลตำบลพรุใน<br>
                         อำเภอเกาะยาว จังหวัดพังงา 82160<br>
                         โทรศัพท์: 076-597-504<br>
@@ -378,28 +825,363 @@
                 </div>
             </div>
 
-            <div class="footer-bottom-bar">
-                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา.
+            <div class="footer-bottom-bar" data-i18n="footerCopy">
+                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.
             </div>
         </div>
     </footer>
 
-    <script src="js/store.js?v=3.1"></script>
+    <script src="js/store.js?v=3.5"></script>
     <script>
-        const mobileToggleBtn = document.getElementById('mobileToggle');
-        const navMenuEl = document.getElementById('navMenu');
+        const GUIDE_I18N = {
+            th: {
+                pageTitle: 'คู่มือการเดินทาง ตารางเรือ & ที่พัก | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐',
+                brandTitle: 'เปิดโลกทะเล 2570',
+                brandSub: 'เทศบาลตำบลพรุใน • เกาะยาวใหญ่',
+                navHome: 'หน้าแรก',
+                navHomeMain: 'ภาพรวมหน้าแรก',
+                navSchedule: 'กำหนดการ',
+                navCategories: 'ประเภท & ค่าสมัคร',
+                navPrizes: 'เงินรางวัล & เหรียญ',
+                navRoutes: 'เส้นทางวิ่ง',
+                navKit: 'เสื้อแข่งขัน',
+                navGuide: 'คู่มือเดินทาง',
+                navStatus: 'ตรวจสถานะ & E-Bib',
+                navAdmin: 'เจ้าหน้าที่',
+                navRegister: 'สมัครแข่งขัน',
+                heroBadge: 'RUNNER TRAVEL & HOSPITALITY GUIDE • เกาะยาวใหญ่ จ.พังงา',
+                heroTitle1: 'คู่มือการเดินทาง ตารางเรือข้ามฟาก',
+                heroTitle2: 'และแนะนำที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก',
+                heroDesc: 'วางแผนการเดินทางสู่อำเภอเกาะยาว จังหวัดพังงา อย่างสะดวกและตรงเวลา สำหรับนักวิ่งและผู้ติดตามในงาน <strong>กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570</strong> จัดโดยเทศบาลตำบลพรุใน ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว วันอาทิตย์ที่ 31 มกราคม 2570',
+                heroBtnFerry: 'ดูตารางเรือข้ามฟาก ↓',
+                heroBtnMap: 'เปิดพิกัดจุดปล่อยตัว อ่าวโล๊ะจาก ↗',
+                noticeTag: 'คำแนะนำสำคัญสำหรับนักวิ่งต่างจังหวัดและนักท่องเที่ยว',
+                noticeTitle: 'ควรเดินทางถึงเกาะยาวใหญ่อย่างช้า วันเสาร์ที่ 30 มกราคม 2570 ก่อนเวลา 16.00 น.',
+                noticeDesc: 'เนื่องจากเรือโดยสารเที่ยวแรกจากฝั่งภูเก็ตและกระบี่เริ่มออกให้บริการเวลา 07.30 น. ซึ่งจะไม่ทันเวลาเช็คบิบ <strong>05.00 น.</strong> ของวันอาทิตย์ที่ 31 มกราคม 2570 และนักวิ่งจำเป็นต้องเข้ารับเสื้อแข่งขันและหมายเลข BIB ใน<strong>วันเสาร์ที่ 30 มกราคม 2570 เวลา 10.00–18.00 น.</strong> ณ เต็นท์อำนวยการงานเปิดโลกทะเล อ่าวโล๊ะจาก',
+                ferryBadge: 'ตารางเวลาเดินเรือจริง',
+                ferryTitle: 'ตารางเรือโดยสาร & สปีดโบ๊ทสู่เกาะยาวใหญ่',
+                ferryDesc: 'รวบรวมตารางเวลาเดินเรือจากผู้ประกอบการจริง ครอบคลุมเส้นทางจากจังหวัดภูเก็ต กระบี่ (ท่าเลน / อ่าวนาง / ไร่เลย์) เกาะยาวน้อย เกาะพีพี และเกาะลันตา',
+                tabFerryAll: 'ทั้งหมดทุกเส้นทาง',
+                tabFerryPhuket: 'ภูเก็ต ↔ เกาะยาวใหญ่',
+                tabFerryKrabi: 'กระบี่ / อ่าวนาง / ไร่เลย์',
+                tabFerryIslands: 'เกาะยาวน้อย / พีพี / ลันตา',
+                c1Tag: 'ROUTE 1 • จ.ภูเก็ต (ท่าเรือบางโรง) ↔ เกาะยาวใหญ่ (ท่าเรือช่องหลาด)',
+                c1Title: 'ตารางสปีดโบ๊ท บางโรง (ภูเก็ต) ↔ ช่องหลาด (เกาะยาวใหญ่)',
+                c1Badge: 'วันละ 9 เที่ยว • Solomon / เจ้าเกาะ / สุวิมล',
+                c1Desc: '<strong>เส้นทางหลักจากภูเก็ต:</strong> เรือสปีดโบ๊ทให้บริการทุกวันโดย <strong>Solomon Speed Boat</strong> (085-788-4034), <strong>เจ้าเกาะ / Joakoh</strong> (082-806-7688) และ <strong>สุวิมล / Suwimol</strong> (080-164-3103)',
+                c1OutHead: 'ออกจากภูเก็ต (ท่าเรือบางโรง) → ช่องหลาด',
+                c1InHead: 'ออกจากเกาะยาวใหญ่ (ท่าเรือช่องหลาด) → บางโรง',
+                colTime: 'เวลาออก',
+                colBoat: 'ผู้ให้บริการ / เรือ',
+                colTime2: 'เวลาออก',
+                colBoat2: 'ผู้ให้บริการ / เรือ',
+                lblJoakoh: '(เจ้าเกาะ)',
+                lblSuwimol: '(สุวิมล)',
+                c1Note: '<strong>รอบเฉพาะ Solomon Speed Boat Group:</strong> จากภูเก็ต 08:30 / 10:30 / 14:30 น. • จากเกาะยาวใหญ่ 09:30 / 11:30 / 16:00 น. (สำรองที่นั่ง โทร. 085-788-4034) • หมายเหตุ: รอบสุวิมลช่วงเช้า 07:30 น. (ป้าย Time Table) / 07:50 น. (ป้ายท่าเรือช่องหลาด)',
+                c2Tag: 'ROUTE 2 • จ.กระบี่ (ท่าเรือท่าเลน) ↔ เกาะยาวใหญ่',
+                c2Title: 'ธันย์ชนก สปีดโบ๊ท (เกาะยาวใหญ่ – ท่าเลน)',
+                c2Badge: 'วันละ 3 เที่ยว ไป–กลับ',
+                c2OutHead: 'ออกจากเกาะยาวใหญ่ → ท่าเลน',
+                c2InHead: 'ออกจากท่าเลน (กระบี่) → เกาะยาวใหญ่',
+                boatSpeed: 'เรือสปีดโบ๊ท',
+                boatLongtail: 'เรือหางยาว (Long tail)',
+                c2Contact: '<strong>ติดต่อธันย์ชนก สปีดโบ๊ท:</strong> โทร. <a href="tel:0808938954" style="font-weight:700; text-decoration:underline;">080-893-8954</a>, <a href="tel:0878921458" style="font-weight:700; text-decoration:underline;">087-892-1458</a>',
+                c3Tag: 'ROUTE 3 • ท่าเรืออ่าวโล๊ะจาก / คลองเหีย / ช่องหลาด',
+                c3Title: 'โล๊ะจาก ↔ เทียนสิน, คลองเหีย & ช่องหลาด → อ่าวนาง/พีพี',
+                c3Badge: 'ใกล้จุดปล่อยตัวมากที่สุด',
+                c3Sub1: '1. จากอ่าวโล๊ะจาก (Lohjark) ↔ ท่าเรือเทียนสิน ภูเก็ต (Tiansin)',
+                c3Sub1Detail: '• รอบ 1: ออก <strong>07:00 น.</strong> / ถึง–ขากลับ <strong>11:30 น.</strong><br>• รอบ 2: ออก <strong>09:00 น.</strong> / ถึง–ขากลับ <strong>15:00 น.</strong>',
+                c3Sub2: '2. จากท่าเรือคลองเหีย (Khlong Hia) → ท่าเรือบางโรง (ภูเก็ต)',
+                c3Sub2Detail: '• เวลา <strong>12:00 น.</strong> — เรือ <strong>Green Planet</strong>',
+                c3Sub3: '3. จากท่าเรือช่องหลาด (Chong Lard) → อ่าวนาง / เกาะพีพี',
+                c3Sub3Detail: '• <strong>ไปอ่าวนาง (Ao Nang):</strong> 09:00 / 11:00 / 11:30 / 13:00 น. (เรือ <strong>Sun Smile</strong>)<br>• <strong>ไปเกาะพีพี (Phi Phi):</strong> 09:00 (Sun Smile) / 11:00 (Sun Smile) / 11:40 (<strong>A.Rida</strong>) / 13:00 น. (Sun Smile)',
+                c4Tag: 'ROUTE 4 • GREEN PLANET TRANSPORT (ภูเก็ต ↔ เกาะยาวใหญ่ ↔ เกาะยาวน้อย ↔ กระบี่)',
+                c4Title: 'ตารางสปีดโบ๊ท Green Planet (แหลมหิน/บางโรง – คลองเหีย – อ่าวนาง – ไร่เลย์)',
+                c4Badge: 'เทียบท่าเรือคลองเหีย เกาะยาวใหญ่',
+                c4OutHead: 'ออกจากภูเก็ต → เกาะยาวใหญ่ → เกาะยาวน้อย → อ่าวนาง → ไร่เลย์',
+                c4Out1Title: 'เที่ยว 1 (ท่าเรือแหลมหิน):',
+                c4Out1Stops: '<span class="ferry-stop-pill">ภูเก็ต แหลมหิน <strong>13:00</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>13:40</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>13:50</strong></span> › <span class="ferry-stop-pill">อ่าวนาง <strong>14:30</strong></span> › <span class="ferry-stop-pill">ไร่เลย์ <strong>15:00 น.</strong></span>',
+                c4Out2Title: 'เที่ยว 2 (ท่าเรือแหลมหิน):',
+                c4Out2Stops: '<span class="ferry-stop-pill">ภูเก็ต แหลมหิน <strong>14:30</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>15:10</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>15:20</strong></span> › <span class="ferry-stop-pill">อ่าวนาง <strong>16:00</strong></span> › <span class="ferry-stop-pill">ไร่เลย์ <strong>16:30 น.</strong></span>',
+                c4Out3Title: 'เที่ยว 3 (ท่าเรือบางโรง):',
+                c4Out3Stops: '<span class="ferry-stop-pill">ภูเก็ต บางโรง <strong>15:00</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>15:30</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>15:40</strong></span> › <span class="ferry-stop-pill">อ่าวนาง <strong>16:20</strong></span> › <span class="ferry-stop-pill">ไร่เลย์ <strong>16:50 น.</strong></span>',
+                c4InHead: 'จากไร่เลย์ / อ่าวนาง → เกาะยาวน้อย → เกาะยาวใหญ่ → ภูเก็ต',
+                c4In1Title: 'เที่ยว 1 (ถึงแหลมหิน):',
+                c4In1Stops: '<span class="ferry-stop-pill">ไร่เลย์ <strong>09:20</strong></span> › <span class="ferry-stop-pill">อ่าวนาง <strong>10:00</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>10:40</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>10:50</strong></span> › <span class="ferry-stop-pill">แหลมหิน <strong>11:30 น.</strong></span>',
+                c4In2Title: 'เที่ยว 2 (ถึงบางโรง):',
+                c4In2Stops: '<span class="ferry-stop-pill">ไร่เลย์ <strong>10:40</strong></span> › <span class="ferry-stop-pill">อ่าวนาง <strong>11:20</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>11:50</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>12:00</strong></span> › <span class="ferry-stop-pill">บางโรง <strong>12:40 น.</strong></span>',
+                c4In3Title: 'เที่ยว 3 (ถึงแหลมหิน):',
+                c4In3Stops: '<span class="ferry-stop-pill">อ่าวนาง <strong>12:30</strong></span> › <span class="ferry-stop-pill">ไร่เลย์ <strong>12:50</strong></span> › <span class="ferry-stop-pill">มาเนาะ <strong>13:20</strong></span> › <span class="ferry-stop-pill highlight">คลองเหีย <strong>13:30</strong></span> › <span class="ferry-stop-pill">แหลมหิน <strong>14:10 น.</strong></span>',
+                c4Note: '<strong>ติดต่อ Green Planet Transport:</strong> โทร. 080-526-1001, 075-637-488 • WhatsApp +66 62 851 4763 • LINE: 080 526 1001 • ท่าเรือเกาะยาวใหญ่: ท่าเรือคลองเหีย / เกาะยาวน้อย: ท่าเรือมาเนาะ / อ่าวนาง: ท่าเรือนพรัตน์ธารา / ไร่เลย์: สะพานลอยน้ำ',
+                c5Tag: 'ROUTE 5 • BUNDHAYA SPEED BOAT (HIGH SEASON 2026–2027)',
+                c5Title: 'Bundhaya Speed Boat (เกาะยาว ↔ ภูเก็ต รัษฎา / พีพี / อ่าวนาง / ลันตา)',
+                c5Badge: 'Direct High Season',
+                c5R1Title: '1. เกาะยาว – อ่าวนาง – ไร่เลย์ – เกาะจำ – เกาะลันตา',
+                c5R1Time: 'ออกเกาะยาวใหญ่ <strong>09:20 น.</strong> • ออกเกาะยาวน้อย <strong>09:30 น.</strong>',
+                c5R2Title: '2. เกาะยาว – เกาะพีพี (Direct)',
+                c5R2Time: 'ออกเกาะยาวใหญ่ <strong>09:50 น.</strong> • ออกเกาะยาวน้อย <strong>10:00 น.</strong>',
+                c5R3Title: '3. เกาะยาว – ภูเก็ต ท่าเรือรัษฎา (Direct)',
+                c5R3Time: 'ออกเกาะยาวน้อย <strong>14:50 น.</strong> • ออกเกาะยาวใหญ่ <strong>15:00 น.</strong>',
+                c5Note: '<strong>หมายเหตุ & ติดต่อ:</strong> ป้ายรอบบริการเริ่ม 15–31 ต.ค. 2569 (กรุณายืนยันรอบ High Season เดือน ม.ค. 2570 กับเจ้าหน้าที่) • โทร. 090-599-7445, 082-787-4745 • LINE ID: op1aonang',
+                c6Tag: 'ROUTE 6 • บางโรง (ภูเก็ต) ↔ ท่าเรือมาเนาะ (เกาะยาวน้อย) + เรือข้ามเกาะยาวใหญ่',
+                c6Title: 'บางโรง ↔ เกาะยาวน้อย (มาเนาะ) แล้วต่อเรือข้ามมาช่องหลาด',
+                c6Badge: 'เริ่ม 15/4/69 • สปีดโบ๊ท 500 บ. / หางยาว 400 บ.',
+                c6OutHead: 'จากภูเก็ต (บางโรง) → เกาะยาวน้อย',
+                c6InHead: 'จากเกาะยาวน้อย (มาเนาะ) → ภูเก็ต',
+                c6Note: '<strong>ระยะเวลา & ค่าโดยสาร:</strong> สปีดโบ๊ท 30 นาที (500 บาท) / เรือหางยาว 1 ชม. (400 บาท) • เมื่อถึงท่าเรือมาเนาะ (เกาะยาวน้อย) มีเรือหางยาวข้ามฟากมา <strong>ท่าเรือช่องหลาด (เกาะยาวใหญ่)</strong> ใช้เวลา ~10 นาที (~50 บาท/เที่ยว)',
+                contactDirTitle: 'รวมเบอร์โทรศัพท์ติดต่อสอบถามและสำรองที่นั่งเรือโดยสาร',
+                op1Name: 'ธันย์ชนก สปีดโบ๊ท (ท่าเลน ↔ เกาะยาวใหญ่)',
+                op2Name: 'Solomon Speed Boat (บางโรง ↔ ช่องหลาด)',
+                op3Name: 'เจ้าเกาะ / Joakoh (บางโรง ↔ ช่องหลาด)',
+                op4Name: 'สุวิมล / Suwimol (บางโรง ↔ ช่องหลาด)',
+                op5Name: 'Green Planet (ภูเก็ต ↔ เกาะยาว ↔ กระบี่)',
+                op6Name: 'Bundhaya Speed Boat (รัษฎา / พีพี / ลันตา)',
+                localTransTitle: 'การเดินทางบนเกาะยาวใหญ่ (จากท่าเรือคลองเหีย / ช่องหลาด → อ่าวโล๊ะจาก)',
+                trans1Title: '1. รถสองแถวท้องถิ่น & รถรับจ้าง',
+                trans1Desc: 'มีรถสองแถวจอดให้บริการบริเวณหน้าท่าเรือคลองเหีย และท่าเรือช่องหลาด สามารถเหมาหรือแชร์ค่าโดยสารไปยังที่พักโซนตำบลพรุในและอ่าวโล๊ะจากได้สะดวก (ระยะทาง ~12 กม. ใช้เวลา 15–20 นาที)',
+                trans2Title: '2. บริการเช่ารถจักรยานยนต์รายวัน',
+                trans2Desc: 'มีร้านเช่ารถจักรยานยนต์บริเวณหน้าท่าเรือและที่พัก ราคาประมาณ 250–350 บาท/วัน เหมาะสำหรับเดินทางไปรับเสื้อแข่งขัน หาของรับประทาน และเที่ยวชมรอบเกาะยาวใหญ่',
+                trans3Title: '3. บริการรถรับ-ส่งของที่พัก',
+                trans3Desc: 'รีสอร์ทและโฮมสเตย์ส่วนใหญ่ในตำบลพรุในมีบริการรถรับ-ส่งจากท่าเรือ และจัดรถรับ-ส่งนักวิ่งมายังจุดปล่อยตัวอ่าวโล๊ะจากในช่วงเช้ามืดวันแข่งขัน (แนะนำให้แจ้งที่พักล่วงหน้าขณะจอง)',
+                stayBadge: 'ที่พักแนะนำสำหรับนักวิ่ง',
+                stayTitle: 'โซนที่พักใกล้จุดปล่อยตัวอ่าวโล๊ะจาก',
+                stayDesc: 'เลือกโซนที่พักให้เหมาะกับสไตล์การเดินทางของคุณ ทั้งโซนใกล้จุดปล่อยตัวในตำบลพรุใน โซนริมทะเลฝั่งตะวันตก และโฮมสเตย์วิถีชุมชน',
+                zone1Tag: 'ZONE 1 • ห่างจุดปล่อยตัว 0–3 กม.',
+                zone1Title: 'โซนอ่าวโล๊ะจาก & บ้านพรุใน',
+                zone1Desc: 'พื้นที่ใกล้จุดปล่อยตัวและเส้นชัยมากที่สุด สามารถเดินหรือนั่งรถเพียง 5 นาทีถึงบริเวณงานในเช้ามืด เหมาะสำหรับนักวิ่งที่ต้องการความสะดวกในการรับเสื้อและเช็คบิบเวลา 05.00 น.',
+                zone1Li1: '• รีสอร์ทขนาดเล็กและบังกะโลริมหาดอ่าวโล๊ะจาก',
+                zone1Li2: '• บ้านพักรับรองและห้องพักรายวันในชุมชนพรุใน',
+                zone1Li3: '• ใกล้ร้านอาหารพื้นบ้านและตลาดชุมชน',
+                zone2Tag: 'ZONE 2 • ห่างจุดปล่อยตัว 4–8 กม.',
+                zone2Title: 'โซนหาดสน – อ่าวคลองสน – หาดโล๊ะปาแรด',
+                zone2Desc: 'โซนรีสอร์ทริมทะเลบรรยากาศเงียบสงบทางฝั่งตะวันตกของเกาะ มีที่พักให้เลือกหลากหลายระดับ ตั้งแต่บูทีครีสอร์ทไปจนถึงพูลวิลล่าริมชายหาด ใช้เวลาเดินทางมาอ่าวโล๊ะจากประมาณ 10–15 นาที',
+                zone2Li1: '• เหมาะสำหรับนักวิ่งที่พาครอบครัวมาพักผ่อน',
+                zone2Li2: '• วิวพระอาทิตย์ตกและหมู่เกาะฝั่งภูเก็ตสวยงาม',
+                zone2Li3: '• มีบริการรถรับ-ส่งและรถเช่าครบครัน',
+                zone3Tag: 'ZONE 3 • ห่างจุดปล่อยตัว 10–16 กม.',
+                zone3Title: 'โซนคลองเหีย – อ่าวหินกอง – แหลมหาด',
+                zone3Desc: 'โซนใกล้ท่าเรือหลัก (คลองเหีย) และจุดชมวิวสันทรายแหลมหาด เหมาะสำหรับผู้ที่เดินทางด้วยเรือรอบบ่ายแก่ ๆ และต้องการพักใกล้แหล่งท่องเที่ยวสำคัญทางตอนเหนือของเกาะ',
+                zone3Li1: '• เดินทางจากท่าเรือคลองเหียถึงที่พักใน 5 นาที',
+                zone3Li2: '• ใกล้จุดถ่ายภาพทะเลแหวกแหลมหาด',
+                zone3Li3: '• ใช้เวลาเดินทางไปจุดปล่อยตัว ~20 นาที',
+                attrBadge: 'กิน เที่ยว พักผ่อนหลังเข้าเส้นชัย',
+                attrTitle: 'สัมผัสเสน่ห์เกาะยาวใหญ่ & อาหารพื้นบ้าน',
+                attrDesc: 'หลังจบการแข่งขันในช่วงเช้า ขอเชิญร่วมลิ้มรสอาหารทะเลสดใหม่และแวะเช็กอินจุดท่องเที่ยวสำคัญของตำบลพรุใน โดยกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว',
+                attr1Title: 'แหลมหาด (สันทรายทะเลแหวก)',
+                attr1Desc: 'หาดทรายสีขาวทอดยาวกลางน้ำทะเลสีมรกต ฉากหลังเป็นเกาะยาวน้อยและอ่าวพังงา แนะนำให้ตรวจสอบเวลาน้ำลงเพื่อเดินบนสันทราย',
+                attr2Title: 'สะพานท่าเรืออ่าวโล๊ะจาก',
+                attr2Desc: 'จุดชมพระอาทิตย์ตกที่งดงามที่สุดแห่งหนึ่งบนเกาะยาวใหญ่ ตั้งอยู่ติดกับบริเวณจุดปล่อยตัวและเส้นชัยของกิจกรรมวิ่งเปิดโลกทะเล',
+                attr3Title: 'กระชังกุ้งมังกร & ซีฟู้ดพื้นบ้าน',
+                attr3Desc: 'ลิ้มรสอาหารทะเลสดจากกระชังชาวประมงพื้นบ้านตำบลพรุใน อาทิ กุ้งมังกรเจ็ดสี ปลาเก๋านึ่งซีอิ๊ว แกงส้มปลากะพง และขนมพื้นเมืองเกาะยาว',
+                ctaBottom: 'พร้อมแล้วคลิก! สมัครเข้าร่วมแข่งขันวิ่งเปิดโลกทะเล 2570',
+                footerBrandTitle: 'เปิดโลกทะเล 2570',
+                footerBrandSub: 'เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา',
+                footerDesc: 'กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่',
+                footerMenuTitle: 'เมนูนำทาง',
+                fNavHome: 'หน้าแรก',
+                fNavReg: 'สมัครแข่งขันออนไลน์',
+                fNavStatus: 'ตรวจสถานะ & พิมพ์ E-Bib',
+                fNavGuide: 'คู่มือเดินทาง & ตารางเรือ',
+                fNavAdmin: 'ระบบเจ้าหน้าที่ (Admin)',
+                footerContactTitle: 'กองอำนวยการจัดการแข่งขัน',
+                footerContactDesc: 'สำนักงานเทศบาลตำบลพรุใน<br>อำเภอเกาะยาว จังหวัดพังงา 82160<br>โทรศัพท์: 076-597-504<br>อีเมล: contact@phrunai.go.th',
+                footerCopy: '© 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.'
+            },
+            en: {
+                pageTitle: 'Travel Guide, Ferry Schedules & Stays | Koh Yao Yai Open Sea Run 2027',
+                brandTitle: 'Open Sea Run 2027',
+                brandSub: 'Phru Nai Municipality • Koh Yao Yai',
+                navHome: 'Home',
+                navHomeMain: 'Home Overview',
+                navSchedule: 'Schedule',
+                navCategories: 'Categories & Fees',
+                navPrizes: 'Prizes & Medals',
+                navRoutes: 'Race Routes',
+                navKit: 'Race Shirt',
+                navGuide: 'Travel Guide',
+                navStatus: 'Status & E-Bib',
+                navAdmin: 'Staff',
+                navRegister: 'Register Now',
+                heroBadge: 'RUNNER TRAVEL & HOSPITALITY GUIDE • KOH YAO YAI, PHANG NGA',
+                heroTitle1: 'Travel Guide, Ferry Timetables',
+                heroTitle2: '& Recommended Stays Near Ao Loh Jak Start Line',
+                heroDesc: 'Plan a smooth and punctual trip to Ko Yao District, Phang Nga Province for runners and companions joining the <strong>Koh Yao Yai Open Sea Run 2027</strong>, organized by Phru Nai Subdistrict Municipality in collaboration with the Community-Based Tourism Enterprise Group on Sunday, January 31, 2027.',
+                heroBtnFerry: 'View Ferry Schedules ↓',
+                heroBtnMap: 'Open Start Line Map (Ao Loh Jak) ↗',
+                noticeTag: 'IMPORTANT ADVISORY FOR VISITING & INTERNATIONAL RUNNERS',
+                noticeTitle: 'Please arrive on Koh Yao Yai no later than Saturday, January 30, 2027 before 16:00',
+                noticeDesc: 'The earliest morning ferries from Phuket and Krabi depart at 07:30, which is after the <strong>05:00 BIB check-in</strong> on Sunday, January 31, 2027. All runners must also collect their race shirt and BIB on <strong>Saturday, January 30, 2027 (10:00–18:00)</strong> at the Race Command Tent, Ao Loh Jak.',
+                ferryBadge: 'ACTUAL BOAT & SPEEDBOAT SCHEDULES',
+                ferryTitle: 'Ferry & Speedboat Timetables to Koh Yao Yai',
+                ferryDesc: 'Complete operator timetables serving Koh Yao Yai from Phuket (Bang Rong / Laem Hin / Rassada / Tiansin), Krabi (Tha Len / Ao Nang / Railay), Koh Yao Noi, Phi Phi, and Lanta.',
+                tabFerryAll: 'All Routes',
+                tabFerryPhuket: 'Phuket ↔ Koh Yao Yai',
+                tabFerryKrabi: 'Krabi / Ao Nang / Railay',
+                tabFerryIslands: 'Koh Yao Noi / Phi Phi / Lanta',
+                c1Tag: 'ROUTE 1 • PHUKET (BANG RONG PIER) ↔ KOH YAO YAI (CHONG LARD PIER)',
+                c1Title: 'Bang Rong (Phuket) ↔ Chong Lard (Koh Yao Yai) Speedboat Timetable',
+                c1Badge: '9 Daily Trips • Solomon / Joakoh / Suwimol',
+                c1Desc: '<strong>Main Phuket Route:</strong> Daily speedboat services operated by <strong>Solomon Speed Boat</strong> (085-788-4034), <strong>Joakoh</strong> (082-806-7688), and <strong>Suwimol</strong> (080-164-3103).',
+                c1OutHead: 'From Phuket (Bang Rong Pier) → Chong Lard',
+                c1InHead: 'From Koh Yao Yai (Chong Lard Pier) → Bang Rong',
+                colTime: 'Departure',
+                colBoat: 'Operator / Boat',
+                colTime2: 'Departure',
+                colBoat2: 'Operator / Boat',
+                lblJoakoh: '',
+                lblSuwimol: '',
+                c1Note: '<strong>Solomon Speed Boat Group Dedicated Departures:</strong> From Phuket 08:30 / 10:30 / 14:30 • From Koh Yao Yai 09:30 / 11:30 / 16:00 (Tel: 085-788-4034) • Note: Morning Suwimol return shows 07:30 on Time Table board / 07:50 on Chong Lard Pier board.',
+                c2Tag: 'ROUTE 2 • KRABI (THA LEN PIER) ↔ KOH YAO YAI',
+                c2Title: 'Thanchanok Speedboat (Koh Yao Yai – Tha Len)',
+                c2Badge: '3 Daily Round Trips',
+                c2OutHead: 'From Koh Yao Yai → Tha Len',
+                c2InHead: 'From Tha Len (Krabi) → Koh Yao Yai',
+                boatSpeed: 'Speedboat',
+                boatLongtail: 'Long-tail Boat',
+                c2Contact: '<strong>Thanchanok Speedboat Contact:</strong> Tel <a href="tel:0808938954" style="font-weight:700; text-decoration:underline;">080-893-8954</a>, <a href="tel:0878921458" style="font-weight:700; text-decoration:underline;">087-892-1458</a>',
+                c3Tag: 'ROUTE 3 • LOHJARK / KHLONG HIA / CHONG LARD PIERS',
+                c3Title: 'Lohjark ↔ Tiansin, Khlong Hia & Chong Lard → Ao Nang / Phi Phi',
+                c3Badge: 'Closest to Race Venue',
+                c3Sub1: '1. From Lohjark Pier (Race Venue) ↔ Tiansin Pier (Phuket)',
+                c3Sub1Detail: '• Trip 1: Departure <strong>07:00 AM</strong> / Arrival–Return <strong>11:30 AM</strong><br>• Trip 2: Departure <strong>09:00 AM</strong> / Arrival–Return <strong>03:00 PM</strong>',
+                c3Sub2: '2. From Khlong Hia Pier → Bang Rong Pier (Phuket)',
+                c3Sub2Detail: '• <strong>12:00 PM</strong> — <strong>Green Planet</strong> Speedboat',
+                c3Sub3: '3. From Chong Lard Pier → Ao Nang / Phi Phi Islands',
+                c3Sub3Detail: '• <strong>To Ao Nang:</strong> 09:00 AM / 11:00 AM / 11:30 AM / 01:00 PM (<strong>Sun Smile</strong>)<br>• <strong>To Phi Phi:</strong> 09:00 AM (Sun Smile) / 11:00 AM (Sun Smile) / 11:40 AM (<strong>A.Rida</strong>) / 01:00 PM (Sun Smile)',
+                c4Tag: 'ROUTE 4 • GREEN PLANET TRANSPORT (PHUKET ↔ KOH YAO YAI ↔ KOH YAO NOI ↔ KRABI)',
+                c4Title: 'Green Planet Speedboat (Laem Hin / Bang Rong – Khlong Hia – Ao Nang – Railay)',
+                c4Badge: 'Stops at Khlong Hia Pier, Koh Yao Yai',
+                c4OutHead: 'From Phuket → Koh Yao Yai → Koh Yao Noi → Ao Nang → Railay',
+                c4Out1Title: 'Trip 1 (Laem Hin Pier):',
+                c4Out1Stops: '<span class="ferry-stop-pill">Phuket Laem Hin <strong>13:00</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>13:40</strong></span> › <span class="ferry-stop-pill">Manoh <strong>13:50</strong></span> › <span class="ferry-stop-pill">Ao Nang <strong>14:30</strong></span> › <span class="ferry-stop-pill">Railay <strong>15:00</strong></span>',
+                c4Out2Title: 'Trip 2 (Laem Hin Pier):',
+                c4Out2Stops: '<span class="ferry-stop-pill">Phuket Laem Hin <strong>14:30</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>15:10</strong></span> › <span class="ferry-stop-pill">Manoh <strong>15:20</strong></span> › <span class="ferry-stop-pill">Ao Nang <strong>16:00</strong></span> › <span class="ferry-stop-pill">Railay <strong>16:30</strong></span>',
+                c4Out3Title: 'Trip 3 (Bang Rong Pier):',
+                c4Out3Stops: '<span class="ferry-stop-pill">Phuket Bang Rong <strong>15:00</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>15:30</strong></span> › <span class="ferry-stop-pill">Manoh <strong>15:40</strong></span> › <span class="ferry-stop-pill">Ao Nang <strong>16:20</strong></span> › <span class="ferry-stop-pill">Railay <strong>16:50</strong></span>',
+                c4InHead: 'From Railay / Ao Nang → Koh Yao Noi → Koh Yao Yai → Phuket',
+                c4In1Title: 'Trip 1 (To Laem Hin):',
+                c4In1Stops: '<span class="ferry-stop-pill">Railay <strong>09:20</strong></span> › <span class="ferry-stop-pill">Ao Nang <strong>10:00</strong></span> › <span class="ferry-stop-pill">Manoh <strong>10:40</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>10:50</strong></span> › <span class="ferry-stop-pill">Laem Hin <strong>11:30</strong></span>',
+                c4In2Title: 'Trip 2 (To Bang Rong):',
+                c4In2Stops: '<span class="ferry-stop-pill">Railay <strong>10:40</strong></span> › <span class="ferry-stop-pill">Ao Nang <strong>11:20</strong></span> › <span class="ferry-stop-pill">Manoh <strong>11:50</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>12:00</strong></span> › <span class="ferry-stop-pill">Bang Rong <strong>12:40</strong></span>',
+                c4In3Title: 'Trip 3 (To Laem Hin):',
+                c4In3Stops: '<span class="ferry-stop-pill">Ao Nang <strong>12:30</strong></span> › <span class="ferry-stop-pill">Railay <strong>12:50</strong></span> › <span class="ferry-stop-pill">Manoh <strong>13:20</strong></span> › <span class="ferry-stop-pill highlight">Khlong Hia <strong>13:30</strong></span> › <span class="ferry-stop-pill">Laem Hin <strong>14:10</strong></span>',
+                c4Note: '<strong>Green Planet Transport Contact:</strong> Tel 080-526-1001, 075-637-488 • WhatsApp +66 62 851 4763 • LINE: 080 526 1001 • Piers: Khlong Hia (Yao Yai) / Manoh (Yao Noi) / Nopparat Thara (Ao Nang) / Floating Pier (Railay).',
+                c5Tag: 'ROUTE 5 • BUNDHAYA SPEED BOAT (HIGH SEASON 2026–2027)',
+                c5Title: 'Bundhaya Speed Boat (Koh Yao ↔ Phuket Rassada / Phi Phi / Ao Nang / Lanta)',
+                c5Badge: 'Direct High Season',
+                c5R1Title: '1. Koh Yao – Ao Nang – Railay – Koh Jum – Koh Lanta',
+                c5R1Time: 'Koh Yao Yai <strong>09:20 AM</strong> • Koh Yao Noi <strong>09:30 AM</strong>',
+                c5R2Title: '2. Koh Yao – Phi Phi (Direct)',
+                c5R2Time: 'Koh Yao Yai <strong>09:50 AM</strong> • Koh Yao Noi <strong>10:00 AM</strong>',
+                c5R3Title: '3. Koh Yao – Phuket Rassada Pier (Direct)',
+                c5R3Time: 'Koh Yao Noi <strong>02:50 PM</strong> • Koh Yao Yai <strong>03:00 PM</strong>',
+                c5Note: '<strong>Notes & Booking:</strong> Schedule notice states service from 15–31 Oct 2026 (please confirm Jan 2027 high-season times ahead) • Tel 090-599-7445, 082-787-4745 • LINE ID: op1aonang',
+                c6Tag: 'ROUTE 6 • BANG RONG (PHUKET) ↔ MANOH PIER (KOH YAO NOI) + SHUTTLE TO KOH YAO YAI',
+                c6Title: 'Bang Rong ↔ Koh Yao Noi (Manoh Pier) + Shuttle to Chong Lard',
+                c6Badge: 'Eff. 15/4/69 • Speedboat 500 THB / Long-tail 400 THB',
+                c6OutHead: 'From Phuket (Bang Rong) → Koh Yao Noi',
+                c6InHead: 'From Koh Yao Noi (Manoh Pier) → Phuket',
+                c6Note: '<strong>Duration & Fare:</strong> Speedboat 30 mins (500 THB) / Long-tail 1 hr (400 THB) • From Manoh Pier (Koh Yao Noi), cross by shuttle long-tail boat to <strong>Chong Lard Pier (Koh Yao Yai)</strong> (~10 mins, ~50 THB/trip).',
+                contactDirTitle: 'Boat Operator Contacts & Seat Reservations Directory',
+                op1Name: 'Thanchanok Speedboat (Tha Len ↔ Koh Yao Yai)',
+                op2Name: 'Solomon Speed Boat (Bang Rong ↔ Chong Lard)',
+                op3Name: 'Joakoh Speedboat (Bang Rong ↔ Chong Lard)',
+                op4Name: 'Suwimol Speedboat (Bang Rong ↔ Chong Lard)',
+                op5Name: 'Green Planet (Phuket ↔ Koh Yao ↔ Krabi)',
+                op6Name: 'Bundhaya Speed Boat (Rassada / Phi Phi / Lanta)',
+                localTransTitle: 'Getting Around Koh Yao Yai (Khlong Hia / Chong Lard Pier → Ao Loh Jak)',
+                trans1Title: '1. Local Songthaew & Island Taxi',
+                trans1Desc: 'Open-air local trucks (Songthaew) wait right outside Khlong Hia and Chong Lard piers for private hire or shared rides to Phru Nai and Ao Loh Jak (~12 km, 15–20 mins).',
+                trans2Title: '2. Daily Motorbike Rentals',
+                trans2Desc: 'Motorbike rentals are available near the piers and resorts at ~250–350 THB/day—ideal for picking up your race pack, dining locally, and exploring the island.',
+                trans3Title: '3. Hotel & Homestay Transfers',
+                trans3Desc: 'Most resorts and community homestays in Phru Nai offer pier transfers and early-morning race shuttles to Ao Loh Jak (please arrange with your host upon booking).',
+                stayBadge: 'RUNNER ACCOMMODATIONS',
+                stayTitle: 'Accommodation Zones Near Ao Loh Jak Start Line',
+                stayDesc: 'Choose an accommodation zone suited to your itinerary—from steps away from the start line in Phru Nai to tranquil west-coast beachfront resorts.',
+                zone1Tag: 'ZONE 1 • 0–3 KM FROM START LINE',
+                zone1Title: 'Ao Loh Jak & Ban Phru Nai Zone',
+                zone1Desc: 'Closest to the start/finish line—only a 5-minute walk or ride in the early morning. Ideal for runners seeking maximum convenience for race pack pickup and 05:00 check-in.',
+                zone1Li1: '• Boutique beachfront bungalows along Ao Loh Jak',
+                zone1Li2: '• Local guesthouses and community homestays in Phru Nai',
+                zone1Li3: '• Walking distance to local eateries and community markets',
+                zone2Tag: 'ZONE 2 • 4–8 KM FROM START LINE',
+                zone2Title: 'Son Bay – Khlong Son – Loh Pared Beach',
+                zone2Desc: 'Peaceful beachfront resorts along the west coast ranging from boutique stays to oceanfront pool villas, located just 10–15 minutes from Ao Loh Jak.',
+                zone2Li1: '• Great for runners traveling with family and friends',
+                zone2Li2: '• Panoramic sunset views overlooking Phuket islands',
+                zone2Li3: '• Full shuttle transfer and motorbike rental services',
+                zone3Tag: 'ZONE 3 • 10–16 KM FROM START LINE',
+                zone3Title: 'Khlong Hia – Hin Kong Bay – Laem Had',
+                zone3Desc: 'Conveniently close to the main ferry pier (Khlong Hia) and the iconic Laem Had sandbar—ideal for late-afternoon arrivals and northern island sightseeing.',
+                zone3Li1: '• Only 5 minutes from Khlong Hia Pier',
+                zone3Li2: '• Steps away from Laem Had Sandbar viewpoint',
+                zone3Li3: '• Approx. 20 minutes drive to the race start line',
+                attrBadge: 'DINE, EXPLORE & RELAX POST-RACE',
+                attrTitle: 'Discover Koh Yao Yai & Local Gastronomy',
+                attrDesc: 'After crossing the finish line, enjoy fresh Andaman seafood and explore signature landmarks across Phru Nai Subdistrict curated with our Community-Based Tourism Enterprise.',
+                attr1Title: 'Laem Had (Emerald Sandbar)',
+                attr1Desc: 'A dramatic white-sand spit stretching into turquoise waters facing Koh Yao Noi and Phang Nga Bay. Check low-tide hours for a scenic sandbar walk.',
+                attr2Title: 'Ao Loh Jak Pier Viewpoint',
+                attr2Desc: 'One of the finest sunset viewpoints on Koh Yao Yai, situated right next to the Open Sea Run start and finish venue.',
+                attr3Title: 'Floating Lobster Farms & Local Seafood',
+                attr3Desc: 'Savor freshly harvested seafood from Phru Nai fishermen’s floating pens, including seven-color spiny lobster, steamed grouper, and traditional island desserts.',
+                ctaBottom: 'Ready to Run? Register for Koh Yao Yai Open Sea Run 2027',
+                footerBrandTitle: 'Open Sea Run 2027',
+                footerBrandSub: 'Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province',
+                footerDesc: 'Koh Yao Yai Open Sea Run 2027 is organized by Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group to promote public health, local economy, and sustainable ecotourism.',
+                footerMenuTitle: 'NAVIGATION',
+                fNavHome: 'Home',
+                fNavReg: 'Online Registration',
+                fNavStatus: 'Check Status & E-Bib',
+                fNavGuide: 'Travel Guide & Ferry',
+                fNavAdmin: 'Staff Portal (Admin)',
+                footerContactTitle: 'RACE OPERATIONS HEADQUARTERS',
+                footerContactDesc: 'Phru Nai Subdistrict Municipal Office<br>Ko Yao District, Phang Nga 82160, Thailand<br>Tel: +66 76-597-504<br>Email: contact@phrunai.go.th',
+                footerCopy: '© 2027 Koh Yao Yai Open Sea Run 2027. All rights reserved by Phru Nai Subdistrict Municipality, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group.'
+            }
+        };
 
-        if (mobileToggleBtn && navMenuEl) {
-            mobileToggleBtn.addEventListener('click', function () {
-                navMenuEl.classList.toggle('open');
-            });
+        function filterFerryRoutes(group, btnEl) {
+            document.querySelectorAll('.ferry-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
 
-            navMenuEl.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenuEl.classList.remove('open');
-                });
+            document.querySelectorAll('[data-ferry-group]').forEach(card => {
+                if (group === 'all') {
+                    card.style.display = '';
+                } else {
+                    const groups = (card.getAttribute('data-ferry-group') || '').split(/\s+/);
+                    card.style.display = groups.includes(group) ? '' : 'none';
+                }
             });
         }
+
+        function setGuideLang(lang) {
+            const selected = (lang === 'en') ? 'en' : 'th';
+            const dict = GUIDE_I18N[selected];
+            if (!dict) return;
+
+            document.documentElement.lang = selected;
+            document.title = dict.pageTitle;
+            localStorage.setItem('KOHYAO_LANG', selected);
+
+            document.getElementById('langBtnTh').classList.toggle('active', selected === 'th');
+            document.getElementById('langBtnEn').classList.toggle('active', selected === 'en');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    el.innerHTML = dict[key];
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlLang = params.get('lang');
+            const savedLang = urlLang || localStorage.getItem('KOHYAO_LANG') || localStorage.getItem('KOHYAO_SITE_LANG') || 'th';
+            setGuideLang(savedLang);
+        });
     </script>
 </body>
 </html>

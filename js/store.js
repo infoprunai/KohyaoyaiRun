@@ -20,7 +20,7 @@ const KohYaoStore = (function () {
             distance: '5 กม.',
             price: 350,
             quota: 200,
-            startTime: '05.30 น.',
+            startTime: '06.00 น.',
             prefix: '5K-',
             color: '#06B6D4',
             accent: '#0E7490'
@@ -30,23 +30,23 @@ const KohYaoStore = (function () {
             distance: '10 กม.',
             price: 450,
             quota: 200,
-            startTime: '06.00 น.',
+            startTime: '05.30 น.',
             prefix: '10K-',
             color: '#F59E0B',
             accent: '#D97706'
         }
     };
 
-    const LONG_SLEEVE_SURCHARGE = 50;
+    const LONG_SLEEVE_SURCHARGE = 80;
 
     const SHIRT_SIZES = [
-        { size: 'XS', chest: 34, length: 25 },
-        { size: 'S',  chest: 36, length: 26 },
-        { size: 'M',  chest: 38, length: 27 },
-        { size: 'L',  chest: 40, length: 28 },
-        { size: 'XL', chest: 42, length: 29 },
-        { size: '2XL', chest: 44, length: 30 },
-        { size: '3XL', chest: 46, length: 31 }
+        { size: '2XS', chest: 34, length: 25 },
+        { size: 'XS',  chest: 36, length: 26 },
+        { size: 'S',   chest: 38, length: 27 },
+        { size: 'M',   chest: 40, length: 28 },
+        { size: 'L',   chest: 42, length: 29 },
+        { size: 'XL',  chest: 44, length: 30 },
+        { size: '2XL', chest: 46, length: 31 }
     ];
 
     const STATUS = {
@@ -97,30 +97,66 @@ const KohYaoStore = (function () {
     }
 
     function calculateAge(birthDateStr) {
-        if (!birthDateStr) return { age: 0, group: 'ทั่วไป' };
+        if (!birthDateStr) return { age: 0 };
         const birth = new Date(birthDateStr);
+        if (isNaN(birth.getTime())) return { age: 0 };
         const eventDate = new Date('2027-01-31');
         let age = eventDate.getFullYear() - birth.getFullYear();
         const m = eventDate.getMonth() - birth.getMonth();
         if (m < 0 || (m === 0 && eventDate.getDate() < birth.getDate())) {
             age--;
         }
+        return { age: Math.max(0, age) };
+    }
 
-        let group = 'ทั่วไป';
-        if (age < 20) group = 'ต่ำกว่า 20 ปี';
-        else if (age <= 29) group = '20-29 ปี';
-        else if (age <= 39) group = '30-39 ปี';
-        else if (age <= 49) group = '40-49 ปี';
-        else if (age <= 59) group = '50-59 ปี';
-        else group = '60 ปีขึ้นไป';
+    function normalizeShirtType(rawType) {
+        const val = String(rawType || '').trim().toUpperCase();
+        if (val === 'LONG' || rawType === 'แขนยาว') return 'แขนยาว';
+        return 'แขนสั้น';
+    }
 
-        return { age, group };
+    // แปลงฟิลด์ข้อมูลนักวิ่งให้รองรับทั้งชื่อฟิลด์จาก Google Sheets และหน้าเว็บเดิม
+    function normalizeRunner(r) {
+        if (!r || typeof r !== 'object') return r;
+        const firstName = String(r.firstName || '').trim();
+        const lastName = String(r.lastName || '').trim();
+        const fullName = String(r.fullName || `${firstName} ${lastName}`.trim()).trim();
+        const idCard = String(r.idCard || r.nationalId || '').trim();
+        const shirtType = normalizeShirtType(r.shirtType || r.sleeveType);
+        const emergencyContact = String(r.emergencyContact || r.emergencyName || '').trim();
+        const medicalConditions = String(r.medicalConditions || r.medicalInfo || '').trim() || 'ไม่มี';
+
+        return Object.assign({}, r, {
+            firstName,
+            lastName,
+            fullName,
+            idCard,
+            nationalId: idCard,
+            shirtType,
+            sleeveType: r.sleeveType || (shirtType === 'แขนยาว' ? 'LONG' : 'SHORT'),
+            emergencyContact,
+            emergencyName: emergencyContact,
+            medicalConditions,
+            medicalInfo: medicalConditions
+        });
     }
 
     function calculateFee(category, shirtType = 'แขนสั้น') {
         const categoryInfo = CATEGORIES[category] || CATEGORIES['5K'];
-        const extra = (shirtType === 'แขนยาว') ? LONG_SLEEVE_SURCHARGE : 0;
+        const normalizedType = normalizeShirtType(shirtType);
+        const extra = (normalizedType === 'แขนยาว') ? LONG_SLEEVE_SURCHARGE : 0;
         return categoryInfo.price + extra;
+    }
+
+    function splitFullName(fullName) {
+        const cleaned = String(fullName || '').trim().replace(/\s+/g, ' ');
+        if (!cleaned) return { firstName: '', lastName: '' };
+        const parts = cleaned.split(' ');
+        if (parts.length === 1) return { firstName: parts[0], lastName: '-' };
+        return {
+            firstName: parts[0],
+            lastName: parts.slice(1).join(' ')
+        };
     }
 
     function computeHash(str) {
@@ -209,6 +245,168 @@ const KohYaoStore = (function () {
         }
     }
 
+    async function findExistingByIdCard(idCard) {
+        const cleanId = (idCard || '').trim();
+        if (!cleanId) return null;
+
+        if (GOOGLE_SCRIPT_URL) {
+            try {
+                const res = await callGoogleScript('search', { keyword: cleanId }, 'GET');
+                if (res && res.success && Array.isArray(res.runners)) {
+                    const found = res.runners.find(r => String(r.idCard || r.nationalId || '').trim() === cleanId);
+                    return found ? normalizeRunner(found) : null;
+                }
+            } catch (e) {
+                console.warn('Google Sheets ID check error:', e);
+            }
+            return null;
+        }
+
+        const db = loadDB();
+        const found = db.registrations.find(r => (r.idCard || r.nationalId) === cleanId);
+        return found ? normalizeRunner(found) : null;
+    }
+
+    function cacheLastRegistered(runnerObj) {
+        try {
+            if (!runnerObj) return;
+            const jsonStr = JSON.stringify(runnerObj);
+            sessionStorage.setItem('LAST_REGISTERED_DATA', jsonStr);
+            localStorage.setItem('LAST_REGISTERED_DATA', jsonStr);
+            if (runnerObj.idCard) {
+                sessionStorage.setItem('LAST_REGISTERED_ID', runnerObj.idCard);
+                localStorage.setItem('LAST_REGISTERED_ID', runnerObj.idCard);
+            }
+            if (runnerObj.id) {
+                sessionStorage.setItem('LAST_REGISTERED_REG_ID', runnerObj.id);
+                localStorage.setItem('LAST_REGISTERED_REG_ID', runnerObj.id);
+            }
+        } catch (e) {}
+    }
+
+    async function createRegistration(data = {}) {
+        const parsedName = splitFullName(data.fullName);
+        const firstName = String(data.firstName || parsedName.firstName || '').trim();
+        const lastName = String(data.lastName || parsedName.lastName || '').trim();
+        const idCard = String(data.idCard || data.nationalId || '').trim();
+
+        const computedAge = (data.age !== undefined && data.age !== '')
+            ? Number(data.age)
+            : calculateAge(data.birthDate).age;
+        const shirtType = normalizeShirtType(data.shirtType || data.sleeveType);
+        const slipUrl = data.slipUrl || data.slipBase64 || '';
+        const slipHash = data.slipHash || computeHash(slipUrl);
+        const totalAmount = Number(data.amount) || calculateFee(data.category, shirtType);
+
+        const emergencyContact = String(data.emergencyContact || data.emergencyName || '').trim();
+        const emergencyPhone = String(data.emergencyPhone || '').trim();
+        const medicalConditions = String(data.medicalConditions || data.medicalInfo || '').trim() || 'ไม่มี';
+
+        if (GOOGLE_SCRIPT_URL) {
+            const res = await callGoogleScript('register', {
+                category: data.category,
+                firstName,
+                lastName,
+                fullName: data.fullName || `${firstName} ${lastName}`.trim(),
+                idCard,
+                nationalId: idCard,
+                gender: data.gender,
+                birthDate: data.birthDate,
+                age: computedAge,
+                shirtSize: data.shirtSize,
+                shirtType,
+                sleeveType: data.sleeveType || (shirtType === 'แขนยาว' ? 'LONG' : 'SHORT'),
+                phone: String(data.phone || '').trim(),
+                email: String(data.email || '').trim(),
+                province: String(data.province || '').trim(),
+                bloodType: data.bloodType || 'ไม่ระบุ',
+                emergencyContact,
+                emergencyPhone,
+                medicalConditions,
+                transferDate: data.transferDate || '',
+                transferTime: data.transferTime || '',
+                base64Slip: slipUrl,
+                slipHash,
+                amount: totalAmount
+            }, 'POST');
+
+            if (res && res.success) {
+                const createdData = normalizeRunner(Object.assign({
+                    category: data.category,
+                    firstName,
+                    lastName,
+                    fullName: data.fullName || `${firstName} ${lastName}`.trim(),
+                    idCard,
+                    gender: data.gender,
+                    birthDate: data.birthDate,
+                    age: computedAge,
+                    shirtSize: data.shirtSize,
+                    shirtType,
+                    phone: String(data.phone || '').trim(),
+                    email: String(data.email || '').trim(),
+                    province: String(data.province || '').trim(),
+                    emergencyContact,
+                    emergencyPhone,
+                    medicalConditions,
+                    transferDate: data.transferDate || '',
+                    transferTime: data.transferTime || '',
+                    amount: totalAmount,
+                    status: STATUS.PENDING
+                }, res.data || {}));
+
+                cacheLastRegistered(createdData);
+                return createdData;
+            } else {
+                throw new Error((res && res.message) || 'บันทึกข้อมูลลง Google Sheets ไม่สำเร็จ');
+            }
+        }
+
+        // Local Fallback (กรณีไม่ได้ตั้งค่า URL)
+        const db = loadDB();
+        const existing = db.registrations.find(r => (r.idCard || r.nationalId) === idCard);
+        if (existing) {
+            throw new Error(`เลขบัตรประชาชน / พาสปอร์ต ${idCard} มีการลงทะเบียนในระบบแล้ว`);
+        }
+
+        const regId = `KYR-2570-${String(db.registrations.length + 1).padStart(3, '0')}`;
+        const newReg = normalizeRunner({
+            id: regId,
+            category: data.category,
+            bibNumber: null,
+            status: STATUS.PENDING,
+            firstName,
+            lastName,
+            fullName: data.fullName || `${firstName} ${lastName}`.trim(),
+            idCard,
+            phone: String(data.phone || '').trim(),
+            email: String(data.email || '').trim(),
+            province: String(data.province || '').trim(),
+            gender: data.gender,
+            birthDate: data.birthDate,
+            age: computedAge,
+            shirtSize: data.shirtSize,
+            shirtType,
+            bloodType: data.bloodType || 'ไม่ระบุ',
+            emergencyContact,
+            emergencyPhone,
+            medicalConditions,
+            transferDate: data.transferDate || '',
+            transferTime: data.transferTime || '',
+            slipUrl,
+            slipBase64: slipUrl,
+            slipHash,
+            amount: totalAmount,
+            createdAt: new Date().toISOString(),
+            approvedAt: null,
+            adminNotes: ''
+        });
+
+        db.registrations.unshift(newReg);
+        saveDB(db);
+        cacheLastRegistered(newReg);
+        return newReg;
+    }
+
     return {
         CATEGORIES,
         LONG_SLEEVE_SURCHARGE,
@@ -225,28 +423,9 @@ const KohYaoStore = (function () {
         },
         isGoogleSheetsActive() { return Boolean(GOOGLE_SCRIPT_URL); },
 
-        // ตรวจสอบเลขบัตรประชาชนจาก Google Sheets จริง
-        async findExistingByIdCard(idCard) {
-            const cleanId = (idCard || '').trim();
-            if (!cleanId) return null;
+        findExistingByIdCard,
+        findByNationalId: findExistingByIdCard,
 
-            if (GOOGLE_SCRIPT_URL) {
-                try {
-                    const res = await callGoogleScript('search', { keyword: cleanId }, 'GET');
-                    if (res && res.success && Array.isArray(res.runners)) {
-                        return res.runners.find(r => String(r.idCard).trim() === cleanId) || null;
-                    }
-                } catch (e) {
-                    console.warn('Google Sheets ID check error:', e);
-                }
-                return null;
-            }
-
-            const db = loadDB();
-            return db.registrations.find(r => r.idCard === cleanId) || null;
-        },
-
-        // ตรวจสอบสลิปซ้ำ (ทำงานร่วมกับทั้ง admin.html และ register.html)
         checkDuplicateSlip(slipHash, excludeRegId = null) {
             if (!slipHash) return null;
 
@@ -262,83 +441,9 @@ const KohYaoStore = (function () {
             ) || null;
         },
 
-        // 1. CREATE REGISTRATION
-        async createRegistration(data) {
-            const { age, group } = calculateAge(data.birthDate);
-            const shirtType = data.shirtType || 'แขนสั้น';
-            const totalAmount = Number(data.amount) || calculateFee(data.category, shirtType);
-
-            if (GOOGLE_SCRIPT_URL) {
-                const res = await callGoogleScript('register', {
-                    category: data.category,
-                    firstName: data.firstName.trim(),
-                    lastName: data.lastName.trim(),
-                    idCard: data.idCard.trim(),
-                    gender: data.gender,
-                    birthDate: data.birthDate,
-                    age: age,
-                    ageGroup: group,
-                    shirtSize: data.shirtSize,
-                    shirtType: shirtType,
-                    phone: data.phone.trim(),
-                    email: (data.email || '').trim(),
-                    bloodType: data.bloodType || 'ไม่ระบุ',
-                    emergencyContact: data.emergencyContact.trim(),
-                    emergencyPhone: data.emergencyPhone.trim(),
-                    medicalConditions: (data.medicalConditions || '').trim() || 'ไม่มี',
-                    base64Slip: data.slipUrl,
-                    slipHash: data.slipHash,
-                    amount: totalAmount
-                }, 'POST');
-
-                if (res && res.success) {
-                    return res.data;
-                } else {
-                    throw new Error((res && res.message) || 'บันทึกข้อมูลลง Google Sheets ไม่สำเร็จ');
-                }
-            }
-
-            // Local Fallback (กรณีไม่ได้ตั้งค่า URL)
-            const db = loadDB();
-            const cleanIdCard = (data.idCard || '').trim();
-            const existing = db.registrations.find(r => r.idCard === cleanIdCard);
-            if (existing) {
-                throw new Error(`เลขบัตรประชาชน ${cleanIdCard} มีการลงทะเบียนในระบบแล้ว`);
-            }
-
-            const regId = `KYR-2570-${String(db.registrations.length + 1).padStart(3, '0')}`;
-            const newReg = {
-                id: regId,
-                category: data.category,
-                bibNumber: null,
-                status: STATUS.PENDING,
-                firstName: data.firstName.trim(),
-                lastName: data.lastName.trim(),
-                idCard: cleanIdCard,
-                phone: (data.phone || '').trim(),
-                email: (data.email || '').trim(),
-                gender: data.gender,
-                birthDate: data.birthDate,
-                age: age,
-                ageGroup: group,
-                shirtSize: data.shirtSize,
-                shirtType: shirtType,
-                bloodType: data.bloodType || 'ไม่ระบุ',
-                emergencyContact: (data.emergencyContact || '').trim(),
-                emergencyPhone: (data.emergencyPhone || '').trim(),
-                medicalConditions: (data.medicalConditions || '').trim() || 'ไม่มี',
-                slipUrl: data.slipUrl || '',
-                slipHash: data.slipHash || '',
-                amount: totalAmount,
-                createdAt: new Date().toISOString(),
-                approvedAt: null,
-                adminNotes: ''
-            };
-
-            db.registrations.unshift(newReg);
-            saveDB(db);
-            return newReg;
-        },
+        // 1. CREATE REGISTRATION + ALIAS addRegistration
+        createRegistration,
+        addRegistration: createRegistration,
 
         // 2. APPROVE SLIP & ISSUE BIB
         async approveRegistration(regId, adminNotes = '') {
@@ -349,7 +454,7 @@ const KohYaoStore = (function () {
                     siteUrl: getSiteBaseUrl()
                 }, 'POST');
                 if (res && res.success) {
-                    const merged = Object.assign({}, res.data || res);
+                    const merged = normalizeRunner(Object.assign({}, res.data || res));
                     if (res.emailSent !== undefined) merged.emailSent = res.emailSent;
                     if (res.emailMessage !== undefined) merged.emailMessage = res.emailMessage;
                     return merged;
@@ -360,7 +465,7 @@ const KohYaoStore = (function () {
             const db = loadDB();
             const reg = db.registrations.find(r => r.id === regId);
             if (!reg) throw new Error('ไม่พบข้อมูลการลงทะเบียน');
-            if (reg.status === STATUS.APPROVED && reg.bibNumber) return reg;
+            if (reg.status === STATUS.APPROVED && reg.bibNumber) return normalizeRunner(reg);
 
             const cat = reg.category;
             const currentSeq = db.sequences[cat] || 0;
@@ -376,7 +481,7 @@ const KohYaoStore = (function () {
             reg.adminNotes = adminNotes || 'ตรวจสอบยอดเงินและสลิปเรียบร้อย';
 
             saveDB(db);
-            return Object.assign({}, reg, {
+            return Object.assign(normalizeRunner(reg), {
                 emailSent: false,
                 emailMessage: 'โหมดจำลอง LocalStorage (ไม่ได้ส่งอีเมลจริง)'
             });
@@ -406,7 +511,7 @@ const KohYaoStore = (function () {
             saveDB(db);
             return {
                 success: true,
-                data: reg,
+                data: normalizeRunner(reg),
                 emailSent: false,
                 emailMessage: 'โหมดจำลอง LocalStorage (ไม่ได้ส่งอีเมลจริง)'
             };
@@ -435,7 +540,7 @@ const KohYaoStore = (function () {
             reg.updatedAt = new Date().toISOString();
 
             saveDB(db);
-            return reg;
+            return normalizeRunner(reg);
         },
 
         // 5. UPDATE RUNNER PROFILE
@@ -450,7 +555,7 @@ const KohYaoStore = (function () {
             if (!reg) throw new Error('ไม่พบข้อมูลการลงทะเบียน');
 
             if (updates.shirtSize) reg.shirtSize = updates.shirtSize;
-            if (updates.shirtType) reg.shirtType = updates.shirtType;
+            if (updates.shirtType) reg.shirtType = normalizeShirtType(updates.shirtType);
             if (updates.amount !== undefined) reg.amount = Number(updates.amount);
             if (updates.phone) reg.phone = updates.phone.trim();
             if (updates.email !== undefined) reg.email = updates.email.trim();
@@ -461,7 +566,7 @@ const KohYaoStore = (function () {
 
             reg.updatedAt = new Date().toISOString();
             saveDB(db);
-            return reg;
+            return normalizeRunner(reg);
         },
 
         // 6. SEARCH RUNNER
@@ -471,41 +576,45 @@ const KohYaoStore = (function () {
 
             if (GOOGLE_SCRIPT_URL) {
                 const res = await callGoogleScript('search', { keyword: clean }, 'GET');
-                if (res && res.success && res.runners) {
-                    return res.runners;
+                if (res && res.success && Array.isArray(res.runners)) {
+                    return res.runners.map(normalizeRunner);
                 }
                 return [];
             }
 
             const db = loadDB();
-            return db.registrations.filter(r => 
-                (r.idCard && r.idCard.includes(clean)) ||
-                (r.phone && r.phone.includes(clean)) ||
-                (r.id && r.id.toLowerCase().includes(clean)) ||
-                (r.bibNumber && r.bibNumber.toLowerCase().includes(clean)) ||
-                (`${r.firstName} ${r.lastName}`.toLowerCase().includes(clean))
-            );
+            return db.registrations
+                .map(normalizeRunner)
+                .filter(r =>
+                    (r.idCard && r.idCard.toLowerCase().includes(clean)) ||
+                    (r.phone && r.phone.includes(clean)) ||
+                    (r.id && r.id.toLowerCase().includes(clean)) ||
+                    (r.bibNumber && r.bibNumber.toLowerCase().includes(clean)) ||
+                    (r.fullName && r.fullName.toLowerCase().includes(clean))
+                );
         },
 
         // 7. GET ALL REGISTRATIONS
         async getAllRegistrations() {
             if (GOOGLE_SCRIPT_URL) {
                 const res = await callGoogleScript('getAll', {}, 'GET');
-                if (res && res.success && res.runners) {
-                    _cachedRegistrations = res.runners;
-                    return res.runners;
+                if (res && res.success && Array.isArray(res.runners)) {
+                    _cachedRegistrations = res.runners.map(normalizeRunner);
+                    return _cachedRegistrations;
                 }
                 return [];
             }
             const db = loadDB();
-            return db.registrations;
+            return db.registrations.map(normalizeRunner);
         },
 
         // 8. GET SUMMARY STATS
         async getStats() {
             if (GOOGLE_SCRIPT_URL) {
                 callGoogleScript('getAll', {}, 'GET').then(r => {
-                    if (r && r.success && r.runners) _cachedRegistrations = r.runners;
+                    if (r && r.success && Array.isArray(r.runners)) {
+                        _cachedRegistrations = r.runners.map(normalizeRunner);
+                    }
                 }).catch(() => {});
 
                 const res = await callGoogleScript('getStats', {}, 'GET');
@@ -544,7 +653,7 @@ const KohYaoStore = (function () {
             approved.forEach(r => {
                 const sz = r.shirtSize || 'M';
                 shirtSizes[sz] = (shirtSizes[sz] || 0) + 1;
-                if (r.shirtType === 'แขนยาว') {
+                if (normalizeShirtType(r.shirtType || r.sleeveType) === 'แขนยาว') {
                     longSleeveSizes[sz] = (longSleeveSizes[sz] || 0) + 1;
                 } else {
                     shortSleeveSizes[sz] = (shortSleeveSizes[sz] || 0) + 1;
@@ -580,9 +689,9 @@ const KohYaoStore = (function () {
 
             const headers = [
                 'เลข BIB', 'รหัสการสมัคร', 'สถานะ', 'ระยะทาง', 'ชื่อ', 'นามสกุล',
-                'เลขบัตร ปชช.', 'เบอร์โทร', 'อีเมล', 'เพศ', 'อายุ', 'กลุ่มอายุ',
+                'เลขบัตร ปชช.', 'เบอร์โทร', 'อีเมล', 'เพศ', 'อายุ',
                 'ไซส์เสื้อ', 'รูปแบบเสื้อ', 'หมู่เลือด', 'โรคประจำตัว', 'ผู้ติดต่อฉุกเฉิน', 'เบอร์ฉุกเฉิน',
-                'ยอดเงิน (บาท)', 'วันที่สมัคร', 'วันที่อนุมัติ'
+                'ยอดเงิน (บาท)', 'วันที่สมัคร', 'วันที่อนุมัติ', 'วันที่โอนเงิน', 'เวลาที่โอนเงิน'
             ];
 
             const rows = list.map(r => [
@@ -592,21 +701,22 @@ const KohYaoStore = (function () {
                 r.category,
                 r.firstName,
                 r.lastName,
-                `'${r.idCard}`,
-                `'${r.phone}`,
+                `'${r.idCard || r.nationalId || ''}`,
+                `'${r.phone || ''}`,
                 r.email || '-',
                 r.gender,
                 r.age,
-                r.ageGroup,
                 r.shirtSize,
-                r.shirtType || 'แขนสั้น',
+                normalizeShirtType(r.shirtType || r.sleeveType),
                 r.bloodType,
-                `"${(r.medicalConditions || '-').replace(/"/g, '""')}"`,
-                r.emergencyContact,
-                `'${r.emergencyPhone}`,
+                `"${(r.medicalConditions || r.medicalInfo || '-').replace(/"/g, '""')}"`,
+                r.emergencyContact || r.emergencyName || '',
+                `'${r.emergencyPhone || ''}`,
                 r.amount,
                 r.createdAt ? r.createdAt.slice(0, 10) : '-',
-                r.approvedAt ? r.approvedAt.slice(0, 10) : '-'
+                r.approvedAt ? r.approvedAt.slice(0, 10) : '-',
+                r.transferDate || '-',
+                r.transferTime || '-'
             ]);
 
             let csvContent = '\uFEFF' + headers.join(',') + '\n';
@@ -629,35 +739,106 @@ window.KohYaoStore = KohYaoStore;
 /* ==========================================================================
    GLOBAL UI ENHANCEMENTS:
    1. STICKY TOPBAR AUTO-COMPACT & SCROLL PROGRESS BAR
-   2. MOBILE BOTTOM QUICK-ACTION BAR (<= 768px)
+   2. UNIFIED TOPBAR DROPDOWN & MOBILE MENU CONTROLLER
+   3. MOBILE BOTTOM QUICK-ACTION BAR (<= 768px)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Topbar Smart Compact & Progress Bar
     const siteNav = document.querySelector('.site-nav');
     if (siteNav) {
-        const progressBar = document.createElement('div');
-        progressBar.className = 'nav-scroll-progress';
-        siteNav.appendChild(progressBar);
+        if (!siteNav.querySelector('.nav-scroll-progress')) {
+            const progressBar = document.createElement('div');
+            progressBar.className = 'nav-scroll-progress';
+            siteNav.appendChild(progressBar);
 
-        const onScrollUpdateNav = () => {
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const onScrollUpdateNav = () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
-            if (scrollTop > 30) {
-                siteNav.classList.add('scrolled');
-            } else {
-                siteNav.classList.remove('scrolled');
+                if (scrollTop > 30) {
+                    siteNav.classList.add('scrolled');
+                } else {
+                    siteNav.classList.remove('scrolled');
+                }
+
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+                progressBar.style.width = pct + '%';
+            };
+
+            window.addEventListener('scroll', onScrollUpdateNav, { passive: true });
+            onScrollUpdateNav();
+        }
+
+        const mobileToggleBtn = document.getElementById('mobileToggle');
+        const navMenuEl = document.getElementById('navMenu');
+
+        if (navMenuEl && navMenuEl.dataset.topbarInit !== '1') {
+            navMenuEl.dataset.topbarInit = '1';
+
+            const closeAllDropdowns = () => {
+                navMenuEl.querySelectorAll('.nav-dropdown.open').forEach((dd) => {
+                    dd.classList.remove('open');
+                    const toggleBtn = dd.querySelector('.nav-dropdown-toggle');
+                    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                });
+            };
+
+            const closeMobileMenu = () => {
+                navMenuEl.classList.remove('open');
+                if (mobileToggleBtn) mobileToggleBtn.setAttribute('aria-expanded', 'false');
+                closeAllDropdowns();
+            };
+
+            if (mobileToggleBtn) {
+                mobileToggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isOpen = navMenuEl.classList.toggle('open');
+                    mobileToggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    if (!isOpen) closeAllDropdowns();
+                });
             }
 
-            const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
-            progressBar.style.width = pct + '%';
-        };
+            navMenuEl.querySelectorAll('.nav-dropdown-toggle').forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    const isLink = btn.tagName === 'A' && btn.getAttribute('href');
+                    const isTouchOrMobile = window.matchMedia('(max-width: 1080px), (hover: none)').matches;
 
-        window.addEventListener('scroll', onScrollUpdateNav, { passive: true });
-        onScrollUpdateNav();
+                    if (!isLink || isTouchOrMobile) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const parentDd = btn.closest('.nav-dropdown');
+                        if (!parentDd) return;
+                        const willOpen = !parentDd.classList.contains('open');
+                        closeAllDropdowns();
+                        if (willOpen) {
+                            parentDd.classList.add('open');
+                            btn.setAttribute('aria-expanded', 'true');
+                        }
+                    } else {
+                        closeAllDropdowns();
+                    }
+                });
+            });
+
+            navMenuEl.querySelectorAll('a:not(.nav-dropdown-toggle)').forEach((link) => {
+                link.addEventListener('click', () => {
+                    closeMobileMenu();
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!siteNav.contains(e.target)) {
+                    closeMobileMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
+        }
     }
 
-    // 2. Mobile Bottom Quick-Action Bar
     if (!document.querySelector('.mobile-bottom-bar')) {
         const currentPage = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
         const bottomBar = document.createElement('nav');

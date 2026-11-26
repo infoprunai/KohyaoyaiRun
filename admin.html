@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ศูนย์ปฏิบัติการงานแข่งขัน (Race Operations) | เปิดโลกการท่องเที่ยว ๒๕๗๐</title>
+    <title>ศูนย์ปฏิบัติการงานแข่งขัน (Race Operations) | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐</title>
     <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
 
     <!-- Fonts -->
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.2">
+    <link rel="stylesheet" href="css/style.css?v=3.4">
 </head>
 <body style="background:#F1F5F9;">
 
@@ -20,25 +20,35 @@
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="index.html" class="brand-wrapper">
-                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-logos-group">
+                    <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo-dual">
+                    <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" class="brand-logo-dual community-logo">
+                </div>
                 <div class="brand-text">
-                    <h1>เปิดโลกทะเล 2570</h1>
-                    <span>ระบบบริหารจัดการ & อนุมัติสลิปออกบิบ</span>
+                    <h1 data-i18n="brandTitle">เปิดโลกทะเล 2570</h1>
+                    <span data-i18n="brandSub">เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
                 </div>
             </a>
 
-            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="nav-right-actions">
+                <div class="lang-switch-group" role="group" aria-label="Language Switcher">
+                    <button type="button" class="lang-switch-btn active" id="langBtnTh" onclick="setAdminLang('th')">TH</button>
+                    <button type="button" class="lang-switch-btn" id="langBtnEn" onclick="setAdminLang('en')">EN</button>
+                </div>
+
+                <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง" aria-expanded="false" aria-controls="navMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
-                <li><a href="status.html" class="nav-link">หน้าตรวจสอบสถานะ</a></li>
-                <li><a href="#fastReview" class="nav-link active">คิวตรวจสลิป</a></li>
-                <li><a href="#allRunners" class="nav-link">ทะเบียนนักวิ่ง</a></li>
+                <li><a href="index.html" class="nav-link" data-i18n="navHome">หน้าแรก</a></li>
+                <li><a href="status.html" class="nav-link" data-i18n="navStatus">ตรวจสถานะ</a></li>
+                <li><a href="#fastReview" class="nav-link active" data-i18n="navQueue">คิวตรวจสลิป</a></li>
+                <li><a href="#allRunners" class="nav-link" data-i18n="navDirectory">ทะเบียนนักวิ่ง</a></li>
                 <li>
-                    <button class="btn btn-sm btn-accent" onclick="exportData()" style="white-space:nowrap;">
-                        ส่งออกข้อมูล CSV (โรงพิมพ์)
+                    <button type="button" class="btn btn-sm btn-accent nav-btn-export" onclick="exportData()" title="ส่งออกข้อมูล CSV สำหรับโรงพิมพ์" data-i18n="navExport">
+                        ส่งออก CSV
                     </button>
                 </li>
             </ul>
@@ -51,26 +61,26 @@
         <!-- Header Controls & Backend Status -->
         <div style="background:#fff; border-radius:var(--radius-md); padding:1.25rem 1.75rem; margin-bottom:2rem; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; box-shadow:var(--shadow-subtle);">
             <div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <h2 style="font-size:1.6rem; color:var(--navy-marine); font-weight:800; margin:0;">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <h2 style="font-size:1.6rem; color:var(--navy-marine); font-weight:800; margin:0;" data-i18n="cockpitTitle">
                         ศูนย์ปฏิบัติการจัดการแข่งขัน (Operations Cockpit)
                     </h2>
-                    <span id="backendStatusBadge" class="status-pill pending">
+                    <span id="backendStatusBadge" class="status-pill pending" data-i18n="backendLocal">
                         โหมดจำลอง (LocalStorage)
                     </span>
                 </div>
-                <p style="color:var(--ink-muted); font-size:0.88rem; margin-top:2px;">
-                    กิจกรรมวิ่งเปิดโลกการท่องเที่ยว ประจำปี ๒๕๗๐ • วันแข่ง 31 ม.ค. 2570 • รับเสื้อ 30 ม.ค. 2570
+                <p style="color:var(--ink-muted); font-size:0.88rem; margin-top:4px;" data-i18n="cockpitSub">
+                    กิจกรรมวิ่งเปิดโลกทะเล ประจำปี ๒๕๗๐ • เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว • วันแข่ง 31 ม.ค. 2570
                 </p>
             </div>
             <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                <button class="btn btn-sm btn-secondary" onclick="configureGoogleScript()">
+                <button class="btn btn-sm btn-secondary" onclick="configureGoogleScript()" data-i18n="btnConfigSheets">
                     ตั้งค่า Google Sheets
                 </button>
-                <button class="btn btn-sm btn-secondary" onclick="resetDbConfirm()">
+                <button class="btn btn-sm btn-secondary" onclick="resetDbConfirm()" data-i18n="btnResetDb">
                     รีเซ็ตข้อมูลทดสอบ
                 </button>
-                <button class="btn btn-sm btn-primary" onclick="loadDashboard()">
+                <button class="btn btn-sm btn-primary" onclick="loadDashboard()" data-i18n="btnRefresh">
                     รีเฟรชข้อมูล
                 </button>
             </div>
@@ -79,25 +89,25 @@
         <!-- 4 KPI Metrics -->
         <div class="admin-metrics-row">
             <div class="metric-kpi-card kpi-navy">
-                <div class="kpi-label">ยอดผู้สมัครรวม (โควตา 400)</div>
+                <div class="kpi-label" data-i18n="kpiTotalLabel">ยอดผู้สมัครรวม (โควตา 400)</div>
                 <div class="kpi-number" id="mTotalRunners">0</div>
                 <span style="font-size:0.8rem; color:var(--ink-muted);" id="mRatioText">5K: 0/200 | 10K: 0/200</span>
             </div>
 
             <div class="metric-kpi-card kpi-gold">
-                <div class="kpi-label">รอตรวจสอบสลิป (คิวตรวจ)</div>
+                <div class="kpi-label" data-i18n="kpiPendingLabel">รอตรวจสอบสลิป (คิวตรวจ)</div>
                 <div class="kpi-number" id="mPendingCount" style="color:var(--gold-dark);">0</div>
-                <span style="font-size:0.8rem; color:var(--ink-muted);">รอการตรวจสอบยอดเงิน</span>
+                <span style="font-size:0.8rem; color:var(--ink-muted);" data-i18n="kpiPendingSub">รอการตรวจสอบยอดเงิน</span>
             </div>
 
             <div class="metric-kpi-card kpi-green">
-                <div class="kpi-label">อนุมัติแล้ว (ออกบิบแล้ว)</div>
+                <div class="kpi-label" data-i18n="kpiApprovedLabel">อนุมัติแล้ว (ออกบิบแล้ว)</div>
                 <div class="kpi-number" id="mApprovedCount" style="color:var(--status-approved);">0</div>
-                <span style="font-size:0.8rem; color:var(--ink-muted);">มีสิทธิ์รับชุดแข่งขัน</span>
+                <span style="font-size:0.8rem; color:var(--ink-muted);" data-i18n="kpiApprovedSub">มีสิทธิ์รับชุดแข่งขัน</span>
             </div>
 
             <div class="metric-kpi-card kpi-cyan">
-                <div class="kpi-label">ยอดชำระเงินสำเร็จ</div>
+                <div class="kpi-label" data-i18n="kpiIncomeLabel">ยอดชำระเงินสำเร็จ</div>
                 <div class="kpi-number" id="mTotalIncome">฿0</div>
                 <span style="font-size:0.8rem; color:var(--ink-muted);" id="mPendingIncomeText">รอยืนยัน ฿0</span>
             </div>
@@ -107,29 +117,29 @@
         <div class="form-envelope-card" style="margin-bottom:2.5rem; padding:2rem; max-width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:8px;">
                 <div>
-                    <h3 style="color:var(--navy-marine); font-size:1.25rem;">
+                    <h3 style="color:var(--navy-marine); font-size:1.25rem;" data-i18n="shirtMatrixTitle">
                         สรุปยอดสั่งผลิตเสื้อแข่งขันแยกตามขนาดและรูปแบบแขน (เฉพาะที่อนุมัติแล้ว)
                     </h3>
-                    <p style="font-size:0.85rem; color:var(--ink-muted);">
-                        แยกรายการเสื้อแขนสั้น และ เสื้อแขนยาว (+50 บ.) แบบเรียลไทม์สำหรับสั่งผลิตแจกวันที่ 30 ม.ค. 2570
+                    <p style="font-size:0.85rem; color:var(--ink-muted);" data-i18n="shirtMatrixSub">
+                        แยกรายการเสื้อแขนสั้น และ เสื้อแขนยาว (+80 บ.) แบบเรียลไทม์สำหรับสั่งผลิตแจกวันที่ 30 ม.ค. 2570
                     </p>
                 </div>
-                <span class="status-pill approved">อัปเดตตามลำดับสลิป</span>
+                <span class="status-pill approved" data-i18n="shirtMatrixBadge">อัปเดตตามลำดับสลิป</span>
             </div>
 
             <div style="overflow-x:auto;">
                 <table class="size-matrix-table" style="font-size:0.95rem;">
                     <thead>
                         <tr>
-                            <th style="padding:0.75rem; text-align:left;">รูปแบบเสื้อ</th>
-                            <th>XS (34")</th>
-                            <th>S (36")</th>
-                            <th>M (38")</th>
-                            <th>L (40")</th>
-                            <th>XL (42")</th>
-                            <th>2XL (44")</th>
-                            <th>3XL (46")</th>
-                            <th style="background:var(--navy-marine); color:#fff;">รวมทั้งสิ้น</th>
+                            <th style="padding:0.75rem; text-align:left;" data-i18n="thShirtStyle">รูปแบบเสื้อ</th>
+                            <th>2XS (34")</th>
+                            <th>XS (36")</th>
+                            <th>S (38")</th>
+                            <th>M (40")</th>
+                            <th>L (42")</th>
+                            <th>XL (44")</th>
+                            <th>2XL (46")</th>
+                            <th style="background:var(--navy-marine); color:#fff;" data-i18n="thGrandTotal">รวมทั้งสิ้น</th>
                         </tr>
                     </thead>
                     <tbody id="shirtSummaryBody"></tbody>
@@ -141,11 +151,11 @@
         <div id="fastReview" style="margin-bottom:3rem;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:8px;">
                 <div>
-                    <h3 style="font-size:1.45rem; color:var(--navy-marine); font-weight:800;">
+                    <h3 style="font-size:1.45rem; color:var(--navy-marine); font-weight:800;" data-i18n="queueTitle">
                         คิวตรวจสอบสลิปด่วน (Fast-Review Queue)
                     </h3>
-                    <p style="color:var(--ink-muted); font-size:0.9rem;">
-                        ตรวจสอบยอดเงินคู่กับรูปสลิป (5K: 350บ./แขนยาว 400บ. | 10K: 450บ./แขนยาว 500บ.)
+                    <p style="color:var(--ink-muted); font-size:0.9rem;" data-i18n="queueSub">
+                        ตรวจสอบยอดเงินคู่กับรูปสลิป (5K: 350บ./แขนยาว 430บ. | 10K: 450บ./แขนยาว 530บ.)
                     </p>
                 </div>
                 <span class="status-pill pending" id="queueBadge">รอตรวจสอบ 0 รายการ</span>
@@ -158,22 +168,22 @@
         <div id="allRunners" class="form-envelope-card" style="padding:2rem; max-width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
                 <div>
-                    <h3 style="font-size:1.35rem; color:var(--navy-marine);">
+                    <h3 style="font-size:1.35rem; color:var(--navy-marine);" data-i18n="dirTitle">
                         ทะเบียนรายชื่อผู้สมัครทั้งหมด
                     </h3>
-                    <p style="font-size:0.85rem; color:var(--ink-muted);">
+                    <p style="font-size:0.85rem; color:var(--ink-muted);" data-i18n="dirSub">
                         ตรวจสอบ แก้ไข หรือดาวน์โหลดข้อมูลสำหรับจัดทำป้าย BIB
                     </p>
                 </div>
 
-                <div style="display:flex; gap:0.5rem;">
-                    <select class="form-input-control" id="statusFilter" onchange="filterRunners()" style="width:160px; padding:0.4rem 0.8rem; font-size:0.88rem;">
-                        <option value="ALL">สถานะทั้งหมด</option>
-                        <option value="PENDING_PAYMENT">รอตรวจสลิป</option>
-                        <option value="APPROVED">อนุมัติแล้ว</option>
-                        <option value="REJECTED">ปฏิเสธสลิป</option>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <select class="form-input-control" id="statusFilter" onchange="filterRunners()" style="width:175px; padding:0.4rem 0.8rem; font-size:0.88rem;">
+                        <option value="ALL" data-i18n="optAll">สถานะทั้งหมด</option>
+                        <option value="PENDING_PAYMENT" data-i18n="optPending">รอตรวจสลิป</option>
+                        <option value="APPROVED" data-i18n="optApproved">อนุมัติแล้ว</option>
+                        <option value="REJECTED" data-i18n="optRejected">ปฏิเสธสลิป</option>
                     </select>
-                    <input type="text" class="form-input-control" id="tableSearch" placeholder="ค้นหาชื่อ, บิบ, เลขบัตร..." oninput="filterRunners()" style="width:220px; padding:0.4rem 0.8rem; font-size:0.88rem;">
+                    <input type="text" class="form-input-control" id="tableSearch" placeholder="ค้นหาชื่อ, บิบ, เลขบัตร..." oninput="filterRunners()" style="width:230px; padding:0.4rem 0.8rem; font-size:0.88rem;">
                 </div>
             </div>
 
@@ -181,15 +191,15 @@
                 <table class="size-matrix-table" id="runnersTable" style="text-align:left;">
                     <thead>
                         <tr>
-                            <th style="padding:0.75rem;">เลข BIB</th>
-                            <th>รหัสสมัคร</th>
-                            <th>ชื่อ - นามสกุล</th>
-                            <th>ระยะ</th>
-                            <th>ไซส์ & แขนเสื้อ</th>
-                            <th>เบอร์โทร</th>
-                            <th>ยอดเงิน</th>
-                            <th>สถานะ</th>
-                            <th>จัดการ</th>
+                            <th style="padding:0.75rem;" data-i18n="thBib">เลข BIB</th>
+                            <th data-i18n="thRegId">รหัสสมัคร</th>
+                            <th data-i18n="thFullName">ชื่อ - นามสกุล</th>
+                            <th data-i18n="thCat">ระยะ</th>
+                            <th data-i18n="thShirt">ไซส์ & แขนเสื้อ</th>
+                            <th data-i18n="thPhone">เบอร์โทร</th>
+                            <th data-i18n="thAmount">ยอดเงิน</th>
+                            <th data-i18n="thStatus">สถานะ</th>
+                            <th data-i18n="thAction">จัดการ</th>
                         </tr>
                     </thead>
                     <tbody id="runnersTableBody"></tbody>
@@ -199,6 +209,58 @@
 
     </div>
 
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:1.25rem;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                            <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                            <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" style="width:56px; height:56px; border-radius:50%; object-fit:cover; background:#fff; padding:2px; border:2px solid rgba(255,255,255,0.85);">
+                        </div>
+                        <div>
+                            <div class="footer-brand-title" data-i18n="footerBrandTitle">เปิดโลกทะเล 2570</div>
+                            <span style="font-size:0.82rem; color:#94A3B8;" data-i18n="footerBrandSub">เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</span>
+                        </div>
+                    </div>
+                    <p style="font-size:0.9rem; line-height:1.8; color:#94A3B8;" data-i18n="footerDesc">
+                        กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่
+                    </p>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerMenuTitle">
+                        เมนูนำทาง
+                    </h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="index.html" data-i18n="fNavHome">หน้าแรก</a></li>
+                        <li><a href="register.html" data-i18n="fNavReg">สมัครแข่งขันออนไลน์</a></li>
+                        <li><a href="status.html" data-i18n="fNavStatus">ตรวจสถานะ & พิมพ์ E-Bib</a></li>
+                        <li><a href="guide.html" data-i18n="fNavGuide">คู่มือเดินทาง & ตารางเรือ</a></li>
+                        <li><a href="admin.html" data-i18n="fNavAdmin">ระบบเจ้าหน้าที่ (Admin)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 style="color:#FFFFFF; font-size:0.95rem; font-weight:700; margin-bottom:1rem; letter-spacing:0.04em; text-transform:uppercase;" data-i18n="footerContactTitle">
+                        กองอำนวยการจัดการแข่งขัน
+                    </h5>
+                    <p style="font-size:0.88rem; line-height:1.8; color:#CBD5E1;" data-i18n="footerContactDesc">
+                        สำนักงานเทศบาลตำบลพรุใน<br>
+                        อำเภอเกาะยาว จังหวัดพังงา 82160<br>
+                        โทรศัพท์: 076-597-504<br>
+                        อีเมล: contact@phrunai.go.th
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom-bar" data-i18n="footerCopy">
+                © 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.
+            </div>
+        </div>
+    </footer>
+
     <!-- Zoom Modal -->
     <div id="imgZoomModal" style="display:none; position:fixed; inset:0; background:rgba(3,20,27,0.88); z-index:4000; align-items:center; justify-content:center; padding:1.5rem;" onclick="this.style.display='none'">
         <img id="zoomedImg" src="" alt="สลิปขนาดเต็ม" style="max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 0 40px rgba(0,0,0,0.6);">
@@ -206,29 +268,35 @@
 
     <!-- Admin PIN Login Overlay -->
     <div id="adminPinModal" style="display:flex; position:fixed; inset:0; background:rgba(3,20,27,0.94); backdrop-filter:blur(12px); z-index:5000; align-items:center; justify-content:center; padding:1.5rem;">
-        <div style="background:#fff; border-radius:var(--radius-lg); max-width:420px; width:100%; padding:2.5rem; text-align:center; box-shadow:0 20px 45px rgba(0,0,0,0.4);">
+        <div style="background:#fff; border-radius:var(--radius-lg); max-width:440px; width:100%; padding:2.5rem; text-align:center; box-shadow:0 20px 45px rgba(0,0,0,0.4);">
+            <div style="display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:1rem;">
+                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" style="width:54px; height:54px; border-radius:50%; object-fit:cover; border:2px solid var(--border-subtle);">
+                <img src="Photo/visahakitLOGO.jpg" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" style="width:54px; height:54px; border-radius:50%; object-fit:cover; border:2px solid var(--border-subtle);">
+            </div>
             <div style="font-size:0.82rem; font-weight:700; color:var(--teal-andaman); letter-spacing:0.06em; text-transform:uppercase;">RESTRICTED ACCESS</div>
-            <h3 style="color:var(--navy-marine); font-size:1.4rem; margin:0.4rem 0 0.5rem 0;">เข้าสู่ระบบเจ้าหน้าที่</h3>
-            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.75rem;">
+            <h3 style="color:var(--navy-marine); font-size:1.4rem; margin:0.4rem 0 0.5rem 0;" data-i18n="pinTitle">เข้าสู่ระบบเจ้าหน้าที่</h3>
+            <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:1.75rem;" data-i18n="pinSub">
                 กรุณาระบุรหัสผ่านเพื่อเข้าถึงระบบจัดการ (รหัสเริ่มต้น: <strong>phrunai2570</strong>)
             </p>
             <form onsubmit="event.preventDefault(); verifyAdminPin();">
                 <input type="password" id="adminPinInput" class="form-input-control" placeholder="รหัสผ่านเข้าสู่ระบบ..." style="font-size:1.1rem; text-align:center; letter-spacing:2px; margin-bottom:1.25rem;" autofocus required>
-                <button type="submit" class="btn btn-primary" style="width:100%; font-size:1rem;">
+                <button type="submit" class="btn btn-primary" style="width:100%; font-size:1rem;" data-i18n="pinBtn">
                     เข้าสู่ระบบเจ้าหน้าที่ →
                 </button>
             </form>
             <div style="margin-top:1.25rem;">
-                <a href="index.html" style="font-size:0.85rem; color:var(--ink-muted);">← กลับหน้าแรก</a>
+                <a href="index.html" style="font-size:0.85rem; color:var(--ink-muted);" data-i18n="pinBackHome">← กลับหน้าแรก</a>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
-    <script src="js/store.js"></script>
+    <script src="js/store.js?v=3.5"></script>
     <script>
         const DEFAULT_PIN = 'phrunai2570';
         let cachedRunners = [];
+        let cachedStats = null;
+        let adminLang = 'th';
 
         if (window.KohYaoStore && window.KohYaoStore.CATEGORIES) {
             window.KohYaoStore.CATEGORIES['5K'].price = 350;
@@ -237,13 +305,290 @@
             window.KohYaoStore.CATEGORIES['10K'].maxQuota = 200;
         }
 
+        const ADMIN_I18N = {
+            th: {
+                pageTitle: 'ศูนย์ปฏิบัติการงานแข่งขัน (Race Operations) | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐',
+                brandTitle: 'เปิดโลกทะเล 2570',
+                brandSub: 'เทศบาลตำบลพรุใน • เกาะยาวใหญ่',
+                navHome: 'หน้าแรก',
+                navStatus: 'ตรวจสถานะ',
+                navQueue: 'คิวตรวจสลิป',
+                navDirectory: 'ทะเบียนนักวิ่ง',
+                navExport: 'ส่งออก CSV',
+                cockpitTitle: 'ศูนย์ปฏิบัติการจัดการแข่งขัน (Operations Cockpit)',
+                backendConnected: 'เชื่อมต่อ Google Sheets สดเรียบร้อย',
+                backendLocal: 'โหมดทดสอบจำลอง (LocalStorage)',
+                cockpitSub: 'กิจกรรมวิ่งเปิดโลกทะเล ประจำปี ๒๕๗๐ • เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว • วันแข่ง 31 ม.ค. 2570',
+                btnConfigSheets: 'ตั้งค่า Google Sheets',
+                btnResetDb: 'รีเซ็ตข้อมูลทดสอบ',
+                btnRefresh: 'รีเฟรชข้อมูล',
+                kpiTotalLabel: 'ยอดผู้สมัครรวม (โควตา 400)',
+                kpiRatioText: (c5, c10) => `5K: ${c5}/200 คน | 10K: ${c10}/200 คน`,
+                kpiPendingLabel: 'รอตรวจสอบสลิป (คิวตรวจ)',
+                kpiPendingSub: 'รอการตรวจสอบยอดเงิน',
+                kpiApprovedLabel: 'อนุมัติแล้ว (ออกบิบแล้ว)',
+                kpiApprovedSub: 'มีสิทธิ์รับชุดแข่งขัน',
+                kpiIncomeLabel: 'ยอดชำระเงินสำเร็จ',
+                kpiPendingIncome: (amt) => `รอยืนยัน ฿${amt}`,
+                queueBadgeText: (cnt) => `รอตรวจสอบ ${cnt} รายการ`,
+                shirtMatrixTitle: 'สรุปยอดสั่งผลิตเสื้อแข่งขันแยกตามขนาดและรูปแบบแขน (เฉพาะที่อนุมัติแล้ว)',
+                shirtMatrixSub: 'แยกรายการเสื้อแขนสั้น และ เสื้อแขนยาว (+80 บ.) แบบเรียลไทม์สำหรับสั่งผลิตแจกวันที่ 30 ม.ค. 2570',
+                shirtMatrixBadge: 'อัปเดตตามลำดับสลิป',
+                thShirtStyle: 'รูปแบบเสื้อ',
+                thGrandTotal: 'รวมทั้งสิ้น',
+                rowShortSleeve: 'เสื้อแขนสั้น',
+                rowLongSleeve: 'เสื้อแขนยาว (+80 บ.)',
+                rowGrandTotal: 'รวมทั้งหมด',
+                unitShirt: 'ตัว',
+                queueTitle: 'คิวตรวจสอบสลิปด่วน (Fast-Review Queue)',
+                queueSub: 'ตรวจสอบยอดเงินคู่กับรูปสลิป (5K: 350บ./แขนยาว 430บ. | 10K: 450บ./แขนยาว 530บ.)',
+                emptyQueueTitle: 'ไม่มีสลิปรอตรวจสอบในขณะนี้',
+                emptyQueueSub: 'ทุกรายการได้รับการตรวจสอบเรียบร้อยแล้ว',
+                clickZoomSlip: 'คลิกที่รูปเพื่อขยายสลิป',
+                pillPendingApproval: 'รออนุมัติ',
+                lblCat: 'ระยะแข่งขัน:',
+                start10K: 'ปล่อยตัว 05.30 น.',
+                start5K: 'ปล่อยตัว 06.00 น.',
+                lblAmountPaid: 'ยอดชำระ:',
+                lblShirtInfo: 'ขนาดเสื้อ:',
+                sizeWord: 'ไซส์',
+                shirtShort: 'แขนสั้น',
+                shirtLong: 'แขนยาว',
+                lblPhone: 'เบอร์โทร:',
+                lblTransferTime: 'วัน-เวลาโอนเงิน:',
+                lblEmailNotify: 'อีเมลแจ้งผล:',
+                noEmailText: 'ไม่ได้ระบุอีเมล',
+                lblRegisteredAt: 'ลงทะเบียน:',
+                dupAlertTitle: 'เตือนสลิปซ้ำ:',
+                dupAlertDesc: (id, name) => `พบสลิปนี้ตรงกับรหัส ${id} (${name})`,
+                btnApproveBib: 'อนุมัติ & ออกบิบ',
+                btnApproving: 'กำลังอนุมัติ...',
+                btnRejectSlip: 'ปฏิเสธสลิป',
+                btnRejecting: 'กำลังบันทึก...',
+                dirTitle: 'ทะเบียนรายชื่อผู้สมัครทั้งหมด',
+                dirSub: 'ตรวจสอบ แก้ไข หรือดาวน์โหลดข้อมูลสำหรับจัดทำป้าย BIB',
+                optAll: 'สถานะทั้งหมด',
+                optPending: 'รอตรวจสลิป',
+                optApproved: 'อนุมัติแล้ว',
+                optRejected: 'ปฏิเสธสลิป',
+                searchPlaceholder: 'ค้นหาชื่อ, บิบ, เลขบัตร...',
+                thBib: 'เลข BIB',
+                thRegId: 'รหัสสมัคร',
+                thFullName: 'ชื่อ - นามสกุล',
+                thCat: 'ระยะ',
+                thShirt: 'ไซส์ & แขนเสื้อ',
+                thPhone: 'เบอร์โทร',
+                thAmount: 'ยอดเงิน',
+                thStatus: 'สถานะ',
+                thAction: 'จัดการ',
+                noDataRow: 'ไม่พบข้อมูล',
+                badgePending: 'รอตรวจ',
+                badgeApproved: 'อนุมัติแล้ว',
+                badgeRejected: 'ปฏิเสธ',
+                btnDetails: 'รายละเอียด',
+                pinTitle: 'เข้าสู่ระบบเจ้าหน้าที่',
+                pinSub: 'กรุณาระบุรหัสผ่านเพื่อเข้าถึงระบบจัดการ (รหัสเริ่มต้น: <strong>phrunai2570</strong>)',
+                pinPlaceholder: 'รหัสผ่านเข้าสู่ระบบ...',
+                pinBtn: 'เข้าสู่ระบบเจ้าหน้าที่ →',
+                pinBackHome: '← กลับหน้าแรก',
+                alertWrongPin: 'รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง',
+                promptSheetsUrl: 'ระบุ Web App URL ของ Google Apps Script:\n(ดูวิธีทำได้ในโฟลเดอร์ google-apps-script/README_GOOGLE_SHEETS.md)\n\nหากต้องการกลับไปใช้โหมดจำลอง ให้เว้นว่างไว้แล้วกดตกลง',
+                alertSheetsConnected: 'เชื่อมต่อ Google Sheets เรียบร้อยแล้ว',
+                alertSheetsLocal: 'สลับกลับมาใช้โหมดจำลอง LocalStorage',
+                alertApproveSuccess: (bib, note) => `อนุมัติสำเร็จ!\n\nออกหมายเลข BIB: ${bib}${note}`,
+                emailSentNote: (em) => `\n\nการแจ้งเตือน: ส่งอีเมลยืนยันและเลข BIB ไปยัง ${em} เรียบร้อยแล้ว`,
+                emailNotSentNote: (msg) => `\n\nหมายเหตุ: ${msg} (ผู้สมัครสามารถตรวจผลและดาวน์โหลด E-Bib ผ่านหน้าเว็บไซต์ได้ทันที)`,
+                rejectReasons: [
+                    'ยอดเงินที่โอนไม่ตรงกับค่าสมัคร (กรุณาตรวจสอบค่าเสื้อแขนสั้น/แขนยาว)',
+                    'สลิปการโอนเงินภาพเบลอ ไม่สามารถอ่านข้อความได้',
+                    'ตรวจพบสลิปซ้ำกับผู้สมัครรายอื่น',
+                    'โอนเข้าบัญชีที่ไม่ถูกต้อง'
+                ],
+                promptRejectHeader: 'ระบุเหตุผลการปฏิเสธสลิป:\n',
+                alertRejectSuccess: (note) => `ปฏิเสธสลิปเรียบร้อยแล้ว${note}`,
+                rejectEmailSent: (em) => `\n\nการแจ้งเตือน: ส่งอีเมลแจ้งเหตุผลไปยัง ${em} เรียบร้อยแล้ว`,
+                rejectNoEmail: (ph) => `\n\nคำแนะนำเจ้าหน้าที่: ผู้สมัครไม่ได้ระบุอีเมลไว้ในระบบ แนะนำให้โทรแจ้งตามเบอร์โทรศัพท์ในระบบ${ph} เพื่อให้ส่งสลิปใหม่ได้ทันเวลา`,
+                alertErrorPrefix: 'เกิดข้อผิดพลาด: ',
+                alertExportError: 'เกิดข้อผิดพลาดในการส่งออก: ',
+                confirmResetDb: 'คุณต้องการรีเซ็ตฐานข้อมูลเป็นค่าเริ่มต้นสำหรับการทดสอบหรือไม่?',
+                alertResetDone: 'รีเซ็ตฐานข้อมูลเรียบร้อยแล้ว',
+                footerBrandTitle: 'เปิดโลกทะเล 2570',
+                footerBrandSub: 'เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา',
+                footerDesc: 'กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 จัดโดยเทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว เพื่อส่งเสริมสุขภาพ กระตุ้นเศรษฐกิจและการท่องเที่ยวเชิงนิเวศน์อย่างยั่งยืนของชุมชนเกาะยาวใหญ่',
+                footerMenuTitle: 'เมนูนำทาง',
+                fNavHome: 'หน้าแรก',
+                fNavReg: 'สมัครแข่งขันออนไลน์',
+                fNavStatus: 'ตรวจสถานะ & พิมพ์ E-Bib',
+                fNavGuide: 'คู่มือเดินทาง & ตารางเรือ',
+                fNavAdmin: 'ระบบเจ้าหน้าที่ (Admin)',
+                footerContactTitle: 'กองอำนวยการจัดการแข่งขัน',
+                footerContactDesc: 'สำนักงานเทศบาลตำบลพรุใน<br>อำเภอเกาะยาว จังหวัดพังงา 82160<br>โทรศัพท์: 076-597-504<br>อีเมล: contact@phrunai.go.th',
+                footerCopy: '© 2570 กิจกรรมวิ่งเปิดโลกทะเล เกาะยาวใหญ่ ประจำปี 2570. สงวนลิขสิทธิ์โดย เทศบาลตำบลพรุใน จังหวัดพังงา ร่วมกับกลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว.'
+            },
+            en: {
+                pageTitle: 'Race Operations Cockpit (Admin) | Koh Yao Yai Open Sea Run 2027',
+                brandTitle: 'Open Sea Run 2027',
+                brandSub: 'Phru Nai Municipality • Koh Yao Yai',
+                navHome: 'Home',
+                navStatus: 'Status Portal',
+                navQueue: 'Slip Review Queue',
+                navDirectory: 'Runner Directory',
+                navExport: 'Export CSV',
+                cockpitTitle: 'Race Operations Cockpit',
+                backendConnected: 'Connected to Google Sheets Live',
+                backendLocal: 'Simulation Mode (LocalStorage)',
+                cockpitSub: 'Koh Yao Yai Open Sea Run 2027 • Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group • Race Day: Jan 31, 2027',
+                btnConfigSheets: 'Configure Google Sheets',
+                btnResetDb: 'Reset Test Data',
+                btnRefresh: 'Refresh Data',
+                kpiTotalLabel: 'Total Registrations (Quota 400)',
+                kpiRatioText: (c5, c10) => `5K: ${c5}/200 | 10K: ${c10}/200`,
+                kpiPendingLabel: 'Pending Slip Review',
+                kpiPendingSub: 'Awaiting payment verification',
+                kpiApprovedLabel: 'Approved (BIB Issued)',
+                kpiApprovedSub: 'Eligible for race pack pickup',
+                kpiIncomeLabel: 'Confirmed Revenue',
+                kpiPendingIncome: (amt) => `Pending ฿${amt}`,
+                queueBadgeText: (cnt) => `${cnt} Pending Review`,
+                shirtMatrixTitle: 'Race Shirt Production Summary by Size & Sleeve Style (Approved Only)',
+                shirtMatrixSub: 'Real-time breakdown of Short-Sleeve and Long-Sleeve (+80 THB) shirts for Jan 30, 2027 pickup',
+                shirtMatrixBadge: 'Live Slip Sync',
+                thShirtStyle: 'Shirt Style',
+                thGrandTotal: 'Grand Total',
+                rowShortSleeve: 'Short Sleeve',
+                rowLongSleeve: 'Long Sleeve (+80 THB)',
+                rowGrandTotal: 'Total',
+                unitShirt: 'pcs',
+                queueTitle: 'Fast-Review Payment Slip Queue',
+                queueSub: 'Verify transfer amounts against uploaded slips (5K: 350 THB / Long 430 THB | 10K: 450 THB / Long 530 THB)',
+                emptyQueueTitle: 'No Payment Slips Pending Review',
+                emptyQueueSub: 'All submitted registrations have been processed.',
+                clickZoomSlip: 'Click image to enlarge slip',
+                pillPendingApproval: 'Pending Approval',
+                lblCat: 'Category:',
+                start10K: 'Flag-off 05:30 hrs',
+                start5K: 'Flag-off 06:00 hrs',
+                lblAmountPaid: 'Amount Paid:',
+                lblShirtInfo: 'Shirt Size:',
+                sizeWord: 'Size',
+                shirtShort: 'Short Sleeve',
+                shirtLong: 'Long Sleeve',
+                lblPhone: 'Phone:',
+                lblTransferTime: 'Transfer Date/Time:',
+                lblEmailNotify: 'Notification Email:',
+                noEmailText: 'No email provided',
+                lblRegisteredAt: 'Submitted:',
+                dupAlertTitle: 'Duplicate Slip Warning:',
+                dupAlertDesc: (id, name) => `Matches existing slip under ID ${id} (${name})`,
+                btnApproveBib: 'Approve & Issue BIB',
+                btnApproving: 'Approving...',
+                btnRejectSlip: 'Reject Slip',
+                btnRejecting: 'Saving...',
+                dirTitle: 'All Registered Runners Directory',
+                dirSub: 'Review runner records or export data for official BIB printing',
+                optAll: 'All Statuses',
+                optPending: 'Pending Review',
+                optApproved: 'Approved',
+                optRejected: 'Rejected',
+                searchPlaceholder: 'Search name, BIB, ID...',
+                thBib: 'BIB No.',
+                thRegId: 'Reg ID',
+                thFullName: 'Full Name',
+                thCat: 'Distance',
+                thShirt: 'Size & Sleeve',
+                thPhone: 'Phone',
+                thAmount: 'Amount',
+                thStatus: 'Status',
+                thAction: 'Action',
+                noDataRow: 'No matching records found',
+                badgePending: 'Pending',
+                badgeApproved: 'Approved',
+                badgeRejected: 'Rejected',
+                btnDetails: 'Details',
+                pinTitle: 'Race Staff Portal Login',
+                pinSub: 'Please enter the staff passcode to access Race Operations (Default PIN: <strong>phrunai2570</strong>)',
+                pinPlaceholder: 'Enter staff passcode...',
+                pinBtn: 'Access Staff Portal →',
+                pinBackHome: '← Back to Home',
+                alertWrongPin: 'Incorrect passcode. Please try again.',
+                promptSheetsUrl: 'Enter your Google Apps Script Web App URL:\n(See google-apps-script/README_GOOGLE_SHEETS.md for setup instructions)\n\nLeave blank and click OK to switch back to LocalStorage simulation mode.',
+                alertSheetsConnected: 'Connected to Google Sheets successfully.',
+                alertSheetsLocal: 'Switched back to LocalStorage simulation mode.',
+                alertApproveSuccess: (bib, note) => `Approved Successfully!\n\nIssued BIB Number: ${bib}${note}`,
+                emailSentNote: (em) => `\n\nNotification: Confirmation email and BIB sent to ${em}.`,
+                emailNotSentNote: (msg) => `\n\nNote: ${msg} (The runner can check status and download their E-Bib directly on the website.)`,
+                rejectReasons: [
+                    'Transferred amount does not match registration fee (check short/long sleeve rate)',
+                    'Payment slip image is blurry or unreadable',
+                    'Duplicate payment slip detected from another registration',
+                    'Transferred to an incorrect bank account'
+                ],
+                promptRejectHeader: 'Specify reason for rejecting this slip:\n',
+                alertRejectSuccess: (note) => `Payment slip has been rejected.${note}`,
+                rejectEmailSent: (em) => `\n\nNotification: Rejection notice sent to ${em}.`,
+                rejectNoEmail: (ph) => `\n\nStaff Advisory: No email address was provided. Please contact the runner via phone${ph} so they can re-upload a valid slip.`,
+                alertErrorPrefix: 'Error: ',
+                alertExportError: 'Export error: ',
+                confirmResetDb: 'Are you sure you want to reset the local test database to its initial state?',
+                alertResetDone: 'Test database has been reset.',
+                footerBrandTitle: 'Open Sea Run 2027',
+                footerBrandSub: 'Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province',
+                footerDesc: 'Koh Yao Yai Open Sea Run 2027 is organized by Phru Nai Subdistrict Municipality, Ko Yao District, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group to promote public health, local economy, and sustainable ecotourism.',
+                footerMenuTitle: 'NAVIGATION',
+                fNavHome: 'Home',
+                fNavReg: 'Online Registration',
+                fNavStatus: 'Check Status & E-Bib',
+                fNavGuide: 'Travel Guide & Ferry',
+                fNavAdmin: 'Staff Portal (Admin)',
+                footerContactTitle: 'RACE OPERATIONS HEADQUARTERS',
+                footerContactDesc: 'Phru Nai Subdistrict Municipal Office<br>Ko Yao District, Phang Nga 82160, Thailand<br>Tel: +66 76-597-504<br>Email: contact@phrunai.go.th',
+                footerCopy: '© 2027 Koh Yao Yai Open Sea Run 2027. All rights reserved by Phru Nai Subdistrict Municipality, Phang Nga Province in collaboration with the Community-Based Tourism Enterprise Group.'
+            }
+        };
+
         function escapeHtml(str) {
-            return String(str)
+            return String(str ?? '')
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
+        }
+
+        function formatShirtTypeLabel(rawType, dict) {
+            const val = String(rawType || '').trim();
+            if (val === 'แขนยาว' || val.toUpperCase() === 'LONG') return dict.shirtLong;
+            return dict.shirtShort;
+        }
+
+        function setAdminLang(lang) {
+            adminLang = (lang === 'en') ? 'en' : 'th';
+            const dict = ADMIN_I18N[adminLang];
+            if (!dict) return;
+
+            document.documentElement.lang = adminLang;
+            document.title = dict.pageTitle;
+            localStorage.setItem('KOHYAO_LANG', adminLang);
+
+            document.getElementById('langBtnTh').classList.toggle('active', adminLang === 'th');
+            document.getElementById('langBtnEn').classList.toggle('active', adminLang === 'en');
+
+            const pinInput = document.getElementById('adminPinInput');
+            if (pinInput) pinInput.placeholder = dict.pinPlaceholder;
+
+            const searchInput = document.getElementById('tableSearch');
+            if (searchInput) searchInput.placeholder = dict.searchPlaceholder;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined && typeof dict[key] === 'string') {
+                    el.innerHTML = dict[key];
+                }
+            });
+
+            if (sessionStorage.getItem('KOHYAO_ADMIN_AUTH') === 'true' && cachedStats) {
+                renderDashboardData(cachedStats, cachedRunners);
+            }
         }
 
         function checkAdminAuth() {
@@ -257,118 +602,121 @@
         }
 
         function verifyAdminPin() {
+            const dict = ADMIN_I18N[adminLang];
             const pin = document.getElementById('adminPinInput').value.trim();
             if (pin === DEFAULT_PIN) {
                 sessionStorage.setItem('KOHYAO_ADMIN_AUTH', 'true');
                 document.getElementById('adminPinModal').style.display = 'none';
                 loadDashboard();
             } else {
-                alert('รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+                alert(dict.alertWrongPin);
                 document.getElementById('adminPinInput').value = '';
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const toggle = document.getElementById('mobileToggle');
-            if (toggle) {
-                toggle.addEventListener('click', function() {
-                    document.getElementById('navMenu').classList.toggle('open');
-                });
-            }
+            const params = new URLSearchParams(window.location.search);
+            const initialLang = params.get('lang') || localStorage.getItem('KOHYAO_LANG') || localStorage.getItem('KOHYAO_SITE_LANG') || 'th';
+            setAdminLang(initialLang);
             checkAdminAuth();
         });
 
         function configureGoogleScript() {
+            const dict = ADMIN_I18N[adminLang];
             const current = window.KohYaoStore.getGoogleScriptUrl();
-            const url = prompt(
-                'ระบุ Web App URL ของ Google Apps Script:\n(ดูวิธีทำได้ในโฟลเดอร์ google-apps-script/README_GOOGLE_SHEETS.md)\n\nหากต้องการกลับไปใช้โหมดจำลอง ให้เว้นว่างไว้แล้วกดตกลง',
-                current || ''
-            );
+            const url = prompt(dict.promptSheetsUrl, current || '');
             if (url !== null) {
                 window.KohYaoStore.setGoogleScriptUrl(url.trim());
-                alert(url.trim() ? 'เชื่อมต่อ Google Sheets เรียบร้อยแล้ว' : 'สลับกลับมาใช้โหมดจำลอง LocalStorage');
+                alert(url.trim() ? dict.alertSheetsConnected : dict.alertSheetsLocal);
                 loadDashboard();
             }
         }
 
         async function loadDashboard() {
             if (!window.KohYaoStore) return;
+            cachedStats = await window.KohYaoStore.getStats();
+            cachedRunners = await window.KohYaoStore.getAllRegistrations();
+            renderDashboardData(cachedStats, cachedRunners);
+        }
 
+        function renderDashboardData(stats, runnersList) {
+            const dict = ADMIN_I18N[adminLang];
             const badge = document.getElementById('backendStatusBadge');
             if (window.KohYaoStore.isGoogleSheetsActive()) {
                 badge.className = 'status-pill approved';
-                badge.innerHTML = 'เชื่อมต่อ Google Sheets สดเรียบร้อย';
+                badge.innerHTML = dict.backendConnected;
             } else {
                 badge.className = 'status-pill pending';
-                badge.innerHTML = 'โหมดทดสอบจำลอง (LocalStorage)';
+                badge.innerHTML = dict.backendLocal;
             }
 
-            const stats = await window.KohYaoStore.getStats();
-            cachedRunners = await window.KohYaoStore.getAllRegistrations();
-
             document.getElementById('mTotalRunners').textContent = stats.total;
-            document.getElementById('mRatioText').textContent = `5K: ${stats.count5K}/200 คน | 10K: ${stats.count10K}/200 คน`;
+            document.getElementById('mRatioText').textContent = dict.kpiRatioText(stats.count5K, stats.count10K);
             document.getElementById('mPendingCount').textContent = stats.pendingCount;
             document.getElementById('mApprovedCount').textContent = stats.approvedCount;
-            document.getElementById('mTotalIncome').textContent = `฿${stats.totalIncome.toLocaleString()}`;
-            document.getElementById('mPendingIncomeText').textContent = `รอยืนยัน ฿${stats.pendingIncome.toLocaleString()}`;
-            document.getElementById('queueBadge').textContent = `รอตรวจสอบ ${stats.pendingCount} รายการ`;
+            document.getElementById('mTotalIncome').textContent = `฿${Number(stats.totalIncome || 0).toLocaleString()}`;
+            document.getElementById('mPendingIncomeText').textContent = dict.kpiPendingIncome(Number(stats.pendingIncome || 0).toLocaleString());
+            document.getElementById('queueBadge').textContent = dict.queueBadgeText(stats.pendingCount);
 
             // สรุปจำนวนเสื้อแยก แขนสั้น / แขนยาว จากรายการที่อนุมัติแล้ว
-            const sizeKeys = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-            const shortCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
-            const longCounts = { XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0, '3XL': 0 };
+            const sizeKeys = ['2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL'];
+            const shortCounts = { '2XS': 0, XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0 };
+            const longCounts = { '2XS': 0, XS: 0, S: 0, M: 0, L: 0, XL: 0, '2XL': 0 };
 
-            cachedRunners
+            runnersList
                 .filter(r => r.status === window.KohYaoStore.STATUS.APPROVED)
                 .forEach(r => {
                     const sz = r.shirtSize || 'M';
-                    if (r.shirtType === 'แขนยาว') {
+                    const isLong = (r.shirtType === 'แขนยาว' || String(r.sleeveType || '').toUpperCase() === 'LONG');
+                    if (isLong) {
                         longCounts[sz] = (longCounts[sz] || 0) + 1;
                     } else {
                         shortCounts[sz] = (shortCounts[sz] || 0) + 1;
                     }
                 });
 
-            const totalShort = sizeKeys.reduce((acc, k) => acc + shortCounts[k], 0);
-            const totalLong = sizeKeys.reduce((acc, k) => acc + longCounts[k], 0);
+            const totalShort = sizeKeys.reduce((acc, k) => acc + (shortCounts[k] || 0), 0);
+            const totalLong = sizeKeys.reduce((acc, k) => acc + (longCounts[k] || 0), 0);
             const grandTotal = totalShort + totalLong;
 
             const shortRow = `
                 <tr style="font-size:1rem; font-weight:600;">
-                    <td style="text-align:left; font-weight:700; color:var(--navy-marine);">เสื้อแขนสั้น</td>
-                    ${sizeKeys.map(k => `<td>${shortCounts[k]} ตัว</td>`).join('')}
-                    <td style="color:var(--teal-andaman); font-weight:800;">${totalShort} ตัว</td>
+                    <td style="text-align:left; font-weight:700; color:var(--navy-marine);">${dict.rowShortSleeve}</td>
+                    ${sizeKeys.map(k => `<td>${shortCounts[k] || 0} ${dict.unitShirt}</td>`).join('')}
+                    <td style="color:var(--teal-andaman); font-weight:800;">${totalShort} ${dict.unitShirt}</td>
                 </tr>
             `;
             const longRow = `
                 <tr style="font-size:1rem; font-weight:600; background:#FFFBEB;">
-                    <td style="text-align:left; font-weight:700; color:var(--gold-dark);">เสื้อแขนยาว (+50 บ.)</td>
-                    ${sizeKeys.map(k => `<td>${longCounts[k]} ตัว</td>`).join('')}
-                    <td style="color:var(--gold-dark); font-weight:800;">${totalLong} ตัว</td>
+                    <td style="text-align:left; font-weight:700; color:var(--gold-dark);">${dict.rowLongSleeve}</td>
+                    ${sizeKeys.map(k => `<td>${longCounts[k] || 0} ${dict.unitShirt}</td>`).join('')}
+                    <td style="color:var(--gold-dark); font-weight:800;">${totalLong} ${dict.unitShirt}</td>
                 </tr>
             `;
             const totalRow = `
                 <tr style="font-size:1.05rem; font-weight:800; background:#F8FAFC; border-top:2px solid var(--border-subtle);">
-                    <td style="text-align:left; color:var(--navy-marine);">รวมทั้งหมด</td>
-                    ${sizeKeys.map(k => `<td>${shortCounts[k] + longCounts[k]} ตัว</td>`).join('')}
-                    <td style="color:var(--navy-marine);">${grandTotal} ตัว</td>
+                    <td style="text-align:left; color:var(--navy-marine);">${dict.rowGrandTotal}</td>
+                    ${sizeKeys.map(k => `<td>${(shortCounts[k] || 0) + (longCounts[k] || 0)} ${dict.unitShirt}</td>`).join('')}
+                    <td style="color:var(--navy-marine);">${grandTotal} ${dict.unitShirt}</td>
                 </tr>
             `;
             document.getElementById('shirtSummaryBody').innerHTML = shortRow + longRow + totalRow;
 
-            renderFastReviewQueue(cachedRunners.filter(r => r.status === window.KohYaoStore.STATUS.PENDING));
-            renderDirectoryTable(cachedRunners);
+            renderFastReviewQueue(runnersList.filter(r => r.status === window.KohYaoStore.STATUS.PENDING));
+            filterRunners();
         }
 
         function renderFastReviewQueue(pendingList) {
+            const dict = ADMIN_I18N[adminLang];
+            const localeCode = adminLang === 'en' ? 'en-GB' : 'th-TH';
             const container = document.getElementById('reviewContainer');
+
             if (pendingList.length === 0) {
                 container.innerHTML = `
                     <div class="form-envelope-card" style="text-align:center; padding:3rem;">
-                        <h4 style="color:var(--navy-marine); font-size:1.2rem;">ไม่มีสลิปรอตรวจสอบในขณะนี้</h4>
+                        <h4 style="color:var(--navy-marine); font-size:1.2rem;">${dict.emptyQueueTitle}</h4>
                         <p style="color:var(--ink-muted); font-size:0.9rem;">
-                            ทุกรายการได้รับการตรวจสอบเรียบร้อยแล้ว
+                            ${dict.emptyQueueSub}
                         </p>
                     </div>
                 `;
@@ -376,49 +724,52 @@
             }
 
             container.innerHTML = pendingList.map(runner => {
-                const shirtTypeLabel = runner.shirtType || 'แขนสั้น';
+                const shirtTypeLabel = formatShirtTypeLabel(runner.shirtType, dict);
                 const hasEmail = runner.email && String(runner.email).includes('@');
                 const emailStatusHtml = hasEmail
                     ? `<strong style="color:var(--teal-andaman);">${escapeHtml(runner.email)}</strong>`
-                    : `<span style="color:#B45309; font-weight:600;">ไม่ได้ระบุอีเมล</span>`;
+                    : `<span style="color:#B45309; font-weight:600;">${dict.noEmailText}</span>`;
+                const transferText = (runner.transferDate || runner.transferTime)
+                    ? `${runner.transferDate || '-'} ${runner.transferTime || ''}`.trim()
+                    : '-';
 
                 const duplicate = window.KohYaoStore.checkDuplicateSlip(runner.slipHash, runner.id);
                 const hasDupAlert = duplicate ? `
                     <div style="background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B; padding:0.4rem 0.8rem; border-radius:6px; font-size:0.8rem; margin-top:6px;">
-                        <strong>เตือนสลิปซ้ำ:</strong> พบสลิปนี้ตรงกับรหัส ${escapeHtml(duplicate.id)} (${escapeHtml(duplicate.firstName)})
+                        <strong>${dict.dupAlertTitle}</strong> ${dict.dupAlertDesc(escapeHtml(duplicate.id), escapeHtml(duplicate.firstName))}
                     </div>
                 ` : '';
 
                 return `
-                    <div class="review-card-item" id="card_${runner.id}">
+                    <div class="review-card-item" id="card_${escapeHtml(runner.id)}">
                         <div>
-                            <img src="${runner.slipUrl || 'Photo/50768_0.jpg'}" alt="สลิป" class="review-slip-thumb" onclick="zoomImage(this.src)" title="คลิกเพื่อขยายดู">
+                            <img src="${runner.slipUrl || 'Photo/50768_0.jpg'}" alt="สลิป" class="review-slip-thumb" onclick="zoomImage(this.src)" title="${dict.clickZoomSlip}">
                             <span style="display:block; text-align:center; font-size:0.75rem; color:var(--ink-muted); margin-top:4px;">
-                                คลิกที่รูปเพื่อขยายสลิป
+                                ${dict.clickZoomSlip}
                             </span>
                         </div>
 
                         <div>
                             <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <span style="font-size:0.82rem; color:var(--ink-muted); font-family:var(--font-mono);">${escapeHtml(runner.id)}</span>
-                                <span class="status-pill pending">รออนุมัติ</span>
+                                <span class="status-pill pending">${dict.pillPendingApproval}</span>
                             </div>
                             <h4 style="margin:0.25rem 0; font-size:1.2rem; color:var(--navy-marine);">${escapeHtml(runner.firstName)} ${escapeHtml(runner.lastName)}</h4>
                             <div style="font-size:0.9rem; color:var(--ink-secondary); line-height:1.7;">
-                                ระยะแข่งขัน: <strong>${runner.category} (${runner.category === '10K' ? 'ปล่อยตัว 05.30 น.' : 'ปล่อยตัว 06.00 น.'})</strong><br>
-                                ยอดชำระ: <strong style="color:var(--teal-andaman); font-size:1.2rem; font-family:var(--font-heading);">฿${runner.amount}.00</strong><br>
-                                ขนาดเสื้อ: <strong>ไซส์ ${runner.shirtSize} (${shirtTypeLabel})</strong> | เบอร์โทร: <strong>${escapeHtml(runner.phone)}</strong><br>
-                                อีเมลแจ้งผล: ${emailStatusHtml} | ลงทะเบียน: ${new Date(runner.createdAt).toLocaleString('th-TH')}
+                                ${dict.lblCat} <strong>${escapeHtml(runner.category)} (${runner.category === '10K' ? dict.start10K : dict.start5K})</strong><br>
+                                ${dict.lblAmountPaid} <strong style="color:var(--teal-andaman); font-size:1.2rem; font-family:var(--font-heading);">฿${runner.amount}.00</strong> | ${dict.lblTransfer} <strong>${escapeHtml(transferText)}</strong><br>
+                                ${dict.lblShirtInfo} <strong>${dict.sizeWord} ${escapeHtml(runner.shirtSize)} (${escapeHtml(shirtTypeLabel)})</strong> | ${dict.lblPhone} <strong>${escapeHtml(runner.phone)}</strong><br>
+                                ${dict.lblEmailNotify} ${emailStatusHtml} | ${dict.lblRegisteredAt} ${runner.createdAt ? new Date(runner.createdAt).toLocaleString(localeCode) : '-'}
                             </div>
                             ${hasDupAlert}
                         </div>
 
                         <div style="display:flex; flex-direction:column; gap:0.6rem;">
-                            <button class="btn btn-sm btn-success" id="btnApprove_${runner.id}" style="width:100%;" onclick="approveSlip('${runner.id}')">
-                                อนุมัติ & ออกบิบ
+                            <button class="btn btn-sm btn-success" id="btnApprove_${escapeHtml(runner.id)}" style="width:100%;" onclick="approveSlip('${escapeHtml(runner.id)}')">
+                                ${dict.btnApproveBib}
                             </button>
-                            <button class="btn btn-sm btn-danger" id="btnReject_${runner.id}" style="width:100%;" onclick="promptRejectSlip('${runner.id}')">
-                                ปฏิเสธสลิป
+                            <button class="btn btn-sm btn-danger" id="btnReject_${escapeHtml(runner.id)}" style="width:100%;" onclick="promptRejectSlip('${escapeHtml(runner.id)}')">
+                                ${dict.btnRejectSlip}
                             </button>
                         </div>
                     </div>
@@ -427,34 +778,35 @@
         }
 
         function renderDirectoryTable(list) {
+            const dict = ADMIN_I18N[adminLang];
             const tbody = document.getElementById('runnersTableBody');
             if (list.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:2rem;">ไม่พบข้อมูล</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:2rem;">${dict.noDataRow}</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = list.map(r => {
-                const shirtTypeLabel = r.shirtType || 'แขนสั้น';
-                let statusBadge = '<span class="status-pill pending">รอตรวจ</span>';
+                const shirtTypeLabel = formatShirtTypeLabel(r.shirtType, dict);
+                let statusBadge = `<span class="status-pill pending">${dict.badgePending}</span>`;
                 if (r.status === window.KohYaoStore.STATUS.APPROVED) {
-                    statusBadge = '<span class="status-pill approved">อนุมัติแล้ว</span>';
+                    statusBadge = `<span class="status-pill approved">${dict.badgeApproved}</span>`;
                 } else if (r.status === window.KohYaoStore.STATUS.REJECTED) {
-                    statusBadge = '<span class="status-pill rejected">ปฏิเสธ</span>';
+                    statusBadge = `<span class="status-pill rejected">${dict.badgeRejected}</span>`;
                 }
 
                 return `
                     <tr>
-                        <td><strong style="color:var(--teal-andaman); font-family:var(--font-heading);">${r.bibNumber || '-'}</strong></td>
+                        <td><strong style="color:var(--teal-andaman); font-family:var(--font-heading);">${escapeHtml(r.bibNumber || '-')}</strong></td>
                         <td style="font-family:var(--font-mono); font-size:0.85rem;">${escapeHtml(r.id)}</td>
                         <td><strong>${escapeHtml(r.firstName)} ${escapeHtml(r.lastName)}</strong></td>
-                        <td>${r.category}</td>
-                        <td>${r.shirtSize} (${shirtTypeLabel})</td>
+                        <td>${escapeHtml(r.category)}</td>
+                        <td>${escapeHtml(r.shirtSize)} (${escapeHtml(shirtTypeLabel)})</td>
                         <td>${escapeHtml(r.phone)}</td>
                         <td>฿${r.amount}</td>
                         <td>${statusBadge}</td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" onclick="viewDetails('${r.id}')" title="ดูข้อมูล">
-                                รายละเอียด
+                            <button class="btn btn-sm btn-secondary" onclick="viewDetails('${escapeHtml(r.id)}')" title="${dict.btnDetails}">
+                                ${dict.btnDetails}
                             </button>
                         </td>
                     </tr>
@@ -471,78 +823,76 @@
                 all = all.filter(r => r.status === status);
             }
             if (search) {
-                all = all.filter(r => 
-                    r.firstName.toLowerCase().includes(search) ||
-                    r.lastName.toLowerCase().includes(search) ||
+                all = all.filter(r =>
+                    (r.firstName || '').toLowerCase().includes(search) ||
+                    (r.lastName || '').toLowerCase().includes(search) ||
                     (r.bibNumber && r.bibNumber.toLowerCase().includes(search)) ||
-                    (r.idCard && r.idCard.includes(search)) ||
-                    r.id.toLowerCase().includes(search)
+                    (r.idCard && r.idCard.toLowerCase().includes(search)) ||
+                    (r.phone && r.phone.includes(search)) ||
+                    (r.id || '').toLowerCase().includes(search)
                 );
             }
             renderDirectoryTable(all);
         }
 
         async function approveSlip(regId) {
+            const dict = ADMIN_I18N[adminLang];
             const runner = cachedRunners.find(r => r.id === regId);
             const btn = document.getElementById(`btnApprove_${regId}`);
             if (btn) {
                 btn.disabled = true;
-                btn.textContent = 'กำลังอนุมัติ...';
+                btn.textContent = dict.btnApproving;
             }
 
             try {
                 const reg = await window.KohYaoStore.approveRegistration(regId, 'เจ้าหน้าที่ตรวจสอบยอดเงินตรงและออกบิบเรียบร้อย');
                 let emailNotice = '';
                 if (reg.emailSent === true) {
-                    emailNotice = `\n\nการแจ้งเตือน: ส่งอีเมลยืนยันและเลข BIB ไปยัง ${runner?.email || 'ผู้สมัคร'} เรียบร้อยแล้ว`;
+                    emailNotice = dict.emailSentNote(runner?.email || '');
                 } else {
-                    emailNotice = `\n\nหมายเหตุ: ${reg.emailMessage || 'ผู้สมัครไม่ได้ระบุอีเมล'} (ผู้สมัครสามารถตรวจผลและดาวน์โหลด E-Bib ผ่านหน้าเว็บไซต์ได้ทันที)`;
+                    emailNotice = dict.emailNotSentNote(reg.emailMessage || dict.noEmailText);
                 }
 
-                alert(`อนุมัติสำเร็จ!\n\nออกหมายเลข BIB: ${reg.bibNumber || 'ออกบิบเรียบร้อย'}${emailNotice}`);
+                alert(dict.alertApproveSuccess(reg.bibNumber || 'OK', emailNotice));
                 loadDashboard();
             } catch (e) {
-                alert('เกิดข้อผิดพลาด: ' + e.message);
+                alert(dict.alertErrorPrefix + e.message);
                 if (btn) {
                     btn.disabled = false;
-                    btn.textContent = 'อนุมัติ & ออกบิบ';
+                    btn.textContent = dict.btnApproveBib;
                 }
             }
         }
 
         async function promptRejectSlip(regId) {
+            const dict = ADMIN_I18N[adminLang];
             const runner = cachedRunners.find(r => r.id === regId);
-            const reasons = [
-                'ยอดเงินที่โอนไม่ตรงกับค่าสมัคร (กรุณาตรวจสอบค่าเสื้อแขนสั้น/แขนยาว)',
-                'สลิปการโอนเงินภาพเบลอ ไม่สามารถอ่านข้อความได้',
-                'ตรวจพบสลิปซ้ำกับผู้สมัครรายอื่น',
-                'โอนเข้าบัญชีที่ไม่ถูกต้อง'
-            ];
-            const reason = prompt('ระบุเหตุผลการปฏิเสธสลิป:\n1. ' + reasons.join('\n2. '), reasons[0]);
+            const reasons = dict.rejectReasons;
+            const reason = prompt(dict.promptRejectHeader + '1. ' + reasons.join('\n2. '), reasons[0]);
             if (reason) {
                 const btn = document.getElementById(`btnReject_${regId}`);
                 if (btn) {
                     btn.disabled = true;
-                    btn.textContent = 'กำลังบันทึก...';
+                    btn.textContent = dict.btnRejecting;
                 }
 
                 try {
                     const res = await window.KohYaoStore.rejectRegistration(regId, reason);
                     let emailNotice = '';
                     if (res && res.emailSent === true) {
-                        emailNotice = `\n\nการแจ้งเตือน: ส่งอีเมลแจ้งเหตุผลไปยัง ${runner?.email || 'ผู้สมัคร'} เรียบร้อยแล้ว`;
+                        emailNotice = dict.rejectEmailSent(runner?.email || '');
                     } else {
                         const phoneText = runner?.phone ? ` (${runner.phone})` : '';
-                        emailNotice = `\n\nคำแนะนำเจ้าหน้าที่: ผู้สมัครไม่ได้ระบุอีเมลไว้ในระบบ แนะนำให้โทรแจ้งตามเบอร์โทรศัพท์ในระบบ${phoneText} เพื่อให้ส่งสลิปใหม่ได้ทันเวลา`;
+                        emailNotice = dict.rejectNoEmail(phoneText);
                     }
 
-                    alert(`ปฏิเสธสลิปเรียบร้อยแล้ว${emailNotice}`);
+                    alert(dict.alertRejectSuccess(emailNotice));
                     loadDashboard();
                 } catch (e) {
-                    alert('เกิดข้อผิดพลาด: ' + e.message);
+                    alert(dict.alertErrorPrefix + e.message);
                     if (btn) {
                         btn.disabled = false;
-                        btn.textContent = 'ปฏิเสธสลิป';
+                        btn.textContent = dict.btnRejectSlip;
                     }
                 }
             }
@@ -555,23 +905,46 @@
         }
 
         function viewDetails(regId) {
+            const dict = ADMIN_I18N[adminLang];
             const runner = cachedRunners.find(r => r.id === regId);
             if (!runner) return;
 
-            alert(`ข้อมูลนักวิ่ง: ${runner.firstName} ${runner.lastName}\n\n` +
-                  `BIB: ${runner.bibNumber || 'รออนุมัติ'}\n` +
-                  `ระยะ: ${runner.category}\n` +
-                  `ไซส์เสื้อ: ${runner.shirtSize} (${runner.shirtType || 'แขนสั้น'})\n` +
-                  `ยอดชำระ: ฿${runner.amount}\n` +
-                  `เลขบัตร ปชช.: ${runner.idCard}\n` +
-                  `เบอร์โทร: ${runner.phone}\n` +
-                  `อีเมล: ${runner.email || 'ไม่ได้ระบุ'}\n` +
-                  `ติดต่อฉุกเฉิน: ${runner.emergencyContact} (${runner.emergencyPhone})\n` +
-                  `สถานะ: ${runner.status}\n` +
-                  `หมายเหตุเจ้าหน้าที่: ${runner.adminNotes || '-'}`);
+            const shirtTypeLabel = formatShirtTypeLabel(runner.shirtType, dict);
+            const transferText = (runner.transferDate || runner.transferTime)
+                ? `${runner.transferDate || '-'} ${runner.transferTime || ''}`.trim()
+                : '-';
+
+            if (adminLang === 'en') {
+                alert(`Runner Details: ${runner.firstName} ${runner.lastName}\n\n` +
+                      `BIB: ${runner.bibNumber || 'Pending'}\n` +
+                      `Category: ${runner.category}\n` +
+                      `Shirt: ${runner.shirtSize} (${shirtTypeLabel})\n` +
+                      `Amount Paid: ฿${runner.amount}\n` +
+                      `Transfer Date/Time: ${transferText}\n` +
+                      `ID / Passport: ${runner.idCard}\n` +
+                      `Phone: ${runner.phone}\n` +
+                      `Email: ${runner.email || 'Not provided'}\n` +
+                      `Emergency Contact: ${runner.emergencyContact} (${runner.emergencyPhone})\n` +
+                      `Status: ${runner.status}\n` +
+                      `Staff Notes: ${runner.adminNotes || '-'}`);
+            } else {
+                alert(`ข้อมูลนักวิ่ง: ${runner.firstName} ${runner.lastName}\n\n` +
+                      `BIB: ${runner.bibNumber || 'รออนุมัติ'}\n` +
+                      `ระยะ: ${runner.category}\n` +
+                      `ไซส์เสื้อ: ${runner.shirtSize} (${shirtTypeLabel})\n` +
+                      `ยอดชำระ: ฿${runner.amount}\n` +
+                      `วัน-เวลาโอนเงิน: ${transferText}\n` +
+                      `เลขบัตร ปชช. / พาสปอร์ต: ${runner.idCard}\n` +
+                      `เบอร์โทร: ${runner.phone}\n` +
+                      `อีเมล: ${runner.email || 'ไม่ได้ระบุ'}\n` +
+                      `ติดต่อฉุกเฉิน: ${runner.emergencyContact} (${runner.emergencyPhone})\n` +
+                      `สถานะ: ${runner.status}\n` +
+                      `หมายเหตุเจ้าหน้าที่: ${runner.adminNotes || '-'}`);
+            }
         }
 
         async function exportData() {
+            const dict = ADMIN_I18N[adminLang];
             try {
                 const csv = await window.KohYaoStore.exportCSV(true);
                 const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -582,15 +955,16 @@
                 a.click();
                 URL.revokeObjectURL(url);
             } catch (e) {
-                alert('เกิดข้อผิดพลาดในการส่งออก: ' + e.message);
+                alert(dict.alertExportError + e.message);
             }
         }
 
         function resetDbConfirm() {
-            if (confirm('คุณต้องการรีเซ็ตฐานข้อมูลเป็นค่าเริ่มต้นสำหรับการทดสอบหรือไม่?')) {
+            const dict = ADMIN_I18N[adminLang];
+            if (confirm(dict.confirmResetDb)) {
                 window.KohYaoStore.resetDatabase();
                 loadDashboard();
-                alert('รีเซ็ตฐานข้อมูลเรียบร้อยแล้ว');
+                alert(dict.alertResetDone);
             }
         }
     </script>

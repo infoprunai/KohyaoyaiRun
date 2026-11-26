@@ -1,610 +1,678 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ลงทะเบียนเข้าร่วมแข่งขัน | กิจกรรมวิ่งเปิดโลกทะเล ๒๕๗๐</title>
+    <title>สมัครแข่งขันออนไลน์ | กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570</title>
     <link rel="icon" href="Photo/logo.jpeg" type="image/jpeg">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <!-- Google Model Viewer for 3D .glb Shirts -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <link rel="stylesheet" href="css/style.css?v=3.4">
 
     <style>
-        /* ================= 3D SHIRT PREVIEW IN REGISTRATION ================= */
-        .reg-shirt-preview-box {
-            margin-top: 1.75rem;
-            padding: 1.35rem;
+        .shirt-3d-preview-card {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
             background: linear-gradient(165deg, #F8FAFC 0%, #EEF6F8 100%);
             border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            display: grid;
-            grid-template-columns: 1fr 1.15fr;
-            gap: 1.5rem;
-            align-items: center;
         }
 
-        .reg-shirt-stage {
+        .shirt-3d-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .shirt-3d-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--navy-marine);
+            margin: 0;
+        }
+
+        .shirt-3d-badge {
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            background: #ECFEFF;
+            color: #0E7490;
+            border: 1px solid #A5F3FC;
+        }
+
+        .shirt-3d-badge.theme-10k {
+            background: #FFFBEB;
+            color: #B45309;
+            border-color: #FDE68A;
+        }
+
+        .shirt-3d-viewer-wrap {
             position: relative;
             width: 100%;
-            height: 290px;
+            height: 360px;
             border-radius: var(--radius-md);
-            background: radial-gradient(circle at 50% 42%, #FFFFFF 0%, #E6F2F5 100%);
+            background: radial-gradient(circle at 50% 45%, #FFFFFF 0%, #E6F2F5 100%);
             overflow: hidden;
         }
 
-        .reg-shirt-stage model-viewer {
+        .shirt-3d-viewer-wrap model-viewer {
             width: 100%;
             height: 100%;
             --poster-color: transparent;
         }
 
-        .reg-shirt-controls {
+        .shirt-3d-footer {
             display: flex;
-            justify-content: center;
-            gap: 0.4rem;
-            margin-top: 0.6rem;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
         }
 
-        .btn-viewer-mini {
+        .shirt-3d-controls {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-3d-view {
             font-family: 'Prompt', sans-serif;
             font-size: 0.74rem;
             font-weight: 600;
-            padding: 0.28rem 0.7rem;
+            padding: 0.28rem 0.65rem;
             border-radius: 999px;
             border: 1px solid var(--border-subtle);
             background: #FFFFFF;
             color: var(--ink-secondary);
             cursor: pointer;
-            transition: all 0.18s ease;
+            transition: all 0.2s ease;
         }
 
-        .btn-viewer-mini:hover {
+        .btn-3d-view:hover {
             border-color: var(--navy-marine);
             color: var(--navy-marine);
         }
 
-        .reg-step2-shirt-grid {
+        .btn-3d-view.active {
+            background: var(--navy-marine);
+            border-color: var(--navy-marine);
+            color: #FFFFFF;
+        }
+
+        .field-error-msg {
+            display: none;
+            color: #DC2626;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.35rem;
+        }
+
+        .field-error-msg.visible {
+            display: block;
+        }
+
+        .form-input-control.is-invalid {
+            border-color: #DC2626 !important;
+            background-color: #FEF2F2;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+        }
+
+        .form-input-control[readonly] {
+            background-color: #F1F5F9;
+            color: var(--navy-marine);
+            font-weight: 700;
+            cursor: default;
+        }
+
+        /* Payment Grid & Enlarged QR Code */
+        .payment-grid-2col {
             display: grid;
-            grid-template-columns: 260px 1fr;
-            gap: 1.5rem;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 2rem;
+            background: var(--canvas-subtle);
+            padding: 1.75rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.75rem;
             align-items: start;
         }
 
-        .reg-step2-viewer-card {
-            background: #FFFFFF;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 0.9rem;
+        .payment-qr-col {
             text-align: center;
+            border-right: 1px solid var(--border-subtle);
+            padding-right: 1.5rem;
         }
 
-        .reg-step2-viewer-card .reg-shirt-stage {
-            height: 245px;
+        .qr-real-image-box {
+            width: 290px;
+            max-width: 100%;
+            height: 290px;
+            margin: 0.75rem auto;
+            background: #FFFFFF;
+            padding: 12px;
+            border-radius: 16px;
+            border: 2px solid var(--border-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
         }
 
-        .reg-shirt-spec-chip {
-            display: inline-block;
-            margin-top: 0.65rem;
-            padding: 0.32rem 0.75rem;
+        .qr-real-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .btn-save-qr {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 0.55rem;
+            padding: 0.45rem 1rem;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--navy-marine);
+            background: #FFFFFF;
+            border: 1.5px solid var(--border-subtle);
             border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            background: #ECFEFF;
-            color: #0E7490;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .reg-shirt-spec-chip.theme-10k {
-            background: #FFFBEB;
-            color: #B45309;
+        .btn-save-qr:hover {
+            border-color: var(--teal-andaman);
+            color: var(--teal-andaman);
+            background: #F0FDFA;
+        }
+
+        /* Easy Date & Time Controls */
+        .datetime-easy-input {
+            font-size: 1.08rem !important;
+            font-weight: 600;
+            min-height: 48px;
+            padding: 0.65rem 0.95rem !important;
+            cursor: pointer;
+            background-color: #FFFFFF;
+        }
+
+        .quick-dt-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.45rem;
+        }
+
+        .btn-quick-dt {
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.76rem;
+            font-weight: 600;
+            padding: 0.28rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: #FFFFFF;
+            color: var(--navy-marine);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-quick-dt:hover {
+            background: var(--navy-marine);
+            border-color: var(--navy-marine);
+            color: #FFFFFF;
         }
 
         @media (max-width: 768px) {
-            .reg-shirt-preview-box,
-            .reg-step2-shirt-grid {
-                grid-template-columns: 1fr;
-                gap: 1.15rem;
+            .shirt-3d-viewer-wrap {
+                height: 300px;
             }
-            .reg-shirt-stage {
-                height: 250px;
+
+            .payment-grid-2col {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.25rem;
+            }
+
+            .payment-qr-col {
+                border-right: none;
+                border-bottom: 1px solid var(--border-subtle);
+                padding-right: 0;
+                padding-bottom: 1.25rem;
+            }
+
+            .qr-real-image-box {
+                width: 270px;
+                height: 270px;
             }
         }
     </style>
 </head>
-<body>
 
-    <!-- ================= SITE NAVIGATION ================= -->
+<body style="background: var(--canvas-bg);">
+
+    <!-- Navigation -->
     <nav class="site-nav">
         <div class="nav-inner">
             <a href="index.html" class="brand-wrapper">
-                <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo">
+                <div class="brand-logos-group">
+                    <img src="Photo/logo.jpeg" alt="ตราเทศบาลตำบลพรุใน" class="brand-logo-dual">
+                    <img src="Photo/visahakitLOGO.jpg" onerror="this.src='file:///D:/Run%20Open%20Sea%20Kohyao/Photo/visahakitLOGO.jpg'" alt="ตรากลุ่มวิสาหกิจชุมชนด้านการท่องเที่ยว" class="brand-logo-dual community-logo">
+                </div>
                 <div class="brand-text">
-                    <h1>เปิดโลกทะเล 2570</h1>
-                    <span>เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
+                    <h1 data-i18n="brandTitle">เปิดโลกทะเล 2570</h1>
+                    <span data-i18n="brandSub">เทศบาลตำบลพรุใน • เกาะยาวใหญ่</span>
                 </div>
             </a>
 
-            <button class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="nav-right-actions">
+                <div class="lang-switch-group" role="group" aria-label="Language Switcher">
+                    <button type="button" class="lang-switch-btn active" id="btnLangTH" onclick="setRegLanguage('th')">TH</button>
+                    <button type="button" class="lang-switch-btn" id="btnLangEN" onclick="setRegLanguage('en')">EN</button>
+                </div>
+
+                <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="เปิดเมนูนำทาง" aria-expanded="false" aria-controls="navMenu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
 
             <ul class="nav-menu" id="navMenu">
-                <li><a href="index.html" class="nav-link">หน้าแรก</a></li>
-                <li><a href="guide.html" class="nav-link">คู่มือเดินทาง & ท่องเที่ยว</a></li>
-                <li><a href="status.html" class="nav-link">ตรวจสถานะ & E-Bib</a></li>
-                <li><a href="admin.html" class="nav-admin-badge">ระบบเจ้าหน้าที่</a></li>
-                <li><a href="register.html" class="nav-btn-register active">สมัครแข่งขัน</a></li>
+                <li><a href="index.html" class="nav-link" data-i18n="navHome">หน้าแรก</a></li>
+                <li class="nav-dropdown">
+                    <button type="button" class="nav-link nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        <span data-i18n="navInfo">ข้อมูลการแข่งขัน</span>
+                        <span class="nav-caret" aria-hidden="true">▾</span>
+                    </button>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="index.html#schedule" class="nav-dropdown-item" data-i18n="navSchedule">กำหนดการ</a></li>
+                        <li><a href="index.html#about" class="nav-dropdown-item" data-i18n="navCategories">ประเภท & ค่าสมัคร</a></li>
+                        <li><a href="index.html#prizes" class="nav-dropdown-item" data-i18n="navPrizes">เงินรางวัล & เหรียญ</a></li>
+                        <li><a href="index.html#routes" class="nav-dropdown-item" data-i18n="navRoutes">เส้นทางวิ่ง</a></li>
+                        <li><a href="index.html#kit" class="nav-dropdown-item" data-i18n="navKit">เสื้อแข่งขัน</a></li>
+                    </ul>
+                </li>
+                <li><a href="guide.html" class="nav-link" data-i18n="navGuide">คู่มือเดินทาง</a></li>
+                <li><a href="status.html" class="nav-link" data-i18n="navStatus">ตรวจสถานะ & E-Bib</a></li>
+                <li><a href="admin.html" class="nav-admin-badge" data-i18n="navAdmin">เจ้าหน้าที่</a></li>
+                <li><a href="register.html" class="nav-btn-register active" data-i18n="navRegister">สมัครแข่งขัน</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- ================= REGISTRATION PAGE ================= -->
-    <div class="section" style="padding-top:3.5rem;">
+    <!-- Registration Container -->
+    <section class="section" style="padding-top: 3rem;">
         <div class="container">
-            <div class="section-header" style="margin-bottom:2.5rem;">
-                <div class="badge-tag"><span class="dot"></span> เปิดรับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570</div>
-                <h2 class="section-title">ลงทะเบียนเข้าร่วมการแข่งขัน</h2>
-                <p class="section-desc">วันแข่งขัน 31 มกราคม 2570 ณ อ่าวโล๊ะจาก • นัดรับเสื้อวันที่ 30 ม.ค. 2570 (10.00–18.00 น.) ณ เต็นท์อำนวยการงานเปิดโลกทะเล</p>
+            <div class="section-header" style="margin-bottom: 2.25rem;">
+                <div class="badge-tag"><span class="dot"></span> <span data-i18n="regBadge">รับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570 • โควตาประเภทละ 200 คน</span></div>
+                <h2 class="section-title" data-i18n="regTitle">แบบฟอร์มสมัครเข้าร่วมการแข่งขัน</h2>
+                <p class="section-desc" data-i18n="regDesc">ช่องที่มีเครื่องหมาย <strong style="color:#DC2626;">*</strong> จำเป็นต้องกรอกให้ครบถ้วนและถูกต้องก่อนดำเนินการต่อ</p>
             </div>
 
-            <!-- Modern Stepper Progress -->
+            <!-- 3-Step Stepper -->
             <div class="stepper-progress-bar">
-                <div class="step-node active" id="stepIndicator1">
+                <div class="step-node active" id="stepNode1">
                     <div class="step-node-bubble">1</div>
-                    <div class="step-node-text">เลือกระยะทาง</div>
+                    <div class="step-node-text" data-i18n="step1Text">ข้อมูลส่วนตัว</div>
                 </div>
-                <div class="step-node" id="stepIndicator2">
+                <div class="step-node" id="stepNode2">
                     <div class="step-node-bubble">2</div>
-                    <div class="step-node-text">ข้อมูล & เสื้อวิ่ง</div>
+                    <div class="step-node-text" data-i18n="step2Text">ระยะทาง & ไซซ์เสื้อ</div>
                 </div>
-                <div class="step-node" id="stepIndicator3">
+                <div class="step-node" id="stepNode3">
                     <div class="step-node-bubble">3</div>
-                    <div class="step-node-text">ชำระเงิน & ยืนยัน</div>
+                    <div class="step-node-text" data-i18n="step3Text">ชำระเงิน & สลิป</div>
                 </div>
             </div>
 
-            <!-- Form Envelope Card -->
+            <!-- Form Card -->
             <div class="form-envelope-card">
-                <form id="regForm" novalidate>
+                <form id="registrationForm" novalidate>
 
-                    <!-- ================= STEP 1: SELECT CATEGORY ================= -->
-                    <div class="step-content" id="step1">
-                        <h3 style="color:var(--navy-marine); font-size:1.4rem; margin-bottom:1.5rem; text-align:center;">
-                            ขั้นตอนที่ 1: เลือกระยะทางที่ต้องการลงทะเบียน (จำกัดประเภทละ 200 คน)
+                    <!-- ================= STEP 1: PERSONAL INFO ================= -->
+                    <div id="step1">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--navy-marine); font-size: 1.3rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;" data-i18n="step1Heading">
+                            ส่วนที่ 1: ข้อมูลส่วนตัวและผู้ติดต่อฉุกเฉิน
                         </h3>
-
-                        <div class="category-choice-panel">
-                            <label class="cat-select-card selected" id="card5k">
-                                <input type="radio" name="raceCategory" value="5K" checked>
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <span style="font-size:2.2rem; font-weight:900; color:var(--teal-andaman); letter-spacing:-0.03em;">5 KM.</span>
-                                    <span class="status-pill approved">ปล่อยตัว 06.00 น.</span>
-                                </div>
-                                <h4 style="margin:0.75rem 0 0.25rem 0; font-size:1.15rem; color:var(--navy-marine);">ประเภทระยะทาง 5 กิโลเมตร</h4>
-                                <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.25rem;">
-                                    เช็คบิบได้ตั้งเเต่เวลา 05.00 น. • ปล่อยตัว 06.00 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 2 จุด • เหรียญรางวัล 100 คนแรก)
-                                </p>
-                                <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--border-subtle); padding-top:0.75rem;">
-                                    <span style="font-size:0.85rem; color:var(--ink-muted);" id="quotaText5k">กำลังตรวจโควตา...</span>
-                                    <div style="text-align:right;">
-                                        <strong style="font-size:1.5rem; color:var(--navy-marine); font-family:var(--font-heading);">฿350</strong>
-                                        <span style="display:block; font-size:0.75rem; color:var(--teal-andaman);">แขนยาว +฿50 (฿400)</span>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <label class="cat-select-card" id="card10k">
-                                <input type="radio" name="raceCategory" value="10K">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <span style="font-size:2.2rem; font-weight:900; color:var(--gold-dark); letter-spacing:-0.03em;">10 KM.</span>
-                                    <span class="status-pill pending">ปล่อยตัว 05.30 น.</span>
-                                </div>
-                                <h4 style="margin:0.75rem 0 0.25rem 0; font-size:1.15rem; color:var(--navy-marine);">ประเภทระยะทาง 10 กิโลเมตร</h4>
-                                <p style="font-size:0.88rem; color:var(--ink-muted); margin-bottom:1.25rem;">
-                                    เช็คบิบได้ตั้งเเต่ 05.00 น. • ปล่อยตัว 05.30 น. ณ อ่าวโล๊ะจาก (จุดบริการน้ำ 4 จุด • เหรียญรางวัล 100 คนแรก)
-                                </p>
-                                <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px dashed var(--border-subtle); padding-top:0.75rem;">
-                                    <span style="font-size:0.85rem; color:var(--ink-muted);" id="quotaText10k">กำลังตรวจโควตา...</span>
-                                    <div style="text-align:right;">
-                                        <strong style="font-size:1.5rem; color:var(--gold-dark); font-family:var(--font-heading);">฿450</strong>
-                                        <span style="display:block; font-size:0.75rem; color:var(--gold-dark);">แขนยาว +฿50 (฿500)</span>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Live 3D Shirt Preview for Step 1 -->
-                        <div class="reg-shirt-preview-box">
-                            <div>
-                                <div class="reg-shirt-stage">
-                                    <model-viewer
-                                        id="regStep1ShirtViewer"
-                                        src="Photo/modelshirt2.glb"
-                                        poster="Photo/50764.jpg"
-                                        alt="ตัวอย่างเสื้อแข่งขัน 3 มิติ"
-                                        camera-controls
-                                        auto-rotate
-                                        rotation-per-second="20deg"
-                                        camera-orbit="0deg 82deg auto"
-                                        shadow-intensity="0.8"
-                                        exposure="1.05"
-                                        environment-image="neutral"
-                                        interaction-prompt="none">
-                                    </model-viewer>
-                                </div>
-                                <div class="reg-shirt-controls">
-                                    <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep1ShirtViewer', '0deg 82deg auto')">ด้านหน้า</button>
-                                    <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep1ShirtViewer', '180deg 82deg auto')">ด้านหลัง</button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <span id="step1ShirtTag" class="status-pill approved" style="margin-bottom:0.5rem;">แบบเสื้อระยะ 5 KM.</span>
-                                <h4 id="step1ShirtTitle" style="font-size:1.2rem; color:var(--navy-marine); margin:0.25rem 0 0.5rem 0;">
-                                    เสื้อแข่งขันลายเกาะไข่ (สีเขียวมรกต-ฟ้า)
-                                </h4>
-                                <p id="step1ShirtDesc" style="font-size:0.88rem; color:var(--ink-secondary); line-height:1.65; margin-bottom:0.85rem;">
-                                    ผู้สมัครระยะ 5 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายเกาะไข่ สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา
-                                </p>
-                                <div style="font-size:0.82rem; color:var(--ink-muted); background:#FFFFFF; padding:0.65rem 0.85rem; border-radius:8px; border:1px solid var(--border-subtle);">
-                                    * ในขั้นตอนถัดไปสามารถเลือก <strong>รุ่นแขนสั้น (ราคาปกติ)</strong> หรือ <strong>รุ่นแขนยาว (+50 บาท)</strong> และเลือกไซส์ XS–3XL ได้
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="text-align:right; margin-top:2rem;">
-                            <button type="button" class="btn btn-primary" onclick="goToStep(2)">
-                                ถัดไป: กรอกข้อมูลนักวิ่ง →
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- ================= STEP 2: RUNNER INFO ================= -->
-                    <div class="step-content" id="step2" style="display:none;">
-                        <h3 style="color:var(--navy-marine); font-size:1.35rem; margin-bottom:1.5rem;">
-                            ขั้นตอนที่ 2: ข้อมูลส่วนบุคคลและขนาดเสื้อแข่งขัน
-                        </h3>
-
-                        <!-- Name & ID Card -->
-                        <div class="form-grid-2col">
-                            <div class="form-field-group">
-                                <label class="field-label">ชื่อจริง <span class="required-dot">*</span></label>
-                                <input type="text" class="form-input-control" id="firstName" placeholder="ชื่อจริงภาษาไทย" required>
-                            </div>
-                            <div class="form-field-group">
-                                <label class="field-label">นามสกุล <span class="required-dot">*</span></label>
-                                <input type="text" class="form-input-control" id="lastName" placeholder="นามสกุลภาษาไทย" required>
-                            </div>
-                        </div>
 
                         <div class="form-grid-2col">
                             <div class="form-field-group">
-                                <label class="field-label">เลขบัตรประชาชน 13 หลัก <span class="required-dot">*</span></label>
-                                <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-input-control" id="idCard" placeholder="กรอกเลขบัตร 13 หลัก" maxlength="13" required>
-                                <small style="color:var(--ink-muted); font-size:0.78rem;">* ใช้ตรวจสอบการลงทะเบียนและทำประกันอุบัติเหตุ</small>
+                                <label class="field-label" for="fullName"><span data-i18n="lblFullName">ชื่อ - นามสกุล (Full Name)</span> <span class="required-dot">*</span></label>
+                                <input type="text" id="fullName" class="form-input-control" placeholder="เช่น นายสมชาย ใจดี / Somchai Jaidee" required>
+                                <div class="field-error-msg" id="errFullName"></div>
                             </div>
                             <div class="form-field-group">
-                                <label class="field-label">เพศสภาพ <span class="required-dot">*</span></label>
-                                <select class="form-input-control" id="gender" required>
-                                    <option value="ชาย">ชาย (Male)</option>
-                                    <option value="หญิง">หญิง (Female)</option>
-                                </select>
+                                <label class="field-label" for="nationalId"><span data-i18n="lblNationalId">เลขบัตรประชาชน 13 หลัก หรือ พาสปอร์ต</span> <span class="required-dot">*</span></label>
+                                <input type="text" id="nationalId" class="form-input-control" maxlength="13" inputmode="text" autocomplete="off" placeholder="เลขบัตร 13 หลัก หรือ พาสปอร์ต (สูงสุด 13 ตัว)" required>
+                                <div class="field-error-msg" id="errNationalId"></div>
+                                <div id="duplicateIdAlert" class="duplicate-alert"></div>
                             </div>
                         </div>
 
                         <div class="form-grid-3col">
                             <div class="form-field-group">
-                                <label class="field-label">วัน/เดือน/ปีเกิด <span class="required-dot">*</span></label>
-                                <input type="date" class="form-input-control" id="birthDate" required>
+                                <label class="field-label" for="gender"><span data-i18n="lblGender">เพศ</span> <span class="required-dot">*</span></label>
+                                <select id="gender" class="form-input-control" required>
+                                    <option value="ชาย" data-i18n="optMale">ชาย</option>
+                                    <option value="หญิง" data-i18n="optFemale">หญิง</option>
+                                    <option value="ไม่ระบุ" data-i18n="optUnspecified">ไม่ระบุ</option>
+                                </select>
+                                <div class="field-error-msg" id="errGender"></div>
                             </div>
                             <div class="form-field-group">
-                                <label class="field-label">อายุคำนวณ (ปี)</label>
-                                <input type="text" class="form-input-control" id="calculatedAge" placeholder="อัตโนมัติ" readonly style="background:var(--canvas-subtle);">
+                                <label class="field-label" for="birthDate"><span data-i18n="lblBirthDate">วัน/เดือน/ปีเกิด</span> <span class="required-dot">*</span></label>
+                                <input type="date" id="birthDate" class="form-input-control" onclick="try{this.showPicker()}catch(e){}" onchange="syncCalculatedAge()" required>
+                                <div class="field-error-msg" id="errBirthDate"></div>
                             </div>
                             <div class="form-field-group">
-                                <label class="field-label">กลุ่มรุ่นอายุ</label>
-                                <input type="text" class="form-input-control" id="calculatedGroup" placeholder="อัตโนมัติ" readonly style="background:var(--canvas-subtle);">
+                                <label class="field-label" for="calculatedAgeDisplay"><span data-i18n="lblCalculatedAge">อายุ (คำนวณอัตโนมัติ)</span></label>
+                                <input type="text" id="calculatedAgeDisplay" class="form-input-control" readonly placeholder="- ปี">
+                                <input type="hidden" id="ageValue" value="">
                             </div>
                         </div>
 
-                        <!-- Contact Details -->
-                        <div class="form-grid-2col">
+                        <div class="form-grid-3col">
                             <div class="form-field-group">
-                                <label class="field-label">เบอร์โทรศัพท์ <span class="required-dot">*</span></label>
-                                <input type="tel" inputmode="numeric" class="form-input-control" id="phone" placeholder="เช่น 0812345678" maxlength="10" required>
+                                <label class="field-label" for="phone"><span data-i18n="lblPhone">เบอร์โทรศัพท์ (ตัวเลข 10 หลัก)</span> <span class="required-dot">*</span></label>
+                                <input type="tel" id="phone" class="form-input-control" maxlength="10" inputmode="numeric" pattern="[0-9]*" placeholder="0812345678 (เฉพาะตัวเลข 10 หลัก)" required>
+                                <div class="field-error-msg" id="errPhone"></div>
                             </div>
                             <div class="form-field-group">
-                                <label class="field-label">
-                                    อีเมล <span style="font-weight:400; font-size:0.82rem; color:var(--ink-muted);">(ไม่บังคับ)</span>
+                                <label class="field-label" for="email"><span data-i18n="lblEmail">อีเมล (สำหรับรับแจ้งเตือนและ E-Bib)</span> <span class="required-dot">*</span></label>
+                                <input type="email" id="email" class="form-input-control" placeholder="example@mail.com" required>
+                                <div class="field-error-msg" id="errEmail"></div>
+                            </div>
+                            <div class="form-field-group">
+                                <label class="field-label" for="province"><span data-i18n="lblProvince">จังหวัด / ประเทศต้นทาง</span> <span class="required-dot">*</span></label>
+                                <input type="text" id="province" class="form-input-control" placeholder="เช่น พังงา, ภูเก็ต หรือ Country" required>
+                                <div class="field-error-msg" id="errProvince"></div>
+                            </div>
+                        </div>
+
+                        <div style="background: var(--canvas-subtle); padding: 1.25rem; border-radius: var(--radius-md); margin-top: 0.5rem;">
+                            <h4 style="font-size: 0.98rem; color: var(--navy-marine); margin-bottom: 1rem;" data-i18n="emerHeading">
+                                ผู้ติดต่อฉุกเฉิน (Emergency Contact — จำเป็นต้องกรอก)
+                            </h4>
+                            <div class="form-grid-2col" style="margin-bottom: 0;">
+                                <div class="form-field-group" style="margin-bottom:0;">
+                                    <label class="field-label" for="emergencyName"><span data-i18n="lblEmerName">ชื่อผู้ติดต่อฉุกเฉิน</span> <span class="required-dot">*</span></label>
+                                    <input type="text" id="emergencyName" class="form-input-control" placeholder="ชื่อ-นามสกุล ผู้ติดต่อฉุกเฉิน" required>
+                                    <div class="field-error-msg" id="errEmerName"></div>
+                                </div>
+                                <div class="form-field-group" style="margin-bottom:0;">
+                                    <label class="field-label" for="emergencyPhone"><span data-i18n="lblEmerPhone">เบอร์โทรฉุกเฉิน (ตัวเลข 10 หลัก)</span> <span class="required-dot">*</span></label>
+                                    <input type="tel" id="emergencyPhone" class="form-input-control" maxlength="10" inputmode="numeric" pattern="[0-9]*" placeholder="0812345678 (เฉพาะตัวเลข 10 หลัก)" required>
+                                    <div class="field-error-msg" id="errEmerPhone"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-field-group" style="margin-top: 1.25rem;">
+                            <label class="field-label" for="medicalInfo"><span data-i18n="lblMedical">โรคประจำตัว / อาการแพ้ / ข้อมูลทางการแพทย์ (ไม่บังคับ หากไม่มีเว้นว่างได้)</span></label>
+                            <textarea id="medicalInfo" class="form-input-control" rows="2" placeholder="ระบุหากมี (เช่น แพ้ยา, หอบหืด) หรือเว้นว่างหากไม่มี"></textarea>
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; margin-top: 2rem;">
+                            <button type="button" class="btn btn-primary" onclick="goStep(2)" data-i18n="btnNextStep2">
+                                ถัดไป: เลือกระยะทางและไซซ์เสื้อ →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ================= STEP 2: CATEGORY, SLEEVE & SHIRT SIZE ================= -->
+                    <div id="step2" style="display:none;">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--navy-marine); font-size: 1.3rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;" data-i18n="step2Heading">
+                            ส่วนที่ 2: เลือกประเภทระยะทาง รูปแบบแขนเสื้อ และไซซ์เสื้อ
+                        </h3>
+
+                        <div class="form-field-group">
+                            <label class="field-label"><span data-i18n="lblChooseDist">เลือกระยะทางการแข่งขัน</span> <span class="required-dot">*</span></label>
+                            <div class="category-choice-panel">
+                                <label class="cat-select-card" id="card5K" onclick="selectCategory('5K')">
+                                    <input type="radio" name="category" value="5K">
+                                    <span style="font-size:0.78rem; font-weight:700; color:var(--teal-andaman);">FUN RUN • ปล่อยตัว 06.00 น.</span>
+                                    <div style="font-size:1.45rem; font-weight:800; color:var(--navy-marine); margin:0.25rem 0;" data-i18n="choice5kTitle">วิ่งระยะ 5 กม.</div>
+                                    <div style="font-size:1.25rem; font-weight:800; color:var(--teal-andaman);">฿350 <span style="font-size:0.82rem; font-weight:500; color:var(--ink-muted);" data-i18n="longAdd80">(แขนยาว +80 บ.)</span></div>
+                                    <div id="quotaLabel5K" style="font-size:0.82rem; color:var(--ink-muted); margin-top:0.5rem;">โควตาคงเหลือ: -- / 200 ที่</div>
                                 </label>
-                                <input type="email" class="form-input-control" id="email" placeholder="example@email.com">
-                                <small style="color:var(--teal-andaman); font-size:0.78rem; display:block; margin-top:4px; line-height:1.45;">
-                                    * หากระบุอีเมล ระบบจะส่งแจ้งเตือนผลการตรวจสอบสลิปและเลข BIB ให้อัตโนมัติ (หากไม่มีอีเมล สามารถเช็กผลผ่านเลขบัตรประชาชนที่หน้าตรวจสอบสถานะได้)
-                                </small>
+
+                                <label class="cat-select-card" id="card10K" onclick="selectCategory('10K')">
+                                    <input type="radio" name="category" value="10K">
+                                    <span style="font-size:0.78rem; font-weight:700; color:var(--gold-dark);">MINI MARATHON • ปล่อยตัว 05.30 น.</span>
+                                    <div style="font-size:1.45rem; font-weight:800; color:var(--navy-marine); margin:0.25rem 0;" data-i18n="choice10kTitle">วิ่งระยะ 10 กม.</div>
+                                    <div style="font-size:1.25rem; font-weight:800; color:var(--gold-dark);">฿450 <span style="font-size:0.82rem; font-weight:500; color:var(--ink-muted);" data-i18n="longAdd80">(แขนยาว +80 บ.)</span></div>
+                                    <div id="quotaLabel10K" style="font-size:0.82rem; color:var(--ink-muted); margin-top:0.5rem;">โควตาคงเหลือ: -- / 200 ที่</div>
+                                </label>
                             </div>
+                            <div class="field-error-msg" id="errCategory"></div>
                         </div>
 
-                        <!-- Medical & Emergency -->
-                        <div class="form-grid-3col">
-                            <div class="form-field-group">
-                                <label class="field-label">หมู่เลือด</label>
-                                <select class="form-input-control" id="bloodType">
-                                    <option value="O">O</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="ไม่ระบุ">ไม่ระบุ</option>
-                                </select>
-                            </div>
-                            <div class="form-field-group">
-                                <label class="field-label">ผู้ติดต่อฉุกเฉิน <span class="required-dot">*</span></label>
-                                <input type="text" class="form-input-control" id="emergencyContact" placeholder="ชื่อ-สกุล ญาติ/เพื่อน" required>
-                            </div>
-                            <div class="form-field-group">
-                                <label class="field-label">เบอร์โทรฉุกเฉิน <span class="required-dot">*</span></label>
-                                <input type="tel" inputmode="numeric" class="form-input-control" id="emergencyPhone" placeholder="เบอร์โทรฉุกเฉิน 10 หลัก" maxlength="10" required>
-                            </div>
-                        </div>
-
+                        <!-- Sleeve Type Selector -->
                         <div class="form-field-group">
-                            <label class="field-label">โรคประจำตัว หรือประวัติแพ้ยา (ถ้ามี)</label>
-                            <input type="text" class="form-input-control" id="medicalConditions" placeholder="ระบุ เช่น โรคหัวใจ, หอบหืด, แพ้ยาเพนิซิลลิน (หากไม่มีใส่ 'ไม่มี')">
-                        </div>
-
-                        <!-- Sizing Guide & Sleeve Type Selection with Live 3D Shirt Preview -->
-                        <div style="margin:2.25rem 0; padding:1.75rem; background:var(--canvas-subtle); border-radius:var(--radius-md); border:1px solid var(--border-subtle);">
-                            <div class="reg-step2-shirt-grid">
-                                <!-- Left Column: 3D Shirt Model Preview -->
-                                <div class="reg-step2-viewer-card">
-                                    <div style="font-size:0.8rem; font-weight:700; color:var(--navy-marine); margin-bottom:0.5rem;">
-                                        ตัวอย่างเสื้อแข่งขันของคุณ (3D)
+                            <label class="field-label"><span data-i18n="lblSleeveType">เลือกรูปแบบแขนเสื้อ</span> <span class="required-dot">*</span></label>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                <label style="display:flex; align-items:center; gap:0.65rem; padding:0.9rem 1rem; border:1.5px solid var(--border-subtle); border-radius:var(--radius-sm); cursor:pointer; background:#FFFFFF;">
+                                    <input type="radio" name="sleeveType" value="SHORT" checked onchange="onSleeveOrCategoryChange()" style="width:18px; height:18px; accent-color:var(--teal-andaman);">
+                                    <div>
+                                        <div style="font-weight:700; color:var(--navy-marine); font-size:0.95rem;" data-i18n="sleeveShort">แขนสั้น (Short Sleeve)</div>
+                                        <div style="font-size:0.8rem; color:var(--status-approved); font-weight:600;" data-i18n="sleeveShortPrice">ราคาปกติ (ไม่บวกเพิ่ม)</div>
                                     </div>
-                                    <div class="reg-shirt-stage">
-                                        <model-viewer
-                                            id="regStep2ShirtViewer"
-                                            src="Photo/modelshirt2.glb"
-                                            poster="Photo/50764.jpg"
-                                            alt="โมเดล 3 มิติ เสื้อที่จะได้รับ"
-                                            camera-controls
-                                            auto-rotate
-                                            rotation-per-second="18deg"
-                                            camera-orbit="0deg 82deg auto"
-                                            shadow-intensity="0.8"
-                                            exposure="1.05"
-                                            environment-image="neutral"
-                                            interaction-prompt="none">
-                                        </model-viewer>
+                                </label>
+                                <label style="display:flex; align-items:center; gap:0.65rem; padding:0.9rem 1rem; border:1.5px solid var(--border-subtle); border-radius:var(--radius-sm); cursor:pointer; background:#FFFFFF;">
+                                    <input type="radio" name="sleeveType" value="LONG" onchange="onSleeveOrCategoryChange()" style="width:18px; height:18px; accent-color:var(--gold-dark);">
+                                    <div>
+                                        <div style="font-weight:700; color:var(--navy-marine); font-size:0.95rem;" data-i18n="sleeveLong">แขนยาว (Long Sleeve)</div>
+                                        <div style="font-size:0.8rem; color:var(--gold-dark); font-weight:700;" data-i18n="sleeveLongPrice">บวกเพิ่ม +80 บาท</div>
                                     </div>
-                                    <div class="reg-shirt-controls">
-                                        <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep2ShirtViewer', '0deg 82deg auto')">หน้า</button>
-                                        <button type="button" class="btn-viewer-mini" onclick="rotateRegViewer('regStep2ShirtViewer', '180deg 82deg auto')">หลัง</button>
-                                    </div>
-                                    <div id="step2ShirtLiveChip" class="reg-shirt-spec-chip">
-                                        5 กม. • ลายเกาะไข่ • แขนสั้น • ไซส์ M
-                                    </div>
-                                    <div id="step2LongSleeveNote" style="display:none; font-size:0.75rem; color:#B45309; margin-top:0.45rem; line-height:1.45;">
-                                        * เลือกรุ่นแขนยาว (ลวดลายเดียวกับแบบ 3D แต่ตัดเย็บเป็นแขนยาว)
-                                    </div>
-                                </div>
-
-                                <!-- Right Column: Sleeve & Size Selection -->
-                                <div>
-                                    <div style="margin-bottom:1.35rem;">
-                                        <label class="field-label" style="margin-bottom:0.65rem;">
-                                            1. เลือกประเภทแขนเสื้อแข่งขัน <span class="required-dot">*</span>
-                                        </label>
-                                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.85rem;">
-                                            <label class="cat-select-card selected" id="sleeveCardShort" style="padding:0.9rem 1rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนสั้น')">
-                                                <input type="radio" name="shirtType" value="แขนสั้น" checked style="display:none;">
-                                                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
-                                                    <strong style="color:var(--navy-marine); font-size:1rem;">เสื้อแขนสั้น</strong>
-                                                    <span class="status-pill approved">ราคาปกติ</span>
-                                                </div>
-                                                <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:4px;">
-                                                    รวมในค่าสมัครมาตรฐาน
-                                                </div>
-                                            </label>
-
-                                            <label class="cat-select-card" id="sleeveCardLong" style="padding:0.9rem 1rem; margin:0; cursor:pointer;" onclick="selectShirtType('แขนยาว')">
-                                                <input type="radio" name="shirtType" value="แขนยาว" style="display:none;">
-                                                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px; flex-wrap:wrap;">
-                                                    <strong style="color:var(--navy-marine); font-size:1rem;">เสื้อแขนยาว</strong>
-                                                    <span class="status-pill pending">+50 บาท</span>
-                                                </div>
-                                                <div style="font-size:0.8rem; color:var(--ink-muted); margin-top:4px;">
-                                                    เพิ่มเงิน 50 บาทจากค่าสมัครปกติ
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.75rem; flex-wrap:wrap; gap:4px;">
-                                        <label class="field-label" style="margin-bottom:0;">
-                                            2. ตารางเทียบขนาดเสื้อแข่งขัน (Dry-Fit) <span class="required-dot">*</span>
-                                        </label>
-                                        <span style="font-size:0.78rem; color:var(--ink-muted);">* หน่วยวัดเป็นนิ้ว (Inches)</span>
-                                    </div>
-
-                                    <table class="size-matrix-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ไซส์</th>
-                                                <th>XS</th>
-                                                <th>S</th>
-                                                <th>M</th>
-                                                <th>L</th>
-                                                <th>XL</th>
-                                                <th>2XL</th>
-                                                <th>3XL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><strong>รอบอก</strong></td>
-                                                <td>34"</td>
-                                                <td>36"</td>
-                                                <td>38"</td>
-                                                <td>40"</td>
-                                                <td>42"</td>
-                                                <td>44"</td>
-                                                <td>46"</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>ความยาว</strong></td>
-                                                <td>25"</td>
-                                                <td>26"</td>
-                                                <td>27"</td>
-                                                <td>28"</td>
-                                                <td>29"</td>
-                                                <td>30"</td>
-                                                <td>31"</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <div class="size-picker-row">
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="sizeXS" value="XS" onchange="refreshLivePriceUI()">
-                                            <label for="sizeXS">XS</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="sizeS" value="S" onchange="refreshLivePriceUI()">
-                                            <label for="sizeS">S</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="sizeM" value="M" checked onchange="refreshLivePriceUI()">
-                                            <label for="sizeM">M</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="sizeL" value="L" onchange="refreshLivePriceUI()">
-                                            <label for="sizeL">L</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="sizeXL" value="XL" onchange="refreshLivePriceUI()">
-                                            <label for="sizeXL">XL</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="size2XL" value="2XL" onchange="refreshLivePriceUI()">
-                                            <label for="size2XL">2XL</label>
-                                        </div>
-                                        <div class="size-pill-option">
-                                            <input type="radio" name="shirtSize" id="size3XL" value="3XL" onchange="refreshLivePriceUI()">
-                                            <label for="size3XL">3XL</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Live Total Fee Summary -->
-                            <div style="margin-top:1.25rem; padding:0.9rem 1.25rem; background:#FFFFFF; border-radius:8px; border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                                <span style="font-size:0.9rem; color:var(--ink-secondary);" id="livePriceBreakdown">
-                                    สรุปค่าสมัคร: ระยะ 5 KM. (฿350) + เสื้อแขนสั้น (฿0)
-                                </span>
-                                <strong style="font-size:1.25rem; color:var(--teal-andaman); font-family:var(--font-heading);" id="liveTotalPriceBadge">
-                                    ยอดชำระรวม ฿350
-                                </strong>
+                                </label>
                             </div>
                         </div>
 
-                        <div style="display:flex; justify-content:space-between; margin-top:2.5rem;">
-                            <button type="button" class="btn btn-secondary" onclick="goToStep(1)">
-                                ← ย้อนกลับ
-                            </button>
-                            <button type="button" class="btn btn-primary" id="btnNextStep3" onclick="validateAndGoToStep3()">
-                                ถัดไป: ชำระเงิน & แนบสลิป →
-                            </button>
+                        <!-- Shirt Size Picker -->
+                        <div class="form-field-group">
+                            <label class="field-label"><span data-i18n="lblShirtSize">เลือกไซซ์เสื้อแข่งขัน</span> <span class="required-dot">*</span></label>
+                            <div class="size-picker-row">
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="sz2XS" value="2XS"><label for="sz2XS">2XS</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="szXS" value="XS"><label for="szXS">XS</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="szS" value="S"><label for="szS">S</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="szM" value="M" checked><label for="szM">M</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="szL" value="L"><label for="szL">L</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="szXL" value="XL"><label for="szXL">XL</label></div>
+                                <div class="size-pill-option"><input type="radio" name="shirtSize" id="sz2XL" value="2XL"><label for="sz2XL">2XL</label></div>
+                            </div>
+                            <div class="field-error-msg" id="errShirtSize"></div>
+                        </div>
+
+                        <!-- Shirt Size Chart Matrix -->
+                        <table class="size-matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>ไซซ์ (Size)</th>
+                                    <th>2XS</th>
+                                    <th>XS</th>
+                                    <th>S</th>
+                                    <th>M</th>
+                                    <th>L</th>
+                                    <th>XL</th>
+                                    <th>2XL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>รอบอก (Chest - นิ้ว)</strong></td>
+                                    <td>34"</td>
+                                    <td>36"</td>
+                                    <td>38"</td>
+                                    <td>40"</td>
+                                    <td>42"</td>
+                                    <td>44"</td>
+                                    <td>46"</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ความยาว (Length - นิ้ว)</strong></td>
+                                    <td>25"</td>
+                                    <td>26"</td>
+                                    <td>27"</td>
+                                    <td>28"</td>
+                                    <td>29"</td>
+                                    <td>30"</td>
+                                    <td>31"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Interactive 3D Shirt Preview (.glb) -->
+                        <div class="shirt-3d-preview-card">
+                            <div class="shirt-3d-header">
+                                <h4 class="shirt-3d-title" id="regShirt3dTitle">ตัวอย่างโมเดล 3 มิติเสื้อแข่งขัน (หมุนดูรอบตัว 360°)</h4>
+                                <span class="shirt-3d-badge" id="regShirt3dBadge">5 กม. • ลายเกาะไข่</span>
+                            </div>
+
+                            <div class="shirt-3d-viewer-wrap">
+                                <model-viewer
+                                    id="regShirtViewer"
+                                    src="Photo/modelshirt2.glb"
+                                    alt="โมเดล 3 มิติ เสื้อวิ่งเปิดโลกทะเล ประจำปี 2570"
+                                    camera-controls
+                                    auto-rotate
+                                    rotation-per-second="18deg"
+                                    camera-orbit="0deg 82deg auto"
+                                    shadow-intensity="0.7"
+                                    exposure="1.05"
+                                    interaction-prompt="none"
+                                    loading="eager">
+                                </model-viewer>
+                            </div>
+
+                            <div class="shirt-3d-footer">
+                                <span id="regShirtSleeveHint">ลากเมาส์หรือนิ้วหมุนดูเสื้อ 360° ก่อนเลือกไซซ์</span>
+                                <div class="shirt-3d-controls">
+                                    <button type="button" class="btn-3d-view" onclick="setRegShirtView('0deg 82deg auto')">ด้านหน้า</button>
+                                    <button type="button" class="btn-3d-view" onclick="setRegShirtView('180deg 82deg auto')">ด้านหลัง</button>
+                                    <button type="button" class="btn-3d-view active" id="btnRegAutoRotate" onclick="toggleRegAutoRotate()">หมุนอัตโนมัติ</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between; margin-top: 2rem;">
+                            <button type="button" class="btn btn-secondary" onclick="goStep(1)" data-i18n="btnPrev">← ย้อนกลับ</button>
+                            <button type="button" class="btn btn-primary" onclick="goStep(3)" data-i18n="btnNextStep3">ถัดไป: ชำระเงินและแนบสลิป →</button>
                         </div>
                     </div>
 
-                    <!-- ================= STEP 3: PAYMENT & SLIP ================= -->
-                    <div class="step-content" id="step3" style="display:none;">
-                        <h3 style="color:var(--navy-marine); font-size:1.35rem; margin-bottom:1.5rem; text-align:center;">
-                            ขั้นตอนที่ 3: สแกนชำระเงินและแนบสลิปยืนยัน
+                    <!-- ================= STEP 3: PAYMENT & SLIP UPLOAD ================= -->
+                    <div id="step3" style="display:none;">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--navy-marine); font-size: 1.3rem; border-bottom:1px solid var(--border-subtle); padding-bottom:0.75rem;" data-i18n="step3Heading">
+                            ส่วนที่ 3: ชำระค่าสมัครและอัปโหลดหลักฐานการโอนเงิน
                         </h3>
 
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:center; background:var(--canvas-subtle); border-radius:var(--radius-lg); padding:2rem; margin-bottom:2rem; border:1px solid var(--border-subtle);">
-                            <div style="text-align:center; border-right:1px solid var(--border-subtle); padding-right:1.5rem;">
-                                <div style="display:inline-block; padding:0.75rem; background:#fff; border-radius:12px; box-shadow:var(--shadow-subtle); border:2px solid var(--teal-andaman);">
-                                    <img src="Photo/Qr Payment.jpg" alt="QR Code สำหรับชำระเงิน" style="max-width:220px; width:100%; height:auto; border-radius:8px; display:block; cursor:zoom-in;" onclick="window.open('Photo/Qr Payment.jpg', '_blank')" title="คลิกเพื่อขยายภาพ QR Code">
+                        <div class="payment-grid-2col">
+                            <div class="payment-qr-col">
+                                <div style="font-size: 0.92rem; color: var(--ink-muted); font-weight:600;" data-i18n="payPromptPayTitle">สแกน QR พร้อมเพย์ / โอนเงินเข้าบัญชี</div>
+                                <div id="payAmountDisplay" style="font-size: 2.6rem; font-weight: 800; color: var(--navy-marine); margin: 0.2rem 0;">฿350.00</div>
+                                <div id="payBreakdownText" style="font-size: 0.88rem; color: var(--teal-andaman); font-weight:600; margin-bottom: 0.5rem;">ประเภท 5 กม. • แขนสั้น (฿350)</div>
+
+                                <div class="qr-real-image-box">
+                                    <img id="qrPaymentImg"
+                                         src="Photo/Qr Payment.jpg"
+                                         onerror="if(!this.dataset.triedFile){this.dataset.triedFile='1';this.src='file:///D:/Run%20Open%20Sea%20Kohyao/Photo/Qr%20Payment.jpg';}else{this.style.display='none';}"
+                                         alt="QR Payment กิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570">
                                 </div>
-                                <div style="margin-top:0.75rem; font-size:0.85rem; color:var(--ink-muted);">
-                                    สแกน QR Code ด้านบนผ่านแอป Mobile Banking<br>
-                                    <small style="color:var(--teal-andaman);">(คลิกที่รูป QR เพื่อเปิดภาพขนาดเต็ม)</small>
+
+                                <div>
+                                    <a href="Photo/Qr Payment.jpg" download="QR_Payment_KohYaoRun2570.jpg" class="btn-save-qr" data-i18n="btnSaveQr">
+                                        บันทึกรูป QR ลงเครื่อง
+                                    </a>
+                                </div>
+
+                                <div style="font-size: 0.92rem; font-weight: 700; color: var(--navy-marine); margin-top: 0.75rem;" data-i18n="accName">
+                                    เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา
+                                </div>
+                                <div style="font-size: 0.84rem; color: var(--ink-secondary); margin-top: 2px;" data-i18n="accBank">
+                                    สแกน QR ชำระเงินตามยอดที่แสดงด้านบน
                                 </div>
                             </div>
 
                             <div>
-                                <span style="font-size:0.8rem; color:var(--ink-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">ยอดชำระสุทธิที่ต้องโอน</span>
-                                <div style="font-size:2.6rem; font-weight:900; color:var(--navy-marine); margin:0.25rem 0;" id="payAmountDisplay">
-                                    ฿350.00
+                                <h4 style="font-size:1.05rem; color:var(--navy-marine); margin-bottom:1rem;" data-i18n="transferInfoTitle">แจ้งรายละเอียดการโอนเงิน</h4>
+
+                                <div class="form-field-group">
+                                    <label class="field-label" for="transferDate"><span data-i18n="lblTransferDate">วันที่โอนเงิน</span> <span class="required-dot">*</span></label>
+                                    <input type="date" id="transferDate" class="form-input-control datetime-easy-input" onclick="try{this.showPicker()}catch(e){}" required>
+                                    <div class="quick-dt-row">
+                                        <button type="button" class="btn-quick-dt" onclick="setQuickTransferDate(0)" data-i18n="btnToday">วันนี้</button>
+                                        <button type="button" class="btn-quick-dt" onclick="setQuickTransferDate(-1)" data-i18n="btnYesterday">เมื่อวาน</button>
+                                    </div>
+                                    <div class="field-error-msg" id="errTransferDate"></div>
                                 </div>
-                                <div style="font-size:0.92rem; color:var(--ink-primary); line-height:1.75; margin-bottom:1rem;">
-                                    ประเภทการวิ่ง: <strong id="payCategoryName">ระยะทาง 5 KM.</strong><br>
-                                    รูปแบบเสื้อ: <strong id="payShirtDetail">ไซส์ M • เสื้อแขนสั้น</strong><br>
-                                    รายละเอียดยอด: <span id="payPriceFormula" style="color:var(--teal-andaman); font-weight:600;">ค่าสมัคร 350 บาท</span><br>
-                                    รับเสื้อแข่งขัน: <strong>30 ม.ค. 2570 (10.00–18.00 น.) ณ เต็นท์อำนวยการงานเปิดโลกทะเล</strong>
+
+                                <div class="form-field-group">
+                                    <label class="field-label" for="transferTime"><span data-i18n="lblTransferTime">เวลาที่โอนเงิน (โดยประมาณ)</span> <span class="required-dot">*</span></label>
+                                    <input type="time" id="transferTime" class="form-input-control datetime-easy-input" onclick="try{this.showPicker()}catch(e){}" required>
+                                    <div class="quick-dt-row">
+                                        <button type="button" class="btn-quick-dt" onclick="setQuickTransferTimeNow(0)" data-i18n="btnTimeNow">เวลาตอนนี้</button>
+                                        <button type="button" class="btn-quick-dt" onclick="adjustTransferTimeMinutes(-1)" data-i18n="btnMinus1Min">-1 นาที</button>
+                                        <button type="button" class="btn-quick-dt" onclick="adjustTransferTimeMinutes(-5)" data-i18n="btnMinus5Min">-5 นาที</button>
+                                    </div>
+                                    <div class="field-error-msg" id="errTransferTime"></div>
                                 </div>
-                                <div style="background:#FFFBEB; border-left:3px solid var(--gold-sand); padding:0.65rem 0.85rem; font-size:0.82rem; color:#92400E; border-radius:0 6px 6px 0;">
-                                    กรุณาโอนเงินให้ตรงตามยอดที่ระบุ (รวมค่าเสื้อแขนยาว +50 บ. หากเลือกแขนยาว) เพื่อให้เจ้าหน้าที่ตรวจสอบและออกเลข BIB ได้ทันที
+
+                                <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:0.9rem; border-radius:var(--radius-sm); font-size:0.84rem; color:#92400E;" data-i18n="slipRuleNote">
+                                    <strong>ข้อแนะนำ:</strong> อัปโหลดสลิปที่เห็นยอดเงิน วันที่ เวลา และเลขที่อ้างอิงชัดเจน ระบบจะย่อขนาดไฟล์อัตโนมัติก่อนบันทึก
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slip Upload & Client-side Compression -->
+                        <!-- Dropzone -->
                         <div class="form-field-group">
-                            <label class="field-label">
-                                แนบหลักฐานสลิปการโอนเงิน <span class="required-dot">*</span>
-                                <span style="font-weight:400; font-size:0.82rem; color:var(--ink-muted);">(ระบบบีบอัดภาพอัตโนมัติเพื่อความรวดเร็ว)</span>
-                            </label>
-
-                            <div class="slip-dropzone-box" onclick="document.getElementById('slipInput').click()">
-                                <input type="file" id="slipInput" accept="image/*" style="display:none;" onchange="handleSlipSelected(this)">
-                                <div id="uploadPlaceholder">
-                                    <div style="width:48px; height:48px; margin:0 auto 0.65rem auto; border-radius:50%; background:rgba(14,116,144,0.1); color:var(--teal-andaman); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.35rem;">+</div>
-                                    <strong>คลิกเพื่อเลือกภาพสลิปจากอุปกรณ์ของคุณ</strong>
-                                    <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:4px;">
-                                        รองรับไฟล์ JPG, PNG (ระบบจะปรับขนาดภาพให้อ่านตัวหนังสือชัดเจนแต่ประหยัดพื้นที่)
-                                    </p>
+                            <label class="field-label"><span data-i18n="lblUploadSlip">อัปโหลดสลิปโอนเงิน (JPG, PNG, WEBP)</span> <span class="required-dot">*</span></label>
+                            <div class="slip-dropzone-box" id="slipDropzone" onclick="document.getElementById('slipInput').click()">
+                                <input type="file" id="slipInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+                                <div id="slipPlaceholder">
+                                    <div style="font-size:1.05rem; font-weight:700; color:var(--navy-marine);" data-i18n="dropzonePrompt">คลิกเพื่อเลือกรูปภาพสลิปโอนเงิน หรือลากไฟล์มาวางที่นี่</div>
+                                    <div style="font-size:0.82rem; color:var(--ink-muted); margin-top:4px;" data-i18n="dropzoneSub">รองรับไฟล์ภาพสลิปจากแอปธนาคารทุกธนาคาร</div>
                                 </div>
-                                <div id="slipPreviewContainer" style="display:none;">
-                                    <img id="slipPreviewImg" src="" alt="สลิปตัวอย่าง" style="max-height:240px; margin:0 auto; border-radius:8px; box-shadow:var(--shadow-subtle);">
-                                    <p style="font-size:0.85rem; color:var(--teal-andaman); margin-top:8px; font-weight:600;">
-                                        คลิกเพื่อเปลี่ยนรูปสลิป
-                                    </p>
-                                </div>
+                                <img id="slipPreviewImg" style="display:none; max-height:260px; margin:0 auto; border-radius:8px; box-shadow:var(--shadow-subtle);">
                             </div>
+                            <div class="field-error-msg" id="errSlip"></div>
 
                             <div class="compression-live-pill" id="compressionInfo">
-                                <strong id="compressionText">บีบอัดเรียบร้อยแล้ว</strong>
-                            </div>
-
-                            <div class="duplicate-alert" id="duplicateWarning">
-                                <strong>ตรวจพบสลิปซ้ำ:</strong> ภาพสลิปนี้เคยถูกส่งในระบบแล้ว กรุณาตรวจสอบให้แน่ใจว่าใช้สลิปที่ถูกต้อง
+                                <span id="compressionText"></span>
                             </div>
                         </div>
 
-                        <div style="margin:1.75rem 0; padding:1.15rem; background:var(--canvas-subtle); border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                            <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.88rem; color:var(--ink-secondary);">
-                                <input type="checkbox" id="acceptTerms" style="width:18px; height:18px; accent-color:var(--teal-andaman); margin-top:2px;">
-                                <span>
-                                    ข้าพเจ้าขอรับรองว่าข้อมูลข้างต้นเป็นความจริงทุกประการ สลิปการโอนเงินถูกต้อง และยินยอมปฏิบัติตามกฎกติกาการแข่งขันรวมถึงข้อปฏิบัติด้านความปลอดภัยของกิจกรรมวิ่งเปิดโลกทะเล ประจำปี ๒๕๗๐
+                        <!-- Terms Checkbox -->
+                        <div class="form-field-group" style="margin-top: 1.5rem;">
+                            <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; font-size:0.9rem; color:var(--ink-secondary);">
+                                <input type="checkbox" id="acceptTerms" required style="width:18px; height:18px; margin-top:2px; accent-color:var(--teal-andaman);">
+                                <span data-i18n="acceptTermsHtml">
+                                    ข้าพเจ้ารับรองว่าข้อมูลข้างต้นเป็นความจริงทุกประการ ยอมรับกติกาการแข่งขันของกิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 (<strong>เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</strong> ร่วมกับ <strong>กลุ่มการท่องเที่ยววิสาหกิจชุมชน</strong>) และรับทราบว่าหากสลิปไม่ถูกต้องหรือโควตาเต็ม เจ้าหน้าที่ขอสงวนสิทธิ์ในการพิจารณาตามระเบียบ <span class="required-dot">*</span>
                                 </span>
                             </label>
+                            <div class="field-error-msg" id="errTerms"></div>
                         </div>
 
-                        <div style="display:flex; justify-content:space-between; margin-top:2.5rem;">
-                            <button type="button" class="btn btn-secondary" onclick="goToStep(2)">
-                                ← ย้อนกลับ
-                            </button>
-                            <button type="button" class="btn btn-accent" id="submitRegBtn" onclick="submitFinalRegistration()" style="padding:0.9rem 2.5rem; font-size:1.05rem;">
-                                ยืนยันการสมัครและส่งสลิป →
+                        <div style="display:flex; justify-content:space-between; margin-top: 2rem;">
+                            <button type="button" class="btn btn-secondary" onclick="goStep(2)" data-i18n="btnPrev">← ย้อนกลับ</button>
+                            <button type="submit" class="btn btn-accent" id="btnSubmitReg" style="padding: 0.9rem 2.25rem;" data-i18n="btnConfirmReg">
+                                ยืนยันการสมัครและส่งสลิป
                             </button>
                         </div>
                     </div>
@@ -612,351 +680,784 @@
                 </form>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Scripts -->
-    <script src="js/store.js"></script>
+    <script src="js/store.js?v=3.4"></script>
     <script>
-        let currentStep = 1;
-        let compressedSlipData = null;
-
-        const RACE_PRICING = {
-            '5K': {
-                name: 'ประเภทระยะทาง 5 KM.',
-                distance: '5 กิโลเมตร',
-                basePrice: 350,
-                maxQuota: 200,
-                modelSrc: 'Photo/modelshirt2.glb',
-                shirtThemeShort: 'ลายเกาะไข่',
-                shirtTitle: 'เสื้อแข่งขันลายเกาะไข่ (สีเขียวมรกต-ฟ้า)',
-                shirtDesc: 'ผู้สมัครระยะ 5 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายเกาะไข่ สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา'
+        const I18N_REG = {
+            th: {
+                brandTitle: 'เปิดโลกทะเล 2570',
+                brandSub: 'เทศบาลตำบลพรุใน • เกาะยาวใหญ่',
+                navHome: 'หน้าแรก',
+                navInfo: 'ข้อมูลการแข่งขัน',
+                navSchedule: 'กำหนดการ',
+                navCategories: 'ประเภท & ค่าสมัคร',
+                navPrizes: 'เงินรางวัล & เหรียญ',
+                navRoutes: 'เส้นทางวิ่ง',
+                navKit: 'เสื้อแข่งขัน',
+                navGuide: 'คู่มือเดินทาง',
+                navStatus: 'ตรวจสถานะ & E-Bib',
+                navAdmin: 'เจ้าหน้าที่',
+                navRegister: 'สมัครแข่งขัน',
+                regBadge: 'รับสมัคร 1 ธ.ค. 2569 – 10 ม.ค. 2570 • โควตาประเภทละ 200 คน',
+                regTitle: 'แบบฟอร์มสมัครเข้าร่วมการแข่งขัน',
+                regDesc: 'ช่องที่มีเครื่องหมาย * จำเป็นต้องกรอกให้ครบถ้วนและถูกต้องก่อนดำเนินการต่อ',
+                step1Text: 'ข้อมูลส่วนตัว',
+                step2Text: 'ระยะทาง & ไซซ์เสื้อ',
+                step3Text: 'ชำระเงิน & สลิป',
+                step1Heading: 'ส่วนที่ 1: ข้อมูลส่วนตัวและผู้ติดต่อฉุกเฉิน',
+                lblFullName: 'ชื่อ - นามสกุล (Full Name)',
+                lblNationalId: 'เลขบัตรประชาชน 13 หลัก หรือ พาสปอร์ต',
+                lblGender: 'เพศ',
+                optMale: 'ชาย',
+                optFemale: 'หญิง',
+                optUnspecified: 'ไม่ระบุ',
+                lblBirthDate: 'วัน/เดือน/ปีเกิด',
+                lblCalculatedAge: 'อายุ (คำนวณอัตโนมัติ)',
+                lblPhone: 'เบอร์โทรศัพท์ (ตัวเลข 10 หลัก)',
+                lblEmail: 'อีเมล (สำหรับรับแจ้งเตือนและ E-Bib)',
+                lblProvince: 'จังหวัด / ประเทศต้นทาง',
+                emerHeading: 'ผู้ติดต่อฉุกเฉิน (Emergency Contact — จำเป็นต้องกรอก)',
+                lblEmerName: 'ชื่อผู้ติดต่อฉุกเฉิน',
+                lblEmerPhone: 'เบอร์โทรฉุกเฉิน (ตัวเลข 10 หลัก)',
+                lblMedical: 'โรคประจำตัว / อาการแพ้ / ข้อมูลทางการแพทย์ (ไม่บังคับ หากไม่มีเว้นว่างได้)',
+                btnNextStep2: 'ถัดไป: เลือกระยะทางและไซซ์เสื้อ →',
+                step2Heading: 'ส่วนที่ 2: เลือกประเภทระยะทาง รูปแบบแขนเสื้อ และไซซ์เสื้อ',
+                lblChooseDist: 'เลือกระยะทางการแข่งขัน',
+                choice5kTitle: 'วิ่งระยะ 5 กม.',
+                choice10kTitle: 'วิ่งระยะ 10 กม.',
+                longAdd80: '(แขนยาว +80 บ.)',
+                lblSleeveType: 'เลือกรูปแบบแขนเสื้อ',
+                sleeveShort: 'แขนสั้น (Short Sleeve)',
+                sleeveShortPrice: 'ราคาปกติ (ไม่บวกเพิ่ม)',
+                sleeveLong: 'แขนยาว (Long Sleeve)',
+                sleeveLongPrice: 'บวกเพิ่ม +80 บาท',
+                lblShirtSize: 'เลือกไซซ์เสื้อแข่งขัน',
+                btnPrev: '← ย้อนกลับ',
+                btnNextStep3: 'ถัดไป: ชำระเงินและแนบสลิป →',
+                step3Heading: 'ส่วนที่ 3: ชำระค่าสมัครและอัปโหลดหลักฐานการโอนเงิน',
+                payPromptPayTitle: 'สแกน QR พร้อมเพย์ / โอนเงินเข้าบัญชี',
+                btnSaveQr: 'บันทึกรูป QR ลงเครื่อง',
+                accName: 'เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา',
+                accBank: 'สแกน QR ชำระเงินตามยอดที่แสดงด้านบน',
+                transferInfoTitle: 'แจ้งรายละเอียดการโอนเงิน',
+                lblTransferDate: 'วันที่โอนเงิน',
+                lblTransferTime: 'เวลาที่โอนเงิน (โดยประมาณ)',
+                btnToday: 'วันนี้',
+                btnYesterday: 'เมื่อวาน',
+                btnTimeNow: 'เวลาตอนนี้',
+                btnMinus1Min: '-1 นาที',
+                btnMinus5Min: '-5 นาที',
+                slipRuleNote: '<strong>ข้อแนะนำ:</strong> อัปโหลดสลิปที่เห็นยอดเงิน วันที่ เวลา และเลขที่อ้างอิงชัดเจน ระบบจะย่อขนาดไฟล์อัตโนมัติก่อนบันทึก',
+                lblUploadSlip: 'อัปโหลดสลิปโอนเงิน (JPG, PNG, WEBP)',
+                dropzonePrompt: 'คลิกเพื่อเลือกรูปภาพสลิปโอนเงิน หรือลากไฟล์มาวางที่นี่',
+                dropzoneSub: 'รองรับไฟล์ภาพสลิปจากแอปธนาคารทุกธนาคาร',
+                acceptTermsHtml: 'ข้าพเจ้ารับรองว่าข้อมูลข้างต้นเป็นความจริงทุกประการ ยอมรับกติกาการแข่งขันของกิจกรรมวิ่งเปิดโลกทะเล ประจำปี 2570 (<strong>เทศบาลตำบลพรุใน อำเภอเกาะยาว จังหวัดพังงา</strong> ร่วมกับ <strong>กลุ่มการท่องเที่ยววิสาหกิจชุมชน</strong>) และรับทราบว่าหากสลิปไม่ถูกต้องหรือโควตาเต็ม เจ้าหน้าที่ขอสงวนสิทธิ์ในการพิจารณาตามระเบียบ <span class="required-dot">*</span>',
+                btnConfirmReg: 'ยืนยันการสมัครและส่งสลิป'
             },
-            '10K': {
-                name: 'ประเภทระยะทาง 10 KM.',
-                distance: '10 กิโลเมตร',
-                basePrice: 450,
-                maxQuota: 200,
-                modelSrc: 'Photo/modelshirt.glb',
-                shirtThemeShort: 'ลายสะพานอัสดง',
-                shirtTitle: 'เสื้อแข่งขันลายสะพานท่าเรืออัสดง (สีส้ม-กรมท่า)',
-                shirtDesc: 'ผู้สมัครระยะ 10 กม. จะได้รับเสื้อวิ่งเนื้อผ้า Micro-Polyester Dry-Fit ลายสะพานท่าเรืออัสดง สามารถลากเมาส์หรือใช้นิ้วหมุนดูลวดลายด้านหน้าและด้านหลังได้รอบ 360 องศา'
+            en: {
+                brandTitle: 'Open Sea Run 2027',
+                brandSub: 'Phru Nai Municipality • Koh Yao Yai',
+                navHome: 'Home',
+                navInfo: 'Race Info',
+                navSchedule: 'Schedule',
+                navCategories: 'Categories & Fees',
+                navPrizes: 'Prizes & Medals',
+                navRoutes: 'Race Routes',
+                navKit: 'Race Shirt',
+                navGuide: 'Travel Guide',
+                navStatus: 'Status & E-Bib',
+                navAdmin: 'Staff',
+                navRegister: 'Register Now',
+                regBadge: 'Reg: Dec 1, 2026 – Jan 10, 2027 • 200 Runners per Category',
+                regTitle: 'Online Race Registration Form',
+                regDesc: 'Fields marked with * are required and must be valid before proceeding.',
+                step1Text: 'Personal Info',
+                step2Text: 'Distance & Shirt',
+                step3Text: 'Payment & Slip',
+                step1Heading: 'Part 1: Personal & Emergency Contact Information',
+                lblFullName: 'Full Name',
+                lblNationalId: '13-Digit Thai ID or Passport No.',
+                lblGender: 'Gender',
+                optMale: 'Male',
+                optFemale: 'Female',
+                optUnspecified: 'Not specified',
+                lblBirthDate: 'Date of Birth',
+                lblCalculatedAge: 'Age (Auto-calculated)',
+                lblPhone: 'Mobile Phone (10 digits)',
+                lblEmail: 'Email (for status & E-Bib)',
+                lblProvince: 'Province / Country of Origin',
+                emerHeading: 'Emergency Contact (Required)',
+                lblEmerName: 'Emergency Contact Name',
+                lblEmerPhone: 'Emergency Contact Phone (10 digits)',
+                lblMedical: 'Medical Conditions / Allergies (Optional)',
+                btnNextStep2: 'Next: Distance & Shirt Size →',
+                step2Heading: 'Part 2: Distance Category, Sleeve Style & Shirt Size',
+                lblChooseDist: 'Choose Race Distance',
+                choice5kTitle: '5 Km. Run',
+                choice10kTitle: '10 Km. Run',
+                longAdd80: '(Long sleeve +฿80)',
+                lblSleeveType: 'Choose Sleeve Style',
+                sleeveShort: 'Short Sleeve',
+                sleeveShortPrice: 'Standard Price',
+                sleeveLong: 'Long Sleeve',
+                sleeveLongPrice: 'Add +฿80',
+                lblShirtSize: 'Select Race Shirt Size',
+                btnPrev: '← Back',
+                btnNextStep3: 'Next: Payment & Upload Slip →',
+                step3Heading: 'Part 3: Entry Fee Payment & Transfer Slip Upload',
+                payPromptPayTitle: 'Scan QR Code to Pay',
+                btnSaveQr: 'Save QR Image',
+                accName: 'Phru Nai Subdistrict Municipality, Ko Yao, Phang Nga',
+                accBank: 'Scan the QR code for the exact amount shown',
+                transferInfoTitle: 'Transfer Details',
+                lblTransferDate: 'Transfer Date',
+                lblTransferTime: 'Approx. Transfer Time',
+                btnToday: 'Today',
+                btnYesterday: 'Yesterday',
+                btnTimeNow: 'Now',
+                btnMinus1Min: '-1 min',
+                btnMinus5Min: '-5 mins',
+                slipRuleNote: '<strong>Tip:</strong> Upload a clear slip showing amount, date, time, and reference ID. The system will auto-compress before saving.',
+                lblUploadSlip: 'Upload Transfer Slip (JPG, PNG, WEBP)',
+                dropzonePrompt: 'Click to select transfer slip image or drag & drop here',
+                dropzoneSub: 'Supports slip images from all banking apps',
+                acceptTermsHtml: 'I certify that all information provided is accurate, agree to the rules of Open Sea Run 2570 (<strong>Phru Nai Subdistrict Municipality, Ko Yao, Phang Nga</strong> & <strong>Community Tourism Enterprise</strong>), and acknowledge that invalid slips or full quotas are subject to organizer review. <span class="required-dot">*</span>',
+                btnConfirmReg: 'Confirm Registration & Submit Slip'
             }
         };
-        const LONG_SLEEVE_SURCHARGE = 50;
 
-        const mobileToggleBtn = document.getElementById('mobileToggle');
-        const navMenuEl = document.getElementById('navMenu');
+        const _regUrlParams = new URLSearchParams(window.location.search);
+        const _regUrlLang = _regUrlParams.get('lang');
+        let regLang = (_regUrlLang === 'en' || _regUrlLang === 'th')
+            ? _regUrlLang
+            : (localStorage.getItem('KOHYAO_LANG') || localStorage.getItem('KOHYAO_SITE_LANG') || 'th');
 
-        if (mobileToggleBtn && navMenuEl) {
-            mobileToggleBtn.addEventListener('click', function() {
-                navMenuEl.classList.toggle('open');
-            });
+        function formatLocalDate(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
 
-            navMenuEl.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenuEl.classList.remove('open');
+        function formatLocalTime(dateObj) {
+            const hh = String(dateObj.getHours()).padStart(2, '0');
+            const mm = String(dateObj.getMinutes()).padStart(2, '0');
+            return `${hh}:${mm}`;
+        }
+
+        function setQuickTransferDate(offsetDays) {
+            const d = new Date();
+            d.setDate(d.getDate() + offsetDays);
+            const el = document.getElementById('transferDate');
+            if (el) {
+                el.value = formatLocalDate(d);
+                setFieldError('transferDate', 'errTransferDate', '');
+            }
+        }
+
+        function setQuickTransferTimeNow(offsetMinutes = 0) {
+            const d = new Date();
+            d.setMinutes(d.getMinutes() + offsetMinutes);
+            const el = document.getElementById('transferTime');
+            if (el) {
+                el.value = formatLocalTime(d);
+                setFieldError('transferTime', 'errTransferTime', '');
+            }
+        }
+
+        function adjustTransferTimeMinutes(deltaMinutes) {
+            const el = document.getElementById('transferTime');
+            if (!el) return;
+            const base = new Date();
+            if (el.value && /^\d{2}:\d{2}$/.test(el.value)) {
+                const [hh, mm] = el.value.split(':').map(Number);
+                base.setHours(hh, mm, 0, 0);
+            }
+            base.setMinutes(base.getMinutes() + deltaMinutes);
+            el.value = formatLocalTime(base);
+            setFieldError('transferTime', 'errTransferTime', '');
+        }
+
+        function sanitizeNationalIdInput(rawVal) {
+            const cleaned = String(rawVal || '').replace(/[^A-Za-z0-9]/g, '').slice(0, 13);
+            if (!cleaned) return '';
+            if (/^\d/.test(cleaned)) {
+                return cleaned.replace(/\D/g, '').slice(0, 13);
+            }
+            return cleaned.toUpperCase().slice(0, 13);
+        }
+
+        function sanitizePhone10Input(rawVal) {
+            return String(rawVal || '').replace(/\D/g, '').slice(0, 10);
+        }
+
+        function bindStrictInputLocks() {
+            const idEl = document.getElementById('nationalId');
+            if (idEl) {
+                idEl.addEventListener('input', function () {
+                    const locked = sanitizeNationalIdInput(this.value);
+                    if (this.value !== locked) this.value = locked;
+                });
+                idEl.addEventListener('paste', function (e) {
+                    e.preventDefault();
+                    const pasted = (e.clipboardData || window.clipboardData).getData('text') || '';
+                    this.value = sanitizeNationalIdInput(this.value + pasted);
+                    this.dispatchEvent(new Event('input'));
+                });
+            }
+
+            ['phone', 'emergencyPhone'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', function () {
+                    const locked = sanitizePhone10Input(this.value);
+                    if (this.value !== locked) this.value = locked;
+                });
+                el.addEventListener('paste', function (e) {
+                    e.preventDefault();
+                    const pasted = (e.clipboardData || window.clipboardData).getData('text') || '';
+                    this.value = sanitizePhone10Input(this.value + pasted);
+                    this.dispatchEvent(new Event('input'));
                 });
             });
         }
 
-        function rotateRegViewer(viewerId, orbit) {
-            const viewer = document.getElementById(viewerId);
+        function computeAgeFromBirthDate(birthDateStr) {
+            if (!birthDateStr) return null;
+            const bd = new Date(birthDateStr);
+            if (isNaN(bd.getTime())) return null;
+            const now = new Date();
+            let age = now.getFullYear() - bd.getFullYear();
+            const mDiff = now.getMonth() - bd.getMonth();
+            if (mDiff < 0 || (mDiff === 0 && now.getDate() < bd.getDate())) {
+                age--;
+            }
+            if (age < 0 || age > 110) return null;
+            return age;
+        }
+
+        function syncCalculatedAge() {
+            const birthDate = document.getElementById('birthDate').value;
+            const displayEl = document.getElementById('calculatedAgeDisplay');
+            const hiddenEl = document.getElementById('ageValue');
+            const age = computeAgeFromBirthDate(birthDate);
+
+            if (age === null) {
+                if (displayEl) displayEl.value = regLang === 'en' ? '- yrs' : '- ปี';
+                if (hiddenEl) hiddenEl.value = '';
+                return null;
+            }
+
+            if (displayEl) {
+                displayEl.value = regLang === 'en' ? `${age} years` : `${age} ปี`;
+            }
+            if (hiddenEl) {
+                hiddenEl.value = String(age);
+            }
+            return age;
+        }
+
+        function applyRegLanguage(lang) {
+            const dict = I18N_REG[lang] || I18N_REG.th;
+            document.documentElement.lang = lang;
+            document.documentElement.setAttribute('data-lang', lang);
+
+            document.querySelectorAll('[data-i18n]').forEach((el) => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) {
+                    if (key.endsWith('Html') || dict[key].includes('<strong>')) {
+                        el.innerHTML = dict[key];
+                    } else {
+                        el.textContent = dict[key];
+                    }
+                }
+            });
+
+            document.getElementById('btnLangTH')?.classList.toggle('active', lang === 'th');
+            document.getElementById('btnLangEN')?.classList.toggle('active', lang === 'en');
+            syncCalculatedAge();
+            updatePaymentSummary();
+        }
+
+        function setRegLanguage(lang) {
+            regLang = (lang === 'en') ? 'en' : 'th';
+            localStorage.setItem('KOHYAO_LANG', regLang);
+            applyRegLanguage(regLang);
+            refreshQuotaLabels();
+        }
+
+        let selectedCategory = '5K';
+        let compressedSlipBase64 = '';
+        let originalFileSizeKB = 0;
+        let compressedFileSizeKB = 0;
+
+        const SHIRT_3D_CONFIG = {
+            '5K': {
+                src: 'Photo/modelshirt2.glb',
+                titleTh: 'ตัวอย่างโมเดล 3 มิติเสื้อระยะ 5 กม. (หมุนดูรอบตัว 360°)',
+                titleEn: '3D Preview: 5 Km. Race Shirt (360° View)',
+                badgeTh: '5 กม. • ลายเกาะไข่ (สีเขียวมรกต)',
+                badgeEn: '5 Km. • Koh Khai Design (Emerald)',
+                is10k: false
+            },
+            '10K': {
+                src: 'Photo/modelshirt.glb',
+                titleTh: 'ตัวอย่างโมเดล 3 มิติเสื้อระยะ 10 กม. (หมุนดูรอบตัว 360°)',
+                titleEn: '3D Preview: 10 Km. Race Shirt (360° View)',
+                badgeTh: '10 กม. • ลายสะพานท่าเรืออัสดง (สีส้ม-กรมท่า)',
+                badgeEn: '10 Km. • Sunset Pier Design (Orange-Navy)',
+                is10k: true
+            }
+        };
+
+        function updateShirt3DPreview(cat) {
+            const cfg = SHIRT_3D_CONFIG[cat] || SHIRT_3D_CONFIG['5K'];
+            const viewer = document.getElementById('regShirtViewer');
+            const titleEl = document.getElementById('regShirt3dTitle');
+            const badgeEl = document.getElementById('regShirt3dBadge');
+
+            if (viewer && viewer.getAttribute('src') !== cfg.src) {
+                viewer.setAttribute('src', cfg.src);
+            }
+            if (titleEl) {
+                titleEl.textContent = regLang === 'en' ? cfg.titleEn : cfg.titleTh;
+            }
+            if (badgeEl) {
+                badgeEl.textContent = regLang === 'en' ? cfg.badgeEn : cfg.badgeTh;
+                badgeEl.classList.toggle('theme-10k', cfg.is10k);
+            }
+        }
+
+        function setRegShirtView(orbit) {
+            const viewer = document.getElementById('regShirtViewer');
             if (!viewer) return;
             viewer.autoRotate = false;
+            document.getElementById('btnRegAutoRotate')?.classList.remove('active');
             viewer.cameraOrbit = orbit;
         }
 
-        function calculateTotalFee() {
-            const cat = document.querySelector('input[name="raceCategory"]:checked').value;
-            const shirtType = document.querySelector('input[name="shirtType"]:checked').value;
-            const sizeEl = document.querySelector('input[name="shirtSize"]:checked');
-            const shirtSize = sizeEl ? sizeEl.value : 'M';
-            const basePrice = RACE_PRICING[cat].basePrice;
-            const extra = (shirtType === 'แขนยาว') ? LONG_SLEEVE_SURCHARGE : 0;
-            return {
-                cat,
-                shirtType,
-                shirtSize,
-                basePrice,
-                extra,
-                total: basePrice + extra
+        function toggleRegAutoRotate() {
+            const viewer = document.getElementById('regShirtViewer');
+            const btn = document.getElementById('btnRegAutoRotate');
+            if (!viewer) return;
+            viewer.autoRotate = !viewer.autoRotate;
+            if (btn) btn.classList.toggle('active', viewer.autoRotate);
+        }
+
+        function getSelectedSleeveType() {
+            const checked = document.querySelector('input[name="sleeveType"]:checked');
+            return checked ? checked.value : 'SHORT';
+        }
+
+        function calculateCurrentFee() {
+            const basePrice = selectedCategory === '10K' ? 450 : 350;
+            const sleeveExtra = getSelectedSleeveType() === 'LONG' ? 80 : 0;
+            return { basePrice, sleeveExtra, total: basePrice + sleeveExtra };
+        }
+
+        function updatePaymentSummary() {
+            const fee = calculateCurrentFee();
+            const sleeve = getSelectedSleeveType();
+            const amountEl = document.getElementById('payAmountDisplay');
+            const breakdownEl = document.getElementById('payBreakdownText');
+
+            if (amountEl) amountEl.textContent = `฿${fee.total.toFixed(2)}`;
+            if (breakdownEl) {
+                if (regLang === 'en') {
+                    const sleeveTxt = sleeve === 'LONG' ? 'Long Sleeve (+฿80)' : 'Short Sleeve';
+                    breakdownEl.textContent = `${selectedCategory} • ${sleeveTxt} (฿${fee.total})`;
+                } else {
+                    const sleeveTxt = sleeve === 'LONG' ? 'แขนยาว (+80 บ.)' : 'แขนสั้น';
+                    breakdownEl.textContent = `ประเภท ${selectedCategory} • ${sleeveTxt} (฿${fee.total})`;
+                }
+            }
+        }
+
+        function onSleeveOrCategoryChange() {
+            updatePaymentSummary();
+        }
+
+        function setFieldError(inputId, errId, message) {
+            const inputEl = inputId ? document.getElementById(inputId) : null;
+            const errEl = document.getElementById(errId);
+            if (inputEl) {
+                if (message) inputEl.classList.add('is-invalid');
+                else inputEl.classList.remove('is-invalid');
+            }
+            if (errEl) {
+                errEl.textContent = message || '';
+                errEl.classList.toggle('visible', Boolean(message));
+            }
+        }
+
+        function clearStep1Errors() {
+            ['fullName', 'nationalId', 'gender', 'birthDate', 'phone', 'email', 'province', 'emergencyName', 'emergencyPhone'].forEach(id => {
+                document.getElementById(id)?.classList.remove('is-invalid');
+            });
+            ['errFullName', 'errNationalId', 'errGender', 'errBirthDate', 'errPhone', 'errEmail', 'errProvince', 'errEmerName', 'errEmerPhone'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = '';
+                    el.classList.remove('visible');
+                }
+            });
+        }
+
+        function validateStep1Detailed() {
+            clearStep1Errors();
+            let valid = true;
+            let firstInvalidEl = null;
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const nationalId = sanitizeNationalIdInput(document.getElementById('nationalId').value);
+            document.getElementById('nationalId').value = nationalId;
+
+            const gender = document.getElementById('gender').value;
+            const birthDate = document.getElementById('birthDate').value;
+
+            const phone = sanitizePhone10Input(document.getElementById('phone').value);
+            document.getElementById('phone').value = phone;
+
+            const email = document.getElementById('email').value.trim();
+            const province = document.getElementById('province').value.trim();
+            const emerName = document.getElementById('emergencyName').value.trim();
+
+            const emerPhone = sanitizePhone10Input(document.getElementById('emergencyPhone').value);
+            document.getElementById('emergencyPhone').value = emerPhone;
+
+            const markErr = (inputId, errId, thMsg, enMsg) => {
+                setFieldError(inputId, errId, regLang === 'en' ? enMsg : thMsg);
+                if (!firstInvalidEl && inputId) firstInvalidEl = document.getElementById(inputId);
+                valid = false;
             };
+
+            if (!fullName) {
+                markErr('fullName', 'errFullName', 'กรุณากรอกชื่อ - นามสกุล', 'Please enter your full name');
+            } else if (fullName.length < 2) {
+                markErr('fullName', 'errFullName', 'กรุณากรอกชื่อ - นามสกุลให้ครบถ้วนอย่างน้อย 2 ตัวอักษร', 'Full name must be at least 2 characters');
+            }
+
+            const isThai13 = /^\d{13}$/.test(nationalId);
+            const isPassport = /^[A-Z0-9]{6,13}$/.test(nationalId) && /[A-Z]/.test(nationalId);
+            if (!nationalId) {
+                markErr('nationalId', 'errNationalId', 'กรุณากรอกเลขบัตรประชาชน 13 หลัก หรือเลขพาสปอร์ต', 'Please enter your 13-digit Thai ID or Passport number');
+            } else if (!isThai13 && !isPassport) {
+                markErr('nationalId', 'errNationalId', 'กรอกตัวเลข 13 หลัก หรือเลขพาสปอร์ต (6–13 ตัวอักษร/ตัวเลข ไม่เกิน 13 ตัว)', 'Enter 13 digits for Thai ID or 6–13 alphanumeric chars for Passport');
+            }
+
+            if (!['ชาย', 'หญิง', 'ไม่ระบุ'].includes(gender)) {
+                markErr('gender', 'errGender', 'กรุณาเลือกเพศ (ชาย / หญิง / ไม่ระบุ)', 'Please select gender (Male / Female / Not specified)');
+            }
+
+            const computedAge = syncCalculatedAge();
+            if (!birthDate) {
+                markErr('birthDate', 'errBirthDate', 'กรุณาเลือกวัน/เดือน/ปีเกิด', 'Please select your date of birth');
+            } else if (computedAge === null) {
+                markErr('birthDate', 'errBirthDate', 'กรุณาตรวจสอบวัน/เดือน/ปีเกิดให้ถูกต้อง', 'Please enter a valid date of birth');
+            }
+
+            if (!phone) {
+                markErr('phone', 'errPhone', 'กรุณากรอกเบอร์โทรศัพท์', 'Please enter your mobile phone number');
+            } else if (!/^\d{10}$/.test(phone)) {
+                markErr('phone', 'errPhone', 'กรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก (เฉพาะตัวเลข 0–9)', 'Enter a valid 10-digit phone number (digits only)');
+            }
+
+            if (!email) {
+                markErr('email', 'errEmail', 'กรุณากรอกอีเมล', 'Please enter your email address');
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                markErr('email', 'errEmail', 'รูปแบบอีเมลไม่ถูกต้อง (เช่น name@example.com)', 'Invalid email address format');
+            }
+
+            if (!province) {
+                markErr('province', 'errProvince', 'กรุณากรอกจังหวัด หรือประเทศต้นทาง', 'Please enter your province or country');
+            }
+
+            if (!emerName) {
+                markErr('emergencyName', 'errEmerName', 'กรุณากรอกชื่อผู้ติดต่อฉุกเฉิน', 'Please enter emergency contact name');
+            }
+
+            if (!emerPhone) {
+                markErr('emergencyPhone', 'errEmerPhone', 'กรุณากรอกเบอร์โทรฉุกเฉิน', 'Please enter emergency contact phone');
+            } else if (!/^\d{10}$/.test(emerPhone)) {
+                markErr('emergencyPhone', 'errEmerPhone', 'กรอกเบอร์โทรฉุกเฉินให้ครบ 10 หลัก (เฉพาะตัวเลข 0–9)', 'Enter a valid 10-digit emergency phone number (digits only)');
+            }
+
+            if (!valid && firstInvalidEl) {
+                firstInvalidEl.focus();
+                firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return valid;
         }
 
-        function refreshLivePriceUI() {
-            const fee = calculateTotalFee();
-            const cfg = RACE_PRICING[fee.cat];
+        function validateStep2Detailed() {
+            setFieldError(null, 'errCategory', '');
+            setFieldError(null, 'errShirtSize', '');
 
-            // อัปเดตแถบสรุปราคา
-            const breakdownEl = document.getElementById('livePriceBreakdown');
-            const totalBadgeEl = document.getElementById('liveTotalPriceBadge');
-            if (breakdownEl && totalBadgeEl) {
-                breakdownEl.textContent = `สรุปค่าสมัคร: ${cfg.name} (฿${fee.basePrice}) + เสื้อ${fee.shirtType} (฿${fee.extra})`;
-                totalBadgeEl.textContent = `ยอดชำระรวม ฿${fee.total}`;
-            }
+            const catChecked = document.querySelector('input[name="category"]:checked');
+            const sizeChecked = document.querySelector('input[name="shirtSize"]:checked');
+            let ok = true;
 
-            // อัปเดตโมเดล 3D และข้อความในขั้นตอนที่ 1
-            const v1 = document.getElementById('regStep1ShirtViewer');
-            if (v1 && v1.getAttribute('src') !== cfg.modelSrc) {
-                v1.setAttribute('src', cfg.modelSrc);
+            if (!catChecked && !selectedCategory) {
+                setFieldError(null, 'errCategory', regLang === 'en' ? 'Please choose a distance category' : 'กรุณาเลือกระยะทางการแข่งขัน');
+                ok = false;
             }
-            const tag1 = document.getElementById('step1ShirtTag');
-            const title1 = document.getElementById('step1ShirtTitle');
-            const desc1 = document.getElementById('step1ShirtDesc');
-            if (tag1) {
-                tag1.textContent = `แบบเสื้อระยะ ${fee.cat === '10K' ? '10 KM.' : '5 KM.'}`;
-                tag1.className = fee.cat === '10K' ? 'status-pill pending' : 'status-pill approved';
+            if (!sizeChecked) {
+                setFieldError(null, 'errShirtSize', regLang === 'en' ? 'Please choose a shirt size' : 'กรุณาเลือกไซซ์เสื้อแข่งขัน');
+                ok = false;
             }
-            if (title1) title1.textContent = cfg.shirtTitle;
-            if (desc1) desc1.textContent = cfg.shirtDesc;
-
-            // อัปเดตโมเดล 3D และป้ายสถานะในขั้นตอนที่ 2
-            const v2 = document.getElementById('regStep2ShirtViewer');
-            if (v2 && v2.getAttribute('src') !== cfg.modelSrc) {
-                v2.setAttribute('src', cfg.modelSrc);
-            }
-            const chip2 = document.getElementById('step2ShirtLiveChip');
-            if (chip2) {
-                chip2.textContent = `${fee.cat === '10K' ? '10 กม.' : '5 กม.'} • ${cfg.shirtThemeShort} • ${fee.shirtType} • ไซส์ ${fee.shirtSize}`;
-                chip2.classList.toggle('theme-10k', fee.cat === '10K');
-            }
-            const longNote = document.getElementById('step2LongSleeveNote');
-            if (longNote) {
-                longNote.style.display = (fee.shirtType === 'แขนยาว') ? 'block' : 'none';
-            }
+            return ok;
         }
 
-        function selectShirtType(type) {
-            const cardShort = document.getElementById('sleeveCardShort');
-            const cardLong = document.getElementById('sleeveCardLong');
-            if (type === 'แขนยาว') {
-                cardLong.querySelector('input').checked = true;
-                cardLong.classList.add('selected');
-                cardShort.classList.remove('selected');
-            } else {
-                cardShort.querySelector('input').checked = true;
-                cardShort.classList.add('selected');
-                cardLong.classList.remove('selected');
+        function validateStep3Detailed() {
+            setFieldError('transferDate', 'errTransferDate', '');
+            setFieldError('transferTime', 'errTransferTime', '');
+            setFieldError(null, 'errSlip', '');
+            setFieldError(null, 'errTerms', '');
+
+            let ok = true;
+            const tDate = document.getElementById('transferDate').value;
+            const tTime = document.getElementById('transferTime').value;
+            const accepted = document.getElementById('acceptTerms').checked;
+
+            if (!tDate) {
+                setFieldError('transferDate', 'errTransferDate', regLang === 'en' ? 'Please select transfer date' : 'กรุณาเลือกวันที่โอนเงิน');
+                ok = false;
             }
-            refreshLivePriceUI();
+            if (!tTime) {
+                setFieldError('transferTime', 'errTransferTime', regLang === 'en' ? 'Please select transfer time' : 'กรุณาเลือกเวลาที่โอนเงิน');
+                ok = false;
+            }
+            if (!compressedSlipBase64) {
+                setFieldError(null, 'errSlip', regLang === 'en' ? 'Please upload your transfer slip image' : 'กรุณาอัปโหลดรูปภาพสลิปโอนเงิน');
+                ok = false;
+            }
+            if (!accepted) {
+                setFieldError(null, 'errTerms', regLang === 'en' ? 'Please accept the race rules and terms' : 'กรุณากดยอมรับเงื่อนไขและกติกาการแข่งขัน');
+                ok = false;
+            }
+            return ok;
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const cat = params.get('category');
-            if (cat === '10K') {
-                selectCategory('10K');
-            }
-            refreshLivePriceUI();
+            bindStrictInputLocks();
 
-            if (window.KohYaoStore && window.KohYaoStore.getStats) {
-                const stats = await window.KohYaoStore.getStats();
-                const rem5k = Math.max(0, 200 - (stats.count5K || 0));
-                const rem10k = Math.max(0, 200 - (stats.count10K || 0));
-                document.getElementById('quotaText5k').textContent = `โควตาคงเหลือ ${rem5k} / 200 ที่`;
-                document.getElementById('quotaText10k').textContent = `โควตาคงเหลือ ${rem10k} / 200 ที่`;
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramCat = urlParams.get('category');
+            if (paramCat === '10K' || paramCat === '5K') {
+                selectedCategory = paramCat;
             }
+            selectCategory(selectedCategory);
+            applyRegLanguage(regLang);
 
-            document.getElementById('birthDate').addEventListener('change', function() {
-                if (window.KohYaoStore && window.KohYaoStore.calculateAge) {
-                    const { age, group } = window.KohYaoStore.calculateAge(this.value);
-                    document.getElementById('calculatedAge').value = age > 0 ? `${age} ปี` : '';
-                    document.getElementById('calculatedGroup').value = group;
-                }
-            });
+            setQuickTransferDate(0);
+            setQuickTransferTimeNow(0);
+
+            await refreshQuotaLabels();
         });
 
-        const card5k = document.getElementById('card5k');
-        const card10k = document.getElementById('card10k');
+        async function refreshQuotaLabels() {
+            if (!window.KohYaoStore) return;
+            const stats = await window.KohYaoStore.getStats();
+            const rem5K = Math.max(0, 200 - (stats.count5K || 0));
+            const rem10K = Math.max(0, 200 - (stats.count10K || 0));
 
-        card5k.addEventListener('click', () => selectCategory('5K'));
-        card10k.addEventListener('click', () => selectCategory('10K'));
-
-        function selectCategory(cat) {
-            const rad5k = card5k.querySelector('input');
-            const rad10k = card10k.querySelector('input');
-            if (cat === '10K') {
-                rad10k.checked = true;
-                card10k.classList.add('selected');
-                card5k.classList.remove('selected');
+            if (regLang === 'en') {
+                document.getElementById('quotaLabel5K').textContent = `Remaining: ${rem5K} / 200 spots`;
+                document.getElementById('quotaLabel10K').textContent = `Remaining: ${rem10K} / 200 spots`;
             } else {
-                rad5k.checked = true;
-                card5k.classList.add('selected');
-                card10k.classList.remove('selected');
+                document.getElementById('quotaLabel5K').textContent = `โควตาคงเหลือ: ${rem5K} / 200 ที่`;
+                document.getElementById('quotaLabel10K').textContent = `โควตาคงเหลือ: ${rem10K} / 200 ที่`;
             }
-            refreshLivePriceUI();
         }
 
-        function goToStep(stepNumber) {
-            currentStep = stepNumber;
-            document.querySelectorAll('.step-content').forEach(s => s.style.display = 'none');
-            document.getElementById(`step${stepNumber}`).style.display = 'block';
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            setFieldError(null, 'errCategory', '');
+            document.querySelectorAll('.cat-select-card').forEach(el => el.classList.remove('selected'));
+            const activeCard = document.getElementById('card' + cat);
+            if (activeCard) {
+                activeCard.classList.add('selected');
+                const radio = activeCard.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            }
+            updateShirt3DPreview(cat);
+            updatePaymentSummary();
+        }
 
-            for (let i = 1; i <= 3; i++) {
-                const ind = document.getElementById(`stepIndicator${i}`);
-                ind.classList.remove('active', 'completed');
-                if (i === stepNumber) ind.classList.add('active');
-                else if (i < stepNumber) ind.classList.add('completed');
+        function goStep(stepNum) {
+            if (stepNum === 2 && !validateStep1Detailed()) {
+                return;
+            }
+            if (stepNum === 3 && !validateStep2Detailed()) {
+                return;
+            }
+            if (stepNum === 3) {
+                updatePaymentSummary();
+                if (!document.getElementById('transferDate').value) {
+                    setQuickTransferDate(0);
+                }
+                if (!document.getElementById('transferTime').value) {
+                    setQuickTransferTimeNow(0);
+                }
             }
 
-            refreshLivePriceUI();
+            document.getElementById('step1').style.display = stepNum === 1 ? 'block' : 'none';
+            document.getElementById('step2').style.display = stepNum === 2 ? 'block' : 'none';
+            document.getElementById('step3').style.display = stepNum === 3 ? 'block' : 'none';
+
+            for (let i = 1; i <= 3; i++) {
+                const node = document.getElementById('stepNode' + i);
+                node.classList.remove('active', 'completed');
+                if (i < stepNum) node.classList.add('completed');
+                if (i === stepNum) node.classList.add('active');
+            }
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
-        async function validateAndGoToStep3() {
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const idCard = document.getElementById('idCard').value.trim();
-            const birthDate = document.getElementById('birthDate').value;
-            const phone = document.getElementById('phone').value.trim();
-            const emergencyContact = document.getElementById('emergencyContact').value.trim();
-            const emergencyPhone = document.getElementById('emergencyPhone').value.trim();
-
-            if (!firstName || !lastName) {
-                alert('กรุณากรอกชื่อและนามสกุล');
+        let dupTimer = null;
+        document.getElementById('nationalId').addEventListener('input', function () {
+            clearTimeout(dupTimer);
+            const val = this.value.trim();
+            const alertBox = document.getElementById('duplicateIdAlert');
+            if (val.length < 6) {
+                alertBox.style.display = 'none';
                 return;
             }
-            if (!idCard || idCard.length !== 13 || !/^\d{13}$/.test(idCard)) {
-                alert('กรุณากรอกเลขบัตรประชาชนให้ครบถ้วน 13 หลัก');
-                return;
-            }
-            if (!birthDate) {
-                alert('กรุณาเลือกวันเดือนปีเกิด');
-                return;
-            }
-            if (!phone || !/^\d{9,10}$/.test(phone)) {
-                alert('กรุณากรอกเบอร์โทรศัพท์เป็นตัวเลข 9–10 หลัก');
-                return;
-            }
-            if (!emergencyContact || !emergencyPhone || !/^\d{9,10}$/.test(emergencyPhone)) {
-                alert('กรุณาระบุชื่อและเบอร์โทรผู้ติดต่อฉุกเฉินให้ครบถ้วน');
-                return;
-            }
-
-            const nextBtn = document.getElementById('btnNextStep3');
-            nextBtn.disabled = true;
-            nextBtn.textContent = 'กำลังตรวจสอบสิทธิ์...';
-
-            try {
-                if (window.KohYaoStore && window.KohYaoStore.findExistingByIdCard) {
-                    const existing = await window.KohYaoStore.findExistingByIdCard(idCard);
-                    if (existing) {
-                        alert(`เลขบัตรประชาชนนี้เคยลงทะเบียนไว้แล้ว (รหัส: ${existing.id})\nสถานะ: ${existing.status}`);
-                        window.location.href = `status.html?search=${encodeURIComponent(idCard)}`;
-                        return;
-                    }
+            dupTimer = setTimeout(async () => {
+                if (!window.KohYaoStore) return;
+                const existing = await window.KohYaoStore.findByNationalId(val);
+                if (existing) {
+                    const existingName = existing.fullName || `${existing.firstName || ''} ${existing.lastName || ''}`.trim() || '-';
+                    alertBox.style.display = 'block';
+                    alertBox.innerHTML = regLang === 'en'
+                        ? `This ID/Passport is already registered (<strong>${existingName}</strong> • BIB: <strong>${existing.bibNumber || 'Pending'}</strong>). <a href="status.html" style="text-decoration:underline; font-weight:700;">Check status here</a>`
+                        : `เลขประจำตัวนี้เคยลงทะเบียนแล้วในระบบ (ชื่อ: <strong>${existingName}</strong> • BIB: <strong>${existing.bibNumber || 'รอตรวจสอบ'}</strong>) <a href="status.html" style="text-decoration:underline; font-weight:700;">ตรวจสอบสถานะที่นี่</a>`;
+                } else {
+                    alertBox.style.display = 'none';
                 }
-            } finally {
-                nextBtn.disabled = false;
-                nextBtn.textContent = 'ถัดไป: ชำระเงิน & แนบสลิป →';
-            }
+            }, 350);
+        });
 
-            const fee = calculateTotalFee();
-            const selectedSize = fee.shirtSize;
-
-            document.getElementById('payAmountDisplay').textContent = `฿${fee.total}.00`;
-            document.getElementById('payCategoryName').textContent = `${RACE_PRICING[fee.cat].name} (${RACE_PRICING[fee.cat].distance})`;
-            document.getElementById('payShirtDetail').textContent = `ไซส์ ${selectedSize} • เสื้อ${fee.shirtType} (${RACE_PRICING[fee.cat].shirtThemeShort})`;
-            document.getElementById('payPriceFormula').textContent = fee.extra > 0
-                ? `ค่าสมัคร ${fee.basePrice} บาท + เสื้อแขนยาว ${fee.extra} บาท = ${fee.total} บาท`
-                : `ค่าสมัคร ${fee.basePrice} บาท (เสื้อแขนสั้น)`;
-
-            goToStep(3);
-        }
-
-        async function handleSlipSelected(input) {
-            const file = input.files[0];
+        document.getElementById('slipInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
             if (!file) return;
 
-            if (!window.KohYaoStore || !window.KohYaoStore.compressSlipImage) {
-                alert('ระบบประมวลผลภาพยังไม่พร้อมใช้งาน กรุณารีเฟรชหน้าเว็บแล้วลองใหม่อีกครั้ง');
+            setFieldError(null, 'errSlip', '');
+            originalFileSizeKB = Math.round(file.size / 1024);
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const img = new Image();
+                img.onload = function () {
+                    const maxW = 1000;
+                    let w = img.width, h = img.height;
+                    if (w > maxW) {
+                        h = Math.round((h * maxW) / w);
+                        w = maxW;
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    compressedSlipBase64 = canvas.toDataURL('image/jpeg', 0.72);
+                    compressedFileSizeKB = Math.round((compressedSlipBase64.length * 3) / 4 / 1024);
+
+                    document.getElementById('slipPlaceholder').style.display = 'none';
+                    const prev = document.getElementById('slipPreviewImg');
+                    prev.src = compressedSlipBase64;
+                    prev.style.display = 'block';
+
+                    const infoBox = document.getElementById('compressionInfo');
+                    infoBox.style.display = 'flex';
+                    document.getElementById('compressionText').textContent = regLang === 'en'
+                        ? `Compressed slip ready: ${originalFileSizeKB} KB → ${compressedFileSizeKB} KB`
+                        : `ย่อขนาดสลิปพร้อมส่งเรียบร้อย: ${originalFileSizeKB} KB → เหลือ ${compressedFileSizeKB} KB`;
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('registrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            if (!validateStep1Detailed()) {
+                goStep(1);
                 return;
             }
+            if (!validateStep2Detailed()) {
+                goStep(2);
+                return;
+            }
+            if (!validateStep3Detailed()) {
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitReg');
+            btn.disabled = true;
+            btn.textContent = regLang === 'en' ? 'Submitting registration...' : 'กำลังบันทึกข้อมูลการสมัคร...';
 
             try {
-                const compressionBar = document.getElementById('compressionInfo');
-                compressionBar.style.display = 'flex';
-                document.getElementById('compressionText').textContent = 'กำลังประมวลผลและบีบอัดรูปสลิป...';
-
-                const result = await window.KohYaoStore.compressSlipImage(file, 800, 0.7);
-                compressedSlipData = result;
-
-                document.getElementById('uploadPlaceholder').style.display = 'none';
-                document.getElementById('slipPreviewContainer').style.display = 'block';
-                document.getElementById('slipPreviewImg').src = result.dataUrl;
-
-                const origKb = Math.round(result.originalSize / 1024);
-                const compKb = Math.round(result.compressedSize / 1024);
-                document.getElementById('compressionText').textContent = 
-                    `บีบอัดสำเร็จ! จาก ${origKb} KB เหลือ ${compKb} KB (ลดลง ${result.savedPercent}%) ข้อความอ่านชัดเจน 100%`;
-
-                const duplicate = await window.KohYaoStore.checkDuplicateSlip(result.hash);
-                const dupWarning = document.getElementById('duplicateWarning');
-                if (duplicate) {
-                    dupWarning.style.display = 'block';
-                } else {
-                    dupWarning.style.display = 'none';
-                }
-
-            } catch (err) {
-                alert('เกิดข้อผิดพลาดในการอ่านไฟล์รูป: ' + err.message);
-            }
-        }
-
-        async function submitFinalRegistration() {
-            if (!compressedSlipData || !compressedSlipData.dataUrl) {
-                alert('กรุณาแนบรูปภาพสลิปการโอนเงินก่อนกดยืนยัน');
-                return;
-            }
-
-            const terms = document.getElementById('acceptTerms');
-            if (!terms.checked) {
-                alert('กรุณาทำเครื่องหมายยอมรับเงื่อนไขและรับรองข้อมูล');
-                return;
-            }
-
-            const submitBtn = document.getElementById('submitRegBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'กำลังบันทึกข้อมูลเข้าระบบ...';
-
-            try {
-                const fee = calculateTotalFee();
-                const selectedSize = fee.shirtSize;
+                const shirtSize = document.querySelector('input[name="shirtSize"]:checked')?.value || 'M';
+                const sleeveType = getSelectedSleeveType();
+                const fee = calculateCurrentFee();
+                const computedAge = syncCalculatedAge();
+                const medicalRaw = document.getElementById('medicalInfo').value.trim();
 
                 const payload = {
-                    category: fee.cat,
-                    firstName: document.getElementById('firstName').value.trim(),
-                    lastName: document.getElementById('lastName').value.trim(),
-                    idCard: document.getElementById('idCard').value.trim(),
+                    fullName: document.getElementById('fullName').value.trim(),
+                    nationalId: sanitizeNationalIdInput(document.getElementById('nationalId').value),
                     gender: document.getElementById('gender').value,
                     birthDate: document.getElementById('birthDate').value,
-                    phone: document.getElementById('phone').value.trim(),
+                    age: computedAge !== null ? computedAge : '',
+                    phone: sanitizePhone10Input(document.getElementById('phone').value),
                     email: document.getElementById('email').value.trim(),
-                    bloodType: document.getElementById('bloodType').value,
-                    emergencyContact: document.getElementById('emergencyContact').value.trim(),
-                    emergencyPhone: document.getElementById('emergencyPhone').value.trim(),
-                    medicalConditions: document.getElementById('medicalConditions').value.trim(),
-                    shirtSize: selectedSize,
-                    shirtType: fee.shirtType,
+                    province: document.getElementById('province').value.trim(),
+                    emergencyName: document.getElementById('emergencyName').value.trim(),
+                    emergencyPhone: sanitizePhone10Input(document.getElementById('emergencyPhone').value),
+                    medicalInfo: medicalRaw || 'ไม่มี',
+                    category: selectedCategory,
+                    shirtSize: shirtSize,
+                    sleeveType: sleeveType,
                     amount: fee.total,
-                    slipUrl: compressedSlipData.dataUrl,
-                    slipHash: compressedSlipData.hash
+                    transferDate: document.getElementById('transferDate').value,
+                    transferTime: document.getElementById('transferTime').value,
+                    slipBase64: compressedSlipBase64,
+                    slipOriginalKB: originalFileSizeKB,
+                    slipCompressedKB: compressedFileSizeKB
                 };
 
-                const newReg = await window.KohYaoStore.createRegistration(payload);
-                const notifyNote = payload.email
-                    ? `\nระบบจะส่งอีเมลแจ้งผลไปยัง ${payload.email} เมื่อเจ้าหน้าที่ตรวจสอบเสร็จ (ภายในวันทำการ ไม่เกิน 24 ชม.)`
-                    : `\nเจ้าหน้าที่จะตรวจสอบภายในวันทำการ (ไม่เกิน 24 ชม.) สามารถเช็กผลด้วยเลขบัตรประชาชนได้ที่หน้าตรวจสอบสถานะ`;
+                const created = await window.KohYaoStore.addRegistration(payload);
+                const regId = (created && created.id) ? created.id : '';
+                const regIdText = regId ? `\nรหัสการสมัคร: ${regId}` : '';
+                const regIdTextEn = regId ? `\nRegistration ID: ${regId}` : '';
+                const idCardText = (created && (created.nationalId || created.idCard)) || payload.nationalId;
+                alert(
+                    regLang === 'en'
+                        ? `Registration saved successfully!${regIdTextEn}\nYour transfer slip has been received and is pending staff verification.`
+                        : `บันทึกข้อมูลการสมัครเรียบร้อยแล้ว!${regIdText}\nระบบได้รับหลักฐานการโอนเงินแล้ว อยู่ระหว่างรอเจ้าหน้าที่ตรวจสอบ`
+                );
 
-                alert(`บันทึกข้อมูลเรียบร้อยแล้ว!\n\nรหัสการลงทะเบียน: ${newReg.id}\nประเภท: ${fee.cat} | เสื้อ${fee.shirtType} ไซส์ ${selectedSize}\nยอดชำระ: ฿${fee.total}\nสถานะ: อยู่ระหว่างเจ้าหน้าที่ตรวจสอบสลิป${notifyNote}`);
-                window.location.href = `status.html?search=${encodeURIComponent(payload.idCard)}`;
+                sessionStorage.setItem('LAST_REGISTERED_ID', idCardText);
+                if (regId) sessionStorage.setItem('LAST_REGISTERED_REG_ID', regId);
 
-            } catch (e) {
-                alert('เกิดข้อผิดพลาด: ' + e.message);
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'ยืนยันการสมัครและส่งสลิป →';
+                const targetQuery = new URLSearchParams({
+                    id: idCardText,
+                    keyword: idCardText,
+                    registered: '1'
+                });
+                if (regId) targetQuery.set('regId', regId);
+
+                window.location.href = `status.html?${targetQuery.toString()}`;
+            } catch (err) {
+                alert(err.message || (regLang === 'en' ? 'Unable to submit registration' : 'ไม่สามารถบันทึกการสมัครได้'));
+                btn.disabled = false;
+                btn.textContent = regLang === 'en' ? 'Confirm Registration & Submit Slip' : 'ยืนยันการสมัครและส่งสลิป';
             }
-        }
+        });
     </script>
 </body>
+
 </html>
